@@ -32,7 +32,7 @@ How to build
 
 2. Adding spring-boot components scan
 
-    	  @SpringBootApplication(scanBasePackages = {"io.methea"})
+    	 @SpringBootApplication(scanBasePackages = {"io.methea"})
          @EnableJpaRepositories(basePackages = {"io.methea"})
          @EntityScan(basePackages = {"io.methea"})
          @ComponentScan(basePackages = {"io.methea"})
@@ -44,7 +44,7 @@ How to build
  3. In resources config environment properties
     - create file `environment.properties` with the configuration
     
-    		  methea.client.freemarker.templates=your-template-path
+    		methea.client.freemarker.templates=your-template-path
             methea.client.security.secret=your-jwt-secret-key
             methea.client.security.token.expiration_time=your-token-expiration
             methea.client.security.token.prefix=Bearer
@@ -55,8 +55,8 @@ How to build
     * Still have doubt here is our [sample project](https://github.com/MetheaX/Methea-Sample-Project)
     * Access token from `client` by using this url `${baseURL}/auth/token` with following payload:
         
-        	{
-            "username": "admin",
-            "password": "admin"
+          {
+            	"username": "admin",
+            	"password": "admin"
           }
        
