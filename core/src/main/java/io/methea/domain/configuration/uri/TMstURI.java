@@ -1,0 +1,38 @@
+package io.methea.domain.configuration.uri;
+
+import io.methea.domain.baseentity.BaseEntity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+/**
+ * Author : DKSilverX
+ * Date : 15/09/2019
+ */
+@Entity
+@Table(name = "tbl_core_uri")
+public class TMstURI extends BaseEntity {
+
+    @Id
+    @Column(name = "uri_id")
+    private String id;
+    private String uriName;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUriName() {
+        return uriName;
+    }
+
+    public void setUriName(String uriName) {
+        this.uriName = uriName;
+    }
+}
