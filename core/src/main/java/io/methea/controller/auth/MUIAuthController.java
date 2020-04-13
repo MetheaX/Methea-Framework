@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class AcUIAuthController {
+public class MUIAuthController {
 
     private static final String LOGIN_URL = "/login";
     private static final String ACCESS_DENIED = "/access-denied";
