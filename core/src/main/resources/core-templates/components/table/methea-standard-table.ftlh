@@ -9,10 +9,19 @@
 # Author : DKSilverX
 # Date : 1/12/2020
 #-->
+<#import "../input/methea-filter-input.ftlh" as filter>
 <#macro table thead tdata tcolumns id>
-    <table class="table">
+    <table class="table table-striped">
         <#if thead?has_content>
             <thead>
+            <tr>
+                <#list thead as filterCol>
+                    <#if filterCol != "id">
+                        <th><@filter.input inputType="text" inputPlaceholder="${filterCol}" inputValue=""></@filter.input></th>
+                    </#if>
+                </#list>
+                <th></th>
+            </tr>
             <tr>
                 <#list thead as th>
                     <#if th == "id">

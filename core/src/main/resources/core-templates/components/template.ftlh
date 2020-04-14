@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="${contextPath}/resources/vendor/iconfonts/mdi/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="${contextPath}/resources/vendor/css/vendor.bundle.base.css">
         <link rel="stylesheet" href="${contextPath}/resources/vendor/css/vendor.bundle.addons.css">
+        <link rel="stylesheet" href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css">
         <#-- endinject -->
         <#-- plugin css for this page -->
         <#-- End plugin css for this page -->
@@ -153,7 +154,7 @@
                                 </div>
                             </a>
                             <a class="dropdown-item mt-2">
-                                Manage Accounts
+                                Manage Profile
                             </a>
                             <a class="dropdown-item">
                                 Change Password
@@ -161,7 +162,7 @@
                             <a class="dropdown-item">
                                 Check Inbox
                             </a>
-                            <a class="dropdown-item">
+                            <a class="dropdown-item" href="${contextPath}/logout">
                                 Sign Out
                             </a>
                         </div>
