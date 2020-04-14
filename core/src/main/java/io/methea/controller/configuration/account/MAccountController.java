@@ -5,8 +5,11 @@ import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
 import io.methea.controller.abs.MBaseController;
 import io.methea.domain.configuration.account.dto.AccountBinder;
+import io.methea.domain.configuration.account.filter.AccountFilter;
+import io.methea.domain.configuration.account.projection.AccountProjection;
 import io.methea.service.configuration.account.MAccountService;
 import io.methea.service.configuration.display.DataTableUIService;
+import io.methea.util.Pagination;
 import io.methea.util.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +59,7 @@ public class MAccountController extends MBaseController {
     }
 
     @RequestMapping(value = {GET_ALL_ACCOUNTS_URL})
-    public String viewAccountList(Model model, HttpServletRequest request) throws JsonProcessingException {
+    public String viewAccountList(Model model, AccountFilter filter, Pagination pagination, HttpServletRequest request) throws JsonProcessingException {
 
         //noinspection unchecked
         if (CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_KEY))
@@ -65,15 +68,14 @@ public class MAccountController extends MBaseController {
             log.info(">>>>> Fetch meta data of account's datatable.");
         }
 
-        List<AccountBinder> binders = mAccountService.getAllAccounts();
-
-        Map<String, List<AccountBinder>> mapBinder = new HashMap<>();
-        mapBinder.put("data", binders);
+        Map<String, List<AccountProjection>> mapBinder = new HashMap<>();
+        mapBinder.put("data", mAccountService.getAllAccountsByFilter(filter, pagination));
 
         model.addAttribute("contextPath", SystemUtils.getBaseUrl(request));
         model.addAttribute("tableHead", MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_LABEL));
         model.addAttribute("tableColumns", MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_KEY));
         model.addAttribute("accounts", mapBinder);
+        model.addAttribute("pagination", pagination);
         return ACCOUNTS_TEMPLATE_PATH;
     }
 
@@ -84,20 +86,20 @@ public class MAccountController extends MBaseController {
     }
 
     @RequestMapping(value = {MODIFY_ACCOUNT_URL})
-    public ModelAndView modifyAccount(AccountBinder accountBinder, HttpServletRequest request){
+    public ModelAndView modifyAccount(AccountBinder accountBinder, HttpServletRequest request) {
         mAccountService.modifyAccount(accountBinder, request);
         return new ModelAndView(REDIRECT_URL);
     }
 
     @ResponseBody
     @GetMapping(value = {GET_ACCOUNT_BY_ID_URL})
-    public ResponseEntity<Map<String, Object>> getAccountById(@RequestParam String id){
+    public ResponseEntity<Map<String, Object>> getAccountById(@RequestParam String id) {
         Map<String, Object> map = new HashMap<>();
         AccountBinder binder;
         map.put("status", 500);
         map.put("message", "Failed to get account");
         binder = mAccountService.getAccountById(id);
-        if(!ObjectUtils.isEmpty(binder)){
+        if (!ObjectUtils.isEmpty(binder)) {
             map.put("status", 200);
             map.put("account", binder);
         }
