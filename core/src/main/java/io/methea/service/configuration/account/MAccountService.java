@@ -123,7 +123,7 @@ public class MAccountService {
 
         parameters.put("accountName", "%".concat(MetheaStringUtils.nullToEmptyOrValue(filter.getAccountName()).toLowerCase()).concat("%"));
         parameters.put("accountEmail", "%".concat(MetheaStringUtils.nullToEmptyOrValue(filter.getAccountEmail()).toLowerCase()).concat("%"));
-        parameters.put("status", "%".concat(MetheaStringUtils.nullToEmptyOrValue(filter.getAccountStatus()).toLowerCase()).concat("%"));
+        parameters.put("status", "%".concat(MetheaStringUtils.nullToEmptyOrValue(filter.getStatus()).toLowerCase()).concat("%"));
 
         HibernatePage<AccountProjection> accountHibernatePage = accountRepository.getByQuery(parameters, AccountProjection.class,
                 pagination.getSize(), pagination.getOffSet());

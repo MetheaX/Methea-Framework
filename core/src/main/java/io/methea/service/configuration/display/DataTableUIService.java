@@ -11,7 +11,9 @@ import org.springframework.util.CollectionUtils;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author : DKSilverX
@@ -29,9 +31,10 @@ public class DataTableUIService {
         this.displayRepository = displayRepository;
     }
 
-    public void getMetaTableConfiguration(String viewName) {
+    public void getAccountMetaTableConfiguration(String viewName) {
         List<String> columnLabels = new ArrayList<>();
         List<String> columnKeys = new ArrayList<>();
+        Map<String, String> columnFilter = new HashMap<>();
 
         try {
             List<TDataTableView> dataTableViews = displayRepository
@@ -40,10 +43,14 @@ public class DataTableUIService {
                 for (TDataTableView t : dataTableViews) {
                     columnLabels.add(t.getLabelColumnHead());
                     columnKeys.add(t.getColumnKey());
+                    if ("Y".equalsIgnoreCase(t.getAllowFilter())) {
+                        columnFilter.put("filter_".concat(t.getColumnKey()), t.getLabelColumnHead());
+                    }
                 }
             }
             MCache.cacheMetaData.put(MConstant.ACCOUNT_LIST_COLUMNS_LABEL, columnLabels);
             MCache.cacheMetaData.put(MConstant.ACCOUNT_LIST_COLUMNS_KEY, columnKeys);
+            MCache.cacheMetaData.put(MConstant.ACCOUNT_LIST_COLUMNS_FILTER, columnFilter);
         } catch (Exception ex) {
             log.error(">>>>> Get metadata of account's datatable error: ", ex);
         }

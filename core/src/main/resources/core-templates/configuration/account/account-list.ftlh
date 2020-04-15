@@ -7,11 +7,8 @@
 <#import "../../components/pagination/methea-pagination.ftlh" as mpagination>
 <@template.main title="Accounts">
     <div class="table-responsive">
-        <div class="float-right">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target=".single-account">Add New
-                <i class="mdi mdi-plus"></i></button>
-        </div>
-        <@mtable.table thead=tableHead tdata=accounts tcolumns=tableColumns id="tbl-accounts">
+        <@mtable.table thead=tableHead tdata=accounts tcolumns=tableColumns filters=tableFilterColumns
+            dataFilters=dataFilters urlFilter="/app/accounts" modalClass=".single-account" id="tbl-accounts">
         </@mtable.table>
     </div>
 <#-- Modal Add Account   -->

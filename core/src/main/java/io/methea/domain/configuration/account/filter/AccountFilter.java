@@ -1,21 +1,23 @@
 package io.methea.domain.configuration.account.filter;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Author : DKSilverX
  * Date : 14/04/2020
  */
 public class AccountFilter {
 
-    private String accountName;
-    private String accountEmail;
-    private String accountStatus;
+    private String accountName = StringUtils.EMPTY;
+    private String accountEmail = StringUtils.EMPTY;
+    private String status = StringUtils.EMPTY;
 
     public AccountFilter(){}
 
-    public AccountFilter(String accountName, String accountEmail, String accountStatus) {
+    public AccountFilter(String accountName, String accountEmail, String status) {
         this.accountName = accountName;
         this.accountEmail = accountEmail;
-        this.accountStatus = accountStatus;
+        this.status = status;
     }
 
     public String getAccountName() {
@@ -34,11 +36,11 @@ public class AccountFilter {
         this.accountEmail = accountEmail;
     }
 
-    public String getAccountStatus() {
-        return accountStatus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setAccountStatus(String accountStatus) {
-        this.accountStatus = accountStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

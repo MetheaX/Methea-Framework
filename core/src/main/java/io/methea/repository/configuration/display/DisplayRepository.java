@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface DisplayRepository extends CrudRepository<TDataTableView, String> {
     List<TDataTableView> findAllByViewNameAndStatusOrderBySequence(String viewName, String status);
+    List<TDataTableView> findAllByViewNameAndStatusAndAllowFilterOrderBySequence(String viewName, String status, String allowFilter);
 }

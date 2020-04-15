@@ -64,7 +64,7 @@ public class MAccountController extends MBaseController {
         //noinspection unchecked
         if (CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_KEY))
                 || CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_LABEL))) {
-            dataTableUIService.getMetaTableConfiguration("accountList");
+            dataTableUIService.getAccountMetaTableConfiguration("accountList");
             log.info(">>>>> Fetch meta data of account's datatable.");
         }
 
@@ -74,7 +74,9 @@ public class MAccountController extends MBaseController {
         model.addAttribute("contextPath", SystemUtils.getBaseUrl(request));
         model.addAttribute("tableHead", MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_LABEL));
         model.addAttribute("tableColumns", MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_KEY));
+        model.addAttribute("tableFilterColumns", MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_FILTER));
         model.addAttribute("accounts", mapBinder);
+        model.addAttribute("dataFilters", filter);
         model.addAttribute("pagination", pagination);
         return ACCOUNTS_TEMPLATE_PATH;
     }

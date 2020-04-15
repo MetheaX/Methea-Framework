@@ -5,14 +5,15 @@ package io.methea.constant;
  * Date : 9/8/2019
  */
 public class MConstant {
-    private MConstant(){}
+    private MConstant() {
+    }
 
     public static final String CORE_TEMPLATE_KEY = "methea.core.freemarker.templates";
     public static final String CLIENT_TEMPLATE_KEY = "methea.client.freemarker.templates";
     public static final String CLIENT_SECRET_KEY = "methea.client.security.secret";
-    public static final String CLIENT_TOKEN_EXPIRATION="methea.client.security.token.expiration_time";
-    public static final String CLIENT_TOKEN_PREFIX="methea.client.security.token.prefix";
-    public static final String CLIENT_REQUEST_HEADER_KEY="methea.client.security.request.header";
+    public static final String CLIENT_TOKEN_EXPIRATION = "methea.client.security.token.expiration_time";
+    public static final String CLIENT_TOKEN_PREFIX = "methea.client.security.token.prefix";
+    public static final String CLIENT_REQUEST_HEADER_KEY = "methea.client.security.request.header";
 
     public static final String COMMA = ",";
     public static final String SPACE = " ";
@@ -20,6 +21,7 @@ public class MConstant {
     // cache master data
     public static final String ACCOUNT_LIST_COLUMNS_LABEL = "ACCOUNT_LIST_COLUMNS_LABEL";
     public static final String ACCOUNT_LIST_COLUMNS_KEY = "ACCOUNT_LIST_COLUMNS_KEY";
+    public static final String ACCOUNT_LIST_COLUMNS_FILTER = "ACCOUNT_LIST_COLUMNS_FILTER";
 
     // security filter
     public static final String SLASH = "/";

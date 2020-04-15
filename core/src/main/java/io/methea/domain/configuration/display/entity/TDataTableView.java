@@ -16,6 +16,7 @@ public class TDataTableView extends BaseEntity {
     private String id;
     private String viewName;
     private String labelColumnHead;
+    private String allowFilter;
     private String columnKey;
     private Integer sequence;
 
@@ -41,6 +42,14 @@ public class TDataTableView extends BaseEntity {
 
     public void setLabelColumnHead(String labelColumnHead) {
         this.labelColumnHead = labelColumnHead;
+    }
+
+    public String getAllowFilter() {
+        return allowFilter;
+    }
+
+    public void setAllowFilter(String allowFilter) {
+        this.allowFilter = allowFilter;
     }
 
     public String getColumnKey() {
