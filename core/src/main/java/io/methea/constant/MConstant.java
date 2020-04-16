@@ -19,9 +19,9 @@ public class MConstant {
     public static final String SPACE = " ";
 
     // cache master data
-    public static final String ACCOUNT_LIST_COLUMNS_LABEL = "ACCOUNT_LIST_COLUMNS_LABEL";
-    public static final String ACCOUNT_LIST_COLUMNS_KEY = "ACCOUNT_LIST_COLUMNS_KEY";
-    public static final String ACCOUNT_LIST_COLUMNS_FILTER = "ACCOUNT_LIST_COLUMNS_FILTER";
+    public static final String COLUMNS_LABEL = "_COLUMNS_LABEL";
+    public static final String COLUMNS_KEY = "_COLUMNS_KEY";
+    public static final String COLUMNS_FILTER = "_COLUMNS_FILTER";
 
     // security filter
     public static final String SLASH = "/";

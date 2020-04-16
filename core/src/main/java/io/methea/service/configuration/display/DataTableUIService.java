@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Author : DKSilverX
@@ -31,10 +28,10 @@ public class DataTableUIService {
         this.displayRepository = displayRepository;
     }
 
-    public void getAccountMetaTableConfiguration(String viewName) {
+    public void getMetaTableConfiguration(String viewName) {
         List<String> columnLabels = new ArrayList<>();
         List<String> columnKeys = new ArrayList<>();
-        Map<String, String> columnFilter = new HashMap<>();
+        Map<String, String> columnFilter = new LinkedHashMap<>();
 
         try {
             List<TDataTableView> dataTableViews = displayRepository
@@ -48,9 +45,9 @@ public class DataTableUIService {
                     }
                 }
             }
-            MCache.cacheMetaData.put(MConstant.ACCOUNT_LIST_COLUMNS_LABEL, columnLabels);
-            MCache.cacheMetaData.put(MConstant.ACCOUNT_LIST_COLUMNS_KEY, columnKeys);
-            MCache.cacheMetaData.put(MConstant.ACCOUNT_LIST_COLUMNS_FILTER, columnFilter);
+            MCache.cacheMetaData.put(viewName.concat(MConstant.COLUMNS_LABEL), columnLabels);
+            MCache.cacheMetaData.put(viewName.concat(MConstant.COLUMNS_KEY), columnKeys);
+            MCache.cacheMetaData.put(viewName.concat(MConstant.COLUMNS_FILTER), columnFilter);
         } catch (Exception ex) {
             log.error(">>>>> Get metadata of account's datatable error: ", ex);
         }

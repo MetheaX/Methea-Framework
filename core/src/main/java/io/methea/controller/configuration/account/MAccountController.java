@@ -48,6 +48,8 @@ public class MAccountController extends MBaseController {
 
     private static final String ACCOUNTS_TEMPLATE_PATH = "configuration/account/account-list";
 
+    private static final String VIEW_NAME = "accountList";
+
     private final DataTableUIService dataTableUIService;
     private final MAccountService mAccountService;
 
@@ -61,9 +63,9 @@ public class MAccountController extends MBaseController {
     public String viewAccountList(Model model, AccountFilter filter, Pagination pagination, HttpServletRequest request) {
 
         //noinspection unchecked
-        if (CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_KEY))
-                || CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_LABEL))) {
-            dataTableUIService.getAccountMetaTableConfiguration("accountList");
+        if (CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_KEY)))
+                || CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_LABEL)))) {
+            dataTableUIService.getMetaTableConfiguration(VIEW_NAME);
             log.info(">>>>> Fetch meta data of account's datatable.");
         }
 
@@ -71,9 +73,9 @@ public class MAccountController extends MBaseController {
         mapBinder.put("data", mAccountService.getAllAccountsByFilter(filter, pagination));
 
         model.addAttribute("contextPath", SystemUtils.getBaseUrl(request));
-        model.addAttribute("tableHead", MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_LABEL));
-        model.addAttribute("tableColumns", MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_KEY));
-        model.addAttribute("tableFilterColumns", MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_FILTER));
+        model.addAttribute("tableHead", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_LABEL)));
+        model.addAttribute("tableColumns", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_KEY)));
+        model.addAttribute("tableFilterColumns", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_FILTER)));
         model.addAttribute("accounts", mapBinder);
         model.addAttribute("dataFilters", filter);
         model.addAttribute("pagination", pagination);

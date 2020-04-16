@@ -2,7 +2,7 @@ package io.methea.config.security;
 
 import io.methea.config.jwt.JWTAuthenticationFilter;
 import io.methea.config.jwt.JWTAuthorizationFilter;
-import io.methea.service.configuration.CustomAuthenticationService;
+import io.methea.service.auth.CustomAuthenticationService;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
