@@ -2,13 +2,16 @@ package io.methea.service.configuration.account;
 
 import io.methea.domain.configuration.account.dto.AccountBinder;
 import io.methea.domain.configuration.account.entity.TAccount;
+import io.methea.domain.configuration.account.filter.AccountFilter;
+import io.methea.domain.configuration.account.projection.AccountProjection;
 import io.methea.repository.configuration.account.AccountRepository;
-import io.methea.util.MDateUtil;
+import io.methea.repository.hibernateextension.domain.HibernatePage;
+import io.methea.util.Pagination;
 import io.methea.util.PrincipleUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -55,11 +58,11 @@ public class MAccountService {
         return accountBinder;
     }
 
-    public AccountBinder modifyAccount(AccountBinder accountBinder, HttpServletRequest request){
-        try{
+    public AccountBinder modifyAccount(AccountBinder accountBinder, HttpServletRequest request) {
+        try {
             TAccount account;
             Optional<TAccount> accountOptional = accountRepository.findById(accountBinder.getId());
-            if(accountOptional.isPresent()){
+            if (accountOptional.isPresent()) {
                 account = accountOptional.get();
                 account.setAccountName(accountBinder.getAccountName());
                 account.setAccountEmail(accountBinder.getAccountEmail());
@@ -71,7 +74,7 @@ public class MAccountService {
                 accountRepository.save(account);
                 log.info(">>>>> Account[" + account.getAccountEmail() + "] modified.");
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             log.error(">>>>> Modify account[" + accountBinder.getAccountEmail() + "] error: ", ex);
         }
         return accountBinder;
@@ -115,47 +118,34 @@ public class MAccountService {
         return isDeactivate;
     }
 
-    public List<AccountBinder> getAllAccounts() {
-        List<AccountBinder> accountBinders = new ArrayList<>();
-        List<TAccount> accounts;
-        AccountBinder accountBinder;
-        try {
-            accounts = (List<TAccount>) accountRepository.findAllByOrderByStatusAsc();
-            if (!CollectionUtils.isEmpty(accounts)) {
-                for (TAccount account : accounts) {
-                    accountBinder = new AccountBinder();
-                    accountBinder.setId(account.getId());
-                    accountBinder.setAccountName(account.getAccountName());
-                    accountBinder.setAccountEmail(account.getAccountEmail());
-                    accountBinder.setAccountAddress(account.getAccountAddress());
-                    accountBinder.setAccountUpdatedUser(account.getUpdatedUser());
-                    accountBinder.setAccountCreatedUser(account.getCreatedUser());
-                    accountBinder.setAccountCreatedDate(MDateUtil.convertDateToString(account.getCreatedDateTime()));
-                    accountBinder.setAccountUpdatedDate(MDateUtil.convertDateToString(account.getUpdatedDateTime()));
-                    accountBinder.setStatus(account.getStatus());
+    public List<AccountProjection> getAllAccountsByFilter(AccountFilter filter, Pagination pagination) {
+        Map<String, Object> parameters = new HashMap<>();
 
-                    accountBinders.add(accountBinder);
-                }
-            }
-        } catch (Exception ex) {
-            log.error(">>>>> Get all accounts error: ", ex);
-        }
-        return accountBinders;
+        parameters.put("accountName", "%".concat(filter.getAccountName().toLowerCase()).concat("%"));
+        parameters.put("accountEmail", "%".concat(filter.getAccountEmail().toLowerCase()).concat("%"));
+        parameters.put("status", "%".concat(StringUtils.isEmpty(filter.getStatus()) ? StringUtils.EMPTY :
+                (filter.getStatus().substring(0, 1).toLowerCase())).concat("%"));
+
+        HibernatePage<AccountProjection> accountHibernatePage = accountRepository.getByQuery(parameters, AccountProjection.class,
+                pagination.getSize(), pagination.getOffSet());
+        pagination.setTotalCounts(accountHibernatePage.getTotalCount());
+
+        return accountHibernatePage.getContent();
     }
 
-    public AccountBinder getAccountById(String id){
+    public AccountBinder getAccountById(String id) {
         AccountBinder accountBinder = new AccountBinder();
         Optional<TAccount> accountOpt;
-        try{
+        try {
             accountOpt = accountRepository.findById(id);
-            if(accountOpt.isPresent()){
+            if (accountOpt.isPresent()) {
                 TAccount account = accountOpt.get();
                 accountBinder.setId(account.getId());
                 accountBinder.setAccountName(account.getAccountName());
                 accountBinder.setAccountEmail(account.getAccountEmail());
                 accountBinder.setAccountAddress(account.getAccountAddress());
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             log.error(">>>>> Get account by id error: ", ex);
         }
         return accountBinder;

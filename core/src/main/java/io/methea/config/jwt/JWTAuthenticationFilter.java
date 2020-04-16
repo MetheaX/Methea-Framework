@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Objects;
 
 /**
  * Author : DKSilverX
@@ -85,16 +85,19 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public void successfulAuthentication(HttpServletRequest req, HttpServletResponse res,
                                          FilterChain chain, Authentication auth) throws IOException, ServletException {
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(cal.getTimeInMillis() + Long.parseLong(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION)));
+        cal.setTimeInMillis(cal.getTimeInMillis() + Long.parseLong(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))
+                ? JWTConstants.EXPIRATION_TIME : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))));
         String token = Jwts.builder()
                 .setSubject(((User) auth.getPrincipal()).getUsername())
                 .setExpiration(cal.getTime())
-                .signWith(SignatureAlgorithm.HS512, env.getProperty(MConstant.CLIENT_SECRET_KEY).getBytes())
+                .signWith(SignatureAlgorithm.HS512, ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_SECRET_KEY))
+                        ? JWTConstants.SECRET.getBytes() : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_SECRET_KEY)).getBytes())
                 .compact();
         SecurityContextHolder.getContext().setAuthentication(getAuthentication(((User) auth.getPrincipal())));
         // if authenticate request from webservice success, give access token to client
         if (!ObjectUtils.isEmpty(cred)) {
-            res.addHeader(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY), token);
+            res.addHeader(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY)) ? JWTConstants.HEADER_STRING
+                    : env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY), token);
         }
         // otherwise if authenticate success from UI, redirect to home page
         else {

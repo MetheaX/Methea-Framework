@@ -10,6 +10,7 @@ Methea build on top of following frameworks:
 1. [Spring Boot](https://spring.io/projects/spring-boot)
 2. [JWT](https://jwt.io/)
 3. [FreeMarker](https://freemarker.apache.org/)
+4. [Star Admin Template](https://github.com/BootstrapDash/StarAdmin-Free-Bootstrap-Admin-Template/)
 
 # Building from sources
 

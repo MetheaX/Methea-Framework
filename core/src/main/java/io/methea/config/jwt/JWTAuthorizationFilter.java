@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.util.ObjectUtils;
 
 import javax.inject.Inject;
 import javax.servlet.FilterChain;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Author : DKSilverX
@@ -38,7 +40,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
         // check if authenticated user from webservice, must validate they have a valid token
-        if (!StringUtils.isEmpty(req.getHeader(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY)))) {
+        if (!StringUtils.isEmpty(req.getHeader(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY))
+                ? JWTConstants.HEADER_STRING : env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY)))) {
             UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(req);
 
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -50,12 +53,16 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
-        String token = req.getHeader(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY));
+        String token = req.getHeader(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY))
+                ? JWTConstants.HEADER_STRING : env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY));
 
         if (!StringUtils.isEmpty(token)) {
             String user = Jwts.parser()
-                    .setSigningKey(env.getProperty(MConstant.CLIENT_SECRET_KEY).getBytes())
-                    .parseClaimsJws(token.replace(env.getProperty(MConstant.CLIENT_TOKEN_PREFIX).concat(MConstant.SPACE), StringUtils.EMPTY))
+                    .setSigningKey(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_SECRET_KEY))
+                            ? JWTConstants.SECRET.getBytes() : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_SECRET_KEY)).getBytes())
+                    .parseClaimsJws(token.replace(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_TOKEN_PREFIX))
+                            ? JWTConstants.TOKEN_PREFIX.concat(MConstant.SPACE)
+                            : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_TOKEN_PREFIX)).concat(MConstant.SPACE), StringUtils.EMPTY))
                     .getBody()
                     .getSubject();
 

@@ -10,22 +10,19 @@
         <link rel="stylesheet" href="${contextPath}/resources/vendor/iconfonts/mdi/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="${contextPath}/resources/vendor/css/vendor.bundle.base.css">
         <link rel="stylesheet" href="${contextPath}/resources/vendor/css/vendor.bundle.addons.css">
+        <link rel="stylesheet" href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css">
         <#-- endinject -->
         <#-- plugin css for this page -->
         <#-- End plugin css for this page -->
         <#-- inject:css -->
         <link rel="stylesheet" href="${contextPath}/resources/css/style.css">
         <#-- endinject -->
-        <#--    <link rel="shortcut icon" href="${contextPath}/resources/images/favicon.png" />-->
     </head>
     <body>
         <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-top" style="padding-left: 10px">
                 <a class="navbar-brand brand-logo" href="index.html">
-                    <img src="${contextPath}/resources/images/logo.svg" alt="logo" />
-                </a>
-                <a class="navbar-brand brand-logo-mini" href="index.html">
-                    <img src="${contextPath}/resources/images/logo-mini.svg" alt="logo" />
+                    <img src="${contextPath}/resources/images/methea-logo-extent.svg" alt="logo" />
                 </a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center">
@@ -64,9 +61,6 @@
                                     <h6 class="preview-subject ellipsis font-weight-medium text-dark">Tim Cook
                                         <span class="float-right font-weight-light small-text">15 Minutes ago</span>
                                     </h6>
-                                    <p class="font-weight-light small-text">
-                                        New product launch
-                                    </p>
                                 </div>
                             </a>
                             <div class="dropdown-divider"></div>
@@ -160,7 +154,7 @@
                                 </div>
                             </a>
                             <a class="dropdown-item mt-2">
-                                Manage Accounts
+                                Manage Profile
                             </a>
                             <a class="dropdown-item">
                                 Change Password
@@ -168,7 +162,7 @@
                             <a class="dropdown-item">
                                 Check Inbox
                             </a>
-                            <a class="dropdown-item">
+                            <a class="dropdown-item" href="${contextPath}/logout">
                                 Sign Out
                             </a>
                         </div>
@@ -182,27 +176,8 @@
         <div class="container-fluid page-body-wrapper">
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
-                    <li class="nav-item nav-profile">
-                        <div class="nav-link">
-                            <div class="user-wrapper">
-                                <div class="profile-image">
-                                    <img src="${contextPath}/resources/images/faces/dk-profile.png" alt="profile image">
-                                </div>
-                                <div class="text-wrapper">
-                                    <p class="profile-name">DKSilverX</p>
-                                    <div>
-                                        <small class="designation text-muted">CTO</small>
-                                        <span class="status-indicator online"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="btn btn-success btn-block">New Project
-                                <i class="mdi mdi-plus"></i>
-                            </button>
-                        </div>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="${contextPath}/app">
                             <i class="menu-icon mdi mdi-television"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
