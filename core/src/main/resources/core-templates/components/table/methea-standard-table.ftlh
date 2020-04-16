@@ -3,9 +3,8 @@
 <#-- @tdata #List of JSON #Define table data -->
 <#-- @tcolumns #List<String> #Define keys of JSON tdata -->
 <#-- @id #String #Define table id   -->
-<#-- @filters #Map<String,String> #Define filter columns   -->
+<#-- @filters #HashMap<String,String> #Define filter columns   -->
 <#-- @urlFilters #String #Define endpoint filters   -->
-<#-- @modalClass #String #Define pop up modal class   -->
 <#-- @dataFilters #Object #Cache user filtering   -->
 <#-- ##### -->
 
@@ -14,7 +13,7 @@
 # Date : 1/12/2020
 #-->
 <#import "../input/methea-filter-input.ftlh" as filter>
-<#macro table thead tdata tcolumns filters dataFilters urlFilter modalClass id>
+<#macro table thead tdata tcolumns filters dataFilters urlFilter id>
     <table class="table table-striped">
         <#if thead?has_content>
             <thead>
@@ -32,7 +31,7 @@
                 <th>
                     <button class="btn btn-facebook" onclick="onFilter()">Search</button>
                     <button class="btn btn-google" onclick="onResetFilter()">Reset</button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="${modalClass}">Add New
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target=".modal-${id}-add">Add New
                         <i class="mdi mdi-plus"></i></button>
                 </th>
             </tr>
@@ -53,7 +52,7 @@
             <#assign statusClassName = "badge badge-success">
             <#assign statusLabel = "Active">
             <#assign buttonLabel = "Disable">
-            <#assign buttonClassName = "badge-danger btn-account-disable">
+            <#assign buttonClassName = "badge-danger btn-${id}-disable">
             <tr>
                 <#list tcolumns as col>
                     <#if col == "status">
@@ -61,7 +60,7 @@
                             <#assign statusClassName = "badge badge-danger">
                             <#assign statusLabel = "Inactive">
                             <#assign buttonLabel = "Enable">
-                            <#assign buttonClassName = "badge-warning btn-account-enable">
+                            <#assign buttonClassName = "badge-warning btn-${id}-enable">
                         </#if>
                         <td>
                             <label class="${statusClassName}">${statusLabel}</label>
@@ -74,7 +73,7 @@
                 </#list>
                 <td>
                     <button class="btn badge ${buttonClassName}">${buttonLabel}</button>
-                    <button class="btn badge badge-success btn-data-edit" data-toggle="modal" data-target=".modal-edit">
+                    <button class="btn badge badge-success btn-${id}-data-edit" data-toggle="modal" data-target=".modal-${id}-edit">
                         Edit
                     </button>
                 </td>

@@ -123,7 +123,8 @@ public class HibernateExtensionRepositoryImpl<T> implements HibernateExtensionRe
                 }
             }
             selectClause = selectClause.concat(")").concat(SPACE);
-            hql = hql.concat(selectClause).concat(payload.getAnnotation(SelectFrom.class).fromClause()).concat(SPACE).concat(whereClause);
+            hql = hql.concat(selectClause).concat(payload.getAnnotation(SelectFrom.class).fromClause()).concat(SPACE).concat(whereClause)
+                    .concat(SPACE).concat(payload.getAnnotation(SelectFrom.class).orderBy());
             if (isCount) {
                 countHQL = countHQL.concat(whereClause);
                 return new HibernatePage<T>(getByQuery(hql, parameters, payload, limit, offset), count(countHQL, parameters));

@@ -9,4 +9,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SelectFrom {
     String fromClause() default "";
+    String orderBy() default "";
 }

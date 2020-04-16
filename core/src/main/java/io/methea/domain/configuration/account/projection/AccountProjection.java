@@ -7,7 +7,7 @@ package io.methea.domain.configuration.account.projection;
 import io.methea.repository.hibernateextension.annotation.Column;
 import io.methea.repository.hibernateextension.annotation.SelectFrom;
 
-@SelectFrom(fromClause = "FROM TAccount o")
+@SelectFrom(fromClause = "FROM TAccount o", orderBy = "ORDER BY o.updatedDateTime DESC")
 public class AccountProjection {
 
     @Column(name = "o.id")

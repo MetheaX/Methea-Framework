@@ -8,11 +8,11 @@
 <@template.main title="Accounts">
     <div class="table-responsive">
         <@mtable.table thead=tableHead tdata=accounts tcolumns=tableColumns filters=tableFilterColumns
-            dataFilters=dataFilters urlFilter="/app/accounts" modalClass=".single-account" id="tbl-accounts">
+            dataFilters=dataFilters urlFilter="/app/accounts" id="tbl-accounts">
         </@mtable.table>
     </div>
 <#-- Modal Add Account   -->
-    <@mmodal.modal className="single-account" labelTitle="Add New Account">
+    <@mmodal.modal className="modal-tbl-accounts-add" labelTitle="Add New Account">
         <@mform.form actionUrl="${contextPath}/app/account/save">
             <@minput.input labelName="Name" inputType="text" inputId="labelAccountName"
             inputPlaceHolder="Name" inputName="accountName" inputValue="" required="true"></@minput.input>
@@ -23,7 +23,7 @@
         </@mform.form>
     </@mmodal.modal>
 <#-- Modal Edit Account   -->
-    <@mmodal.modal className="modal-edit" labelTitle="Edit Account">
+    <@mmodal.modal className="modal-tbl-accounts-edit" labelTitle="Edit Account">
         <@mform.form actionUrl="${contextPath}/app/account/modify">
             <@mhiddeninput.input inputType="text" inputId="labelEditAccountId" inputName="id"
             inputValue="" required="true"></@mhiddeninput.input>
@@ -43,9 +43,8 @@
 <script src="${contextPath}/resources/vendor/jquery/jquery.twbsPagination.min.js"></script>
 <script>
     $(document).ready(function () {
-        const baseUrl = "${contextPath}";
         // Disable account
-        $('.btn-account-disable').click(function () {
+        $('.btn-tbl-accounts-disable').click(function () {
             swal({
                 title: "Are you sure?",
                 text: "Once you disable, you still can enable its back.",
@@ -56,7 +55,7 @@
                 if (willDisable) {
                     const $row = $(this).closest("tr");
                     const $id = $row.find('td:eq(0)').text();
-                    axios.post(baseUrl + '/app/api/v1/accounts/deactivate', {
+                    axios.post('${contextPath}' + '/app/api/v1/accounts/deactivate', {
                         id: $id
                     }).then(function (response) {
                         if (response.data.status === 200) {
@@ -71,7 +70,7 @@
             });
         });
         // Activate account
-        $('.btn-account-enable').click(function () {
+        $('.btn-tbl-accounts-enable').click(function () {
             swal({
                 title: "Are you sure?",
                 text: "Once you enable, you still can disable its back.",
@@ -82,7 +81,7 @@
                 if (willActivate) {
                     const $row = $(this).closest("tr");
                     const $id = $row.find('td:eq(0)').text();
-                    axios.post(baseUrl + '/app/api/v1/accounts/activate', {
+                    axios.post('${contextPath}' + '/app/api/v1/accounts/activate', {
                         id: $id
                     }).then(function (response) {
                         if (response.data.status === 200) {
@@ -97,11 +96,11 @@
             });
         });
         // Bind data to edit form
-        $('.btn-data-edit').click(function () {
+        $('.btn-tbl-accounts-data-edit').click(function () {
             const $row = $(this).closest("tr");
             const $id = $row.find('td:eq(0)').text();
-            const $modalEdit = $('.modal-edit');
-            axios.get(baseUrl + '/app/api/v1/accounts/?id=' + $id).then(function (response) {
+            const $modalEdit = $('.modal-tbl-accounts-edit');
+            axios.get('${contextPath}' + '/app/api/v1/accounts/?id=' + $id).then(function (response) {
                 if (response.data.status === 200) {
                     $modalEdit.find('input[name="id"]').val(response.data.account.id);
                     $modalEdit.find('input[name="accountName"]').val(response.data.account.accountName);

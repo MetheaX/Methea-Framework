@@ -6,9 +6,9 @@ import io.methea.domain.configuration.account.filter.AccountFilter;
 import io.methea.domain.configuration.account.projection.AccountProjection;
 import io.methea.repository.configuration.account.AccountRepository;
 import io.methea.repository.hibernateextension.domain.HibernatePage;
-import io.methea.util.MetheaStringUtils;
 import io.methea.util.Pagination;
 import io.methea.util.PrincipleUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -121,9 +121,10 @@ public class MAccountService {
     public List<AccountProjection> getAllAccountsByFilter(AccountFilter filter, Pagination pagination) {
         Map<String, Object> parameters = new HashMap<>();
 
-        parameters.put("accountName", "%".concat(MetheaStringUtils.nullToEmptyOrValue(filter.getAccountName()).toLowerCase()).concat("%"));
-        parameters.put("accountEmail", "%".concat(MetheaStringUtils.nullToEmptyOrValue(filter.getAccountEmail()).toLowerCase()).concat("%"));
-        parameters.put("status", "%".concat(MetheaStringUtils.nullToEmptyOrValue(filter.getStatus()).toLowerCase()).concat("%"));
+        parameters.put("accountName", "%".concat(filter.getAccountName().toLowerCase()).concat("%"));
+        parameters.put("accountEmail", "%".concat(filter.getAccountEmail().toLowerCase()).concat("%"));
+        parameters.put("status", "%".concat(StringUtils.isEmpty(filter.getStatus()) ? StringUtils.EMPTY :
+                (filter.getStatus().substring(0, 1).toLowerCase())).concat("%"));
 
         HibernatePage<AccountProjection> accountHibernatePage = accountRepository.getByQuery(parameters, AccountProjection.class,
                 pagination.getSize(), pagination.getOffSet());
