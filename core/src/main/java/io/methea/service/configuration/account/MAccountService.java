@@ -7,7 +7,7 @@ import io.methea.domain.configuration.account.projection.AccountProjection;
 import io.methea.repository.configuration.account.AccountRepository;
 import io.methea.repository.hibernateextension.domain.HibernatePage;
 import io.methea.util.Pagination;
-import io.methea.util.PrincipleUtils;
+import io.methea.util.PrincipalUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +47,8 @@ public class MAccountService {
                     ZoneId.systemDefault()));
             account.setUpdatedDateTime(LocalDateTime.ofInstant(new Date().toInstant(),
                     ZoneId.systemDefault()));
-            account.setCreatedUser(PrincipleUtils.getUserLoginId(request));
-            account.setUpdatedUser(PrincipleUtils.getUserLoginId(request));
+            account.setCreatedUser(PrincipalUtils.getUserLoginId(request));
+            account.setUpdatedUser(PrincipalUtils.getUserLoginId(request));
 
             accountRepository.save(account);
             log.info(">>>>> Account[" + account.getAccountEmail() + "] saved.");
@@ -69,7 +69,7 @@ public class MAccountService {
                 account.setAccountAddress(accountBinder.getAccountAddress());
                 account.setUpdatedDateTime(LocalDateTime.ofInstant(new Date().toInstant(),
                         ZoneId.systemDefault()));
-                account.setUpdatedUser(PrincipleUtils.getUserLoginId(request));
+                account.setUpdatedUser(PrincipalUtils.getUserLoginId(request));
 
                 accountRepository.save(account);
                 log.info(">>>>> Account[" + account.getAccountEmail() + "] modified.");
@@ -87,7 +87,7 @@ public class MAccountService {
             if (account.isPresent()) {
                 TAccount acc = account.get();
                 acc.setStatus("A");
-                acc.setUpdatedUser(PrincipleUtils.getUserLoginId(request));
+                acc.setUpdatedUser(PrincipalUtils.getUserLoginId(request));
                 acc.setUpdatedDateTime(LocalDateTime.ofInstant(new Date().toInstant(),
                         ZoneId.systemDefault()));
                 accountRepository.save(acc);
@@ -106,7 +106,7 @@ public class MAccountService {
             if (account.isPresent()) {
                 TAccount acc = account.get();
                 acc.setStatus("I");
-                acc.setUpdatedUser(PrincipleUtils.getUserLoginId(request));
+                acc.setUpdatedUser(PrincipalUtils.getUserLoginId(request));
                 acc.setUpdatedDateTime(LocalDateTime.ofInstant(new Date().toInstant(),
                         ZoneId.systemDefault()));
                 accountRepository.save(acc);

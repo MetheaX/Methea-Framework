@@ -1,15 +1,10 @@
 package io.methea.domain.configuration.user.entity;
 
 import io.methea.domain.baseentity.BaseEntity;
-import io.methea.domain.configuration.permission.TUserPermission;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -18,7 +13,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "tbl_core_user")
-public class TUser extends BaseEntity implements UserDetails {
+public class TUser extends BaseEntity {
 
     @Id
     @Column(name = "user_id")
@@ -26,15 +21,13 @@ public class TUser extends BaseEntity implements UserDetails {
     private String groupId;
     private String username;
     private String password;
-    @Transient
-    private List<TUserPermission> URIs;
 
-    public TUser(){}
+    public TUser() {
+    }
 
-    public TUser(String username, String password, List<TUserPermission> URIs){
+    public TUser(String username, String password) {
         this.username = username;
         this.password = password;
-        this.URIs = URIs;
     }
 
     public String getId() {
@@ -70,38 +63,5 @@ public class TUser extends BaseEntity implements UserDetails {
 
     public void setPassword(String password) {
         this.password = new BCryptPasswordEncoder().encode(password);
-    }
-
-    public List<TUserPermission> getURIs() {
-        return URIs;
-    }
-
-    public void setURIs(List<TUserPermission> URIs) {
-        this.URIs = URIs;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return URIs;
     }
 }

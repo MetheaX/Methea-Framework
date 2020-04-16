@@ -1,6 +1,5 @@
 package io.methea.controller.configuration.account;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
 import io.methea.controller.abs.MBaseController;
@@ -59,7 +58,7 @@ public class MAccountController extends MBaseController {
     }
 
     @RequestMapping(value = {GET_ALL_ACCOUNTS_URL})
-    public String viewAccountList(Model model, AccountFilter filter, Pagination pagination, HttpServletRequest request) throws JsonProcessingException {
+    public String viewAccountList(Model model, AccountFilter filter, Pagination pagination, HttpServletRequest request) {
 
         //noinspection unchecked
         if (CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(MConstant.ACCOUNT_LIST_COLUMNS_KEY))
