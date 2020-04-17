@@ -5,11 +5,12 @@ package io.methea.domain.configuration.account.view;
  * Date : 14/04/2020
  */
 
+import io.methea.domain.baseview.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;
 import io.methea.repository.hibernateextension.annotation.SelectFrom;
 
-@SelectFrom(fromClause = "FROM TAccount o", orderBy = "ORDER BY o.updatedDateTime DESC")
-public class AccountView {
+@SelectFrom(fromClause = "FROM TAccount o", getById = "o.id = :id", orderBy = "ORDER BY o.updatedDateTime DESC")
+public class AccountView extends BaseView {
 
     @Column(name = "o.id")
     private String id;

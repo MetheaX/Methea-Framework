@@ -3,6 +3,8 @@ package io.methea.controller.configuration.group;
 import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
 import io.methea.controller.abs.MBaseController;
+import io.methea.domain.configuration.group.dto.UserGroupBinder;
+import io.methea.domain.configuration.group.entity.TUserGroup;
 import io.methea.domain.configuration.group.filter.GroupFilter;
 import io.methea.domain.configuration.group.view.GroupView;
 import io.methea.service.configuration.display.DataTableUIService;
@@ -10,7 +12,7 @@ import io.methea.service.configuration.group.MGroupService;
 import io.methea.service.dropdown.MDropdownService;
 import io.methea.util.Pagination;
 import io.methea.util.SystemUtils;
-import javafx.collections.ObservableList;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -20,13 +22,14 @@ import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Author : DKSilverX
@@ -38,8 +41,8 @@ public class MGroupController extends MBaseController {
     private static Logger log = LoggerFactory.getLogger(MGroupController.class);
 
     private static final String GET_ALL_GROUP_URL = "/groups";
-    private static final String SAVE_GROUP_URL = "/groups/save";
-    private static final String MODIFY_GROUP_URL = "/groups/modify";
+    private static final String SAVE_GROUP_URL = "/group/save";
+    private static final String MODIFY_GROUP_URL = "/group/modify";
     private static final String REDIRECT_URL = "redirect:/app/groups";
     private static final String GET_GROUP_BY_ID_URL = "/api/v1/groups";
     private static final String ACTIVATED_GROUP_URL = "/api/v1/groups/activate";
@@ -69,7 +72,14 @@ public class MGroupController extends MBaseController {
             log.info(">>>>> Fetch meta data of group's datatable.");
         }
         Map<String, List<GroupView>> mapBinder = new HashMap<>();
-        mapBinder.put("data", mGroupService.getAllGroupsByFilter(filter, pagination));
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("groupName", "%".concat(filter.getGroupName()).concat("%"));
+        params.put("accountName", "%".concat(filter.getAccountName().toLowerCase()).concat("%"));
+        params.put("status", "%".concat(StringUtils.isEmpty(filter.getStatus()) ? StringUtils.EMPTY :
+                (filter.getStatus().substring(0, 1).toLowerCase())).concat("%"));
+
+        mapBinder.put("data", mGroupService.getAllEntityViewByFilter(params, pagination));
 
         //noinspection unchecked
         if (CollectionUtils.isEmpty((Map<String, Object>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
@@ -86,6 +96,14 @@ public class MGroupController extends MBaseController {
         model.addAttribute("dataFilters", filter);
         model.addAttribute("pagination", pagination);
         return GROUP_TEMPLATE_PATH;
+    }
+
+    @RequestMapping(value = {SAVE_GROUP_URL})
+    public ModelAndView saveGroup(UserGroupBinder binder) {
+        TUserGroup group = new TUserGroup();
+        group.setId(UUID.randomUUID().toString());
+        mGroupService.saveEntity(group, binder);
+        return new ModelAndView(REDIRECT_URL);
     }
 }
 

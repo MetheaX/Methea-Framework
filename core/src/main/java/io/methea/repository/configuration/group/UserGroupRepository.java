@@ -9,5 +9,5 @@ import org.springframework.data.repository.CrudRepository;
  * Author : DKSilverX
  * Date : 21/08/2019
  */
-public interface UserGroupRepository extends CrudRepository<TUserGroup, String>, HibernateExtensionRepository<GroupAuthorityView> {
+public interface UserGroupRepository extends CrudRepository<TUserGroup, String>, HibernateExtensionRepository<GroupAuthorityView, String> {
 }

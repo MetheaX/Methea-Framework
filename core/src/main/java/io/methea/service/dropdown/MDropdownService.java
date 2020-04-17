@@ -22,10 +22,10 @@ import java.util.Map;
 public class MDropdownService {
     private static Logger log = LoggerFactory.getLogger(MDropdownService.class);
 
-    private final HibernateExtensionRepository<AccountDropdown> repository;
+    private final HibernateExtensionRepository<AccountDropdown, String> repository;
 
     @Inject
-    public MDropdownService(HibernateExtensionRepository<AccountDropdown> repository) {
+    public MDropdownService(HibernateExtensionRepository<AccountDropdown, String> repository) {
         this.repository = repository;
     }
 

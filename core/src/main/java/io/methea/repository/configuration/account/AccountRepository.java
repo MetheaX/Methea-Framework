@@ -9,5 +9,5 @@ import org.springframework.data.repository.CrudRepository;
  * Author : DKSilverX
  * Date : 21/08/2019
  */
-public interface AccountRepository extends CrudRepository<TAccount, String>, HibernateExtensionRepository<AccountView> {
+public interface AccountRepository extends CrudRepository<TAccount, String>, HibernateExtensionRepository<AccountView, String> {
 }

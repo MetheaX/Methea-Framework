@@ -54,4 +54,16 @@ public class TAccount extends BaseEntity {
     public void setAccountAddress(String accountAddress) {
         this.accountAddress = accountAddress;
     }
+
+    @Override
+    public String toString() {
+        return "TAccount{" +
+                "id='" + id + '\'' +
+                ", accountName='" + accountName + '\'' +
+                ", accountEmail='" + accountEmail + '\'' +
+                ", accountAddress='" + accountAddress + '\'' +
+                ", status='" + getStatus() + '\'' +
+                ", creatUser='" + getCreatedUser() + '\'' +
+                '}';
+    }
 }

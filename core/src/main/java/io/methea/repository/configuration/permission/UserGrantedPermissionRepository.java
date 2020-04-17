@@ -10,5 +10,5 @@ import org.springframework.data.repository.CrudRepository;
  * Date : 15/09/2019
  */
 public interface UserGrantedPermissionRepository extends CrudRepository<TUserPermission, String>,
-        HibernateExtensionRepository<PermissionView> {
+        HibernateExtensionRepository<PermissionView, String> {
 }

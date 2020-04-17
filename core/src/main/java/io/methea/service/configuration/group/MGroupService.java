@@ -1,43 +1,29 @@
 package io.methea.service.configuration.group;
 
-import io.methea.domain.configuration.group.filter.GroupFilter;
+import io.methea.domain.configuration.group.dto.UserGroupBinder;
+import io.methea.domain.configuration.group.entity.TUserGroup;
 import io.methea.domain.configuration.group.view.GroupView;
+import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
-import io.methea.repository.hibernateextension.domain.HibernatePage;
-import io.methea.util.Pagination;
-import org.apache.commons.lang3.StringUtils;
+import io.methea.service.abs.AbstractEntityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Author : DKSilverX
  * Date : 16/04/2020
  */
 @Service
-public class MGroupService {
+public class MGroupService extends AbstractEntityService<TUserGroup, UserGroupBinder, String, GroupView> {
 
-    private final HibernateExtensionRepository<GroupView> repository;
+    private static Logger log = LoggerFactory.getLogger(MGroupService.class);
 
     @Inject
-    public MGroupService(HibernateExtensionRepository<GroupView> repository) {
-        this.repository = repository;
-    }
-
-    public List<GroupView> getAllGroupsByFilter(GroupFilter filter, Pagination pagination) {
-        Map<String, Object> params = new HashMap<>();
-
-        params.put("groupName", "%".concat(filter.getGroupName()).concat("%"));
-        params.put("accountName", "%".concat(filter.getAccountName().toLowerCase()).concat("%"));
-        params.put("status", "%".concat(StringUtils.isEmpty(filter.getStatus()) ? StringUtils.EMPTY :
-                (filter.getStatus().substring(0, 1).toLowerCase())).concat("%"));
-
-        HibernatePage<GroupView> page = repository.getByQuery(params, GroupView.class, pagination.getSize(),
-                pagination.getOffSet());
-        pagination.setTotalCounts(page.getTotalCount());
-        return page.getContent();
+    public MGroupService(UserGroupRepository repository,
+                         HibernateExtensionRepository<GroupView, String> extensionRepository) {
+        super(GroupView.class, repository, extensionRepository);
     }
 }
