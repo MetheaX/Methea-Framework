@@ -15,6 +15,33 @@ public class BaseEntity {
     private String updatedUser;
     private LocalDateTime updatedDateTime;
 
+    public BaseEntity() {
+    }
+
+    // Create
+    public BaseEntity(String status, String createdUser, LocalDateTime createdDateTime, String updatedUser,
+                      LocalDateTime updatedDateTime) {
+        this.status = status;
+        this.createdUser = createdUser;
+        this.createdDateTime = createdDateTime;
+        this.updatedUser = updatedUser;
+        this.updatedDateTime = updatedDateTime;
+    }
+
+    // Update
+    public BaseEntity(String updatedUser, LocalDateTime updatedDateTime) {
+        this.updatedUser = updatedUser;
+        this.updatedDateTime = updatedDateTime;
+    }
+
+    // Activate/Deactivate
+    public BaseEntity(String status, String updatedUser,
+                      LocalDateTime updatedDateTime) {
+        this.status = status;
+        this.updatedDateTime = updatedDateTime;
+        this.updatedUser = updatedUser;
+    }
+
     public String getStatus() {
         return status;
     }

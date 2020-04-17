@@ -1,7 +1,8 @@
 package io.methea.config.security;
 
+import io.methea.config.security.domain.GrantedPermission;
+import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;
-import io.methea.domain.configuration.permission.TUserPermission;
 import io.methea.util.SystemUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -46,15 +47,16 @@ public class WebAuthorizationFilter implements Filter {
             Authentication user = securityContext.getAuthentication();
             String uri = req.getRequestURI();
 
-            List<TUserPermission> uris = (List<TUserPermission>) user.getAuthorities();
-            List<String> grantedURI = new ArrayList<>();
+            PrincipalAuthentication principle = (PrincipalAuthentication) user.getPrincipal();
+            List<GrantedPermission> URIs = principle.getGrantedPermissions();
+            List<String> grantedURIs = new ArrayList<>();
 
-            //>>>>> get available URIs from security context
-            if (!CollectionUtils.isEmpty(uris)) {
-                grantedURI = uris.stream()
-                        .map(TUserPermission::getUriName)
+            if (!CollectionUtils.isEmpty(URIs)) {
+                grantedURIs = URIs.stream()
+                        .map(GrantedPermission::getGrantedPermission)
                         .collect(Collectors.toList());
             }
+
             if (StringUtils.isNotEmpty(uri)) {
                 String[] subURI = uri.split(MConstant.SLASH);
                 String specificURI = uri;
@@ -66,12 +68,12 @@ public class WebAuthorizationFilter implements Filter {
                         uri = uri.concat(MConstant.SLASH).concat(str);
                     }
                     //>>>>> check if, is it qualify to pass our security guard
-                    if (grantedURI.contains((uri + MConstant.SLASH_STAR))) {
+                    if (grantedURIs.contains((uri + MConstant.SLASH_STAR))) {
                         isNotValidURI = false;
                     }
                 }
                 //>>>>> is it config with this specific URI, will check on second condition will subURI length == 0
-                if (grantedURI.contains(specificURI) || grantedURI.contains((uri + MConstant.SLASH_STAR))) {
+                if (grantedURIs.contains(specificURI) || grantedURIs.contains((uri + MConstant.SLASH_STAR))) {
                     isNotValidURI = false;
                 }
                 //>>>>> You cannot fake our security gard, go to access denied page

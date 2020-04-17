@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ import java.util.Map;
  */
 @Repository
 @SuppressWarnings("unchecked")
-public class HibernateExtensionRepositoryImpl<T> implements HibernateExtensionRepository<T> {
+public class HibernateExtensionRepositoryImpl<T, ID> implements HibernateExtensionRepository<T, ID> {
 
     private SessionFactory sessionFactory;
     private EntityManager entityManager;
@@ -49,9 +50,9 @@ public class HibernateExtensionRepositoryImpl<T> implements HibernateExtensionRe
 
     @Override
     @SuppressWarnings("rawtypes")
-    public List<T> getByQuery(String hql, Map<String, Object> parameters, Class<T> payload, int limit, int offset) {
+    public List<T> getByQuery(String hql, Map<String, Object> parameters, Class<T> view, int limit, int offset) {
         try (Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery(hql, payload);
+            Query query = session.createQuery(hql, view);
             setCriteria(query, parameters);
 
             if (limit > 0) {
@@ -67,13 +68,18 @@ public class HibernateExtensionRepositoryImpl<T> implements HibernateExtensionRe
     }
 
     @Override
-    public List<T> getByQuery(Map<String, Object> parameters, Class<T> payload) {
-        return queryWithPage(parameters, payload, 0, 0, false).getContent();
+    public List<T> getByQuery(Map<String, Object> parameters, Class<T> view) {
+        return queryWithPage(parameters, view, 0, 0, false).getContent();
     }
 
     @Override
-    public HibernatePage<T> getByQuery(Map<String, Object> parameters, Class<T> payload, int limit, int offset) {
-        return queryWithPage(parameters, payload, limit, offset, true);
+    public T getEntityById(Class<T> view, ID id) {
+        return queryByID(view, id);
+    }
+
+    @Override
+    public HibernatePage<T> getByQuery(Map<String, Object> parameters, Class<T> view, int limit, int offset) {
+        return queryWithPage(parameters, view, limit, offset, true);
     }
 
     @Override
@@ -103,13 +109,13 @@ public class HibernateExtensionRepositoryImpl<T> implements HibernateExtensionRe
         }
     }
 
-    private HibernatePage<T> queryWithPage(Map<String, Object> parameters, Class<T> payload, int limit, int offset, boolean isCount) {
+    private HibernatePage<T> queryWithPage(Map<String, Object> parameters, Class<T> view, int limit, int offset, boolean isCount) {
         String hql = StringUtils.EMPTY;
-        String selectClause = "SELECT new ".concat(payload.getName()).concat("(");
-        String countHQL = "SELECT DISTINCT COUNT (o.id) ".concat(payload.getAnnotation(SelectFrom.class).fromClause());
+        String selectClause = "SELECT new ".concat(view.getName()).concat("(");
+        String countHQL = "SELECT DISTINCT COUNT (o.id) ".concat(view.getAnnotation(SelectFrom.class).fromClause());
         String whereClause = " WHERE 1=1 ";
         try {
-            Field[] fields = payload.getDeclaredFields();
+            Field[] fields = view.getDeclaredFields();
             for (Field field : fields) {
                 if (field.isAnnotationPresent(Column.class)) {
                     if (!field.getAnnotation(Column.class).isLastColumn()) {
@@ -123,13 +129,43 @@ public class HibernateExtensionRepositoryImpl<T> implements HibernateExtensionRe
                 }
             }
             selectClause = selectClause.concat(")").concat(SPACE);
-            hql = hql.concat(selectClause).concat(payload.getAnnotation(SelectFrom.class).fromClause()).concat(SPACE).concat(whereClause)
-                    .concat(SPACE).concat(payload.getAnnotation(SelectFrom.class).orderBy());
+            hql = hql.concat(selectClause).concat(view.getAnnotation(SelectFrom.class).fromClause()).concat(SPACE).concat(whereClause)
+                    .concat(SPACE).concat(view.getAnnotation(SelectFrom.class).orderBy());
             if (isCount) {
                 countHQL = countHQL.concat(whereClause);
-                return new HibernatePage<T>(getByQuery(hql, parameters, payload, limit, offset), count(countHQL, parameters));
+                return new HibernatePage<T>(getByQuery(hql, parameters, view, limit, offset), count(countHQL, parameters));
             }
-            return new HibernatePage<T>(getByQuery(hql, parameters, payload, limit, offset));
+            return new HibernatePage<T>(getByQuery(hql, parameters, view, limit, offset));
+        } catch (Exception ex) {
+            throw new RuntimeException("[HibernateExtensionRepositoryImpl] Failed to generate hibernate query language: ", ex);
+        }
+    }
+
+    private T queryByID(Class<T> view, ID id) {
+        String hql = StringUtils.EMPTY;
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("id", id);
+        String selectClause = "SELECT new ".concat(view.getName()).concat("(");
+        String whereClause = " WHERE 1=1 ";
+        try {
+            Field[] fields = view.getDeclaredFields();
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(Column.class)) {
+                    if (!field.getAnnotation(Column.class).isLastColumn()) {
+                        selectClause = selectClause.concat(field.getAnnotation(Column.class).name()).concat(",");
+                    } else {
+                        selectClause = selectClause.concat(field.getAnnotation(Column.class).name());
+                    }
+                }
+            }
+            selectClause = selectClause.concat(")").concat(SPACE);
+            hql = hql.concat(selectClause).concat(view.getAnnotation(SelectFrom.class).fromClause()).concat(SPACE)
+                    .concat(whereClause).concat(" AND ").concat(view.getAnnotation(SelectFrom.class).getById());
+            List<T> page = getByQuery(hql, parameters, view, 0, 0);
+            if (!CollectionUtils.isEmpty(page)) {
+                return page.get(0);
+            }
+            return null;
         } catch (Exception ex) {
             throw new RuntimeException("[HibernateExtensionRepositoryImpl] Failed to generate hibernate query language: ", ex);
         }

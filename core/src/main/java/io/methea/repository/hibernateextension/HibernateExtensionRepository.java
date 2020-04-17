@@ -9,14 +9,16 @@ import java.util.Map;
  * Author : DKSilverX
  * Date : 14/04/2020
  */
-public interface HibernateExtensionRepository<T> {
+public interface HibernateExtensionRepository<T, ID> {
     List<Object[]> getByNativeQuery(String nativeSQL);
 
-    List<T> getByQuery(String hql, Map<String, Object> parameters, Class<T> payload, int limit, int offset);
+    List<T> getByQuery(String hql, Map<String, Object> parameters, Class<T> view, int limit, int offset);
 
-    List<T> getByQuery(Map<String, Object> parameters, Class<T> payload);
+    List<T> getByQuery(Map<String, Object> parameters, Class<T> view);
 
-    HibernatePage<T> getByQuery(Map<String, Object> parameters, Class<T> payload, int limit, int offset);
+    T getEntityById(Class<T> view, ID id);
+
+    HibernatePage<T> getByQuery(Map<String, Object> parameters, Class<T> view, int limit, int offset);
 
     long count(String hql, Map<String, Object> parameters);
 }

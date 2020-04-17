@@ -1,6 +1,7 @@
 package io.methea.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;
 import io.methea.domain.configuration.user.dto.UserLogin;
 import io.jsonwebtoken.Jwts;
@@ -15,7 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -88,12 +88,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         cal.setTimeInMillis(cal.getTimeInMillis() + Long.parseLong(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))
                 ? JWTConstants.EXPIRATION_TIME : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))));
         String token = Jwts.builder()
-                .setSubject(((User) auth.getPrincipal()).getUsername())
+                .setSubject(((PrincipalAuthentication) auth.getPrincipal()).getUsername())
                 .setExpiration(cal.getTime())
                 .signWith(SignatureAlgorithm.HS512, ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_SECRET_KEY))
                         ? JWTConstants.SECRET.getBytes() : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_SECRET_KEY)).getBytes())
                 .compact();
-        SecurityContextHolder.getContext().setAuthentication(getAuthentication(((User) auth.getPrincipal())));
+        SecurityContextHolder.getContext().setAuthentication(getAuthentication(((PrincipalAuthentication) auth.getPrincipal())));
         // if authenticate request from webservice success, give access token to client
         if (!ObjectUtils.isEmpty(cred)) {
             res.addHeader(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY)) ? JWTConstants.HEADER_STRING
@@ -111,10 +111,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.addHeader("Authentication Failed ::", failed.getMessage());
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(User user) {
-        if (!ObjectUtils.isEmpty(user)) {
-            return new UsernamePasswordAuthenticationToken(user.getUsername(), null,
-                    user.getAuthorities());
+    private UsernamePasswordAuthenticationToken getAuthentication(PrincipalAuthentication pricipal) {
+        if (!ObjectUtils.isEmpty(pricipal)) {
+            return new UsernamePasswordAuthenticationToken(pricipal, null,
+                    pricipal.getAuthorities());
         }
         return null;
     }

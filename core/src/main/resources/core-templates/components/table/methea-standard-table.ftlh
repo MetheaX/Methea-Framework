@@ -3,7 +3,7 @@
 <#-- @tdata #List of JSON #Define table data -->
 <#-- @tcolumns #List<String> #Define keys of JSON tdata -->
 <#-- @id #String #Define table id   -->
-<#-- @filters #HashMap<String,String> #Define filter columns   -->
+<#-- @filters #LinkedHashMap<String,String> #Define filter columns   -->
 <#-- @urlFilters #String #Define endpoint filters   -->
 <#-- @dataFilters #Object #Cache user filtering   -->
 <#-- ##### -->

@@ -1,22 +1,10 @@
-package io.methea.domain.configuration.group;
-
-import io.methea.domain.baseentity.BaseEntity;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+package io.methea.domain.configuration.group.dto;
 
 /**
  * Author : DKSilverX
- * Date : 21/08/2019
+ * Date : 17/04/2020
  */
-@Entity
-@Table(name = "tbl_core_group")
-public class TUserGroup extends BaseEntity {
-
-    @Id
-    @Column(name = "group_id")
+public class UserGroupBinder {
     private String id;
     private String accountId;
     private String groupName;
@@ -52,5 +40,15 @@ public class TUserGroup extends BaseEntity {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    @Override
+    public String toString() {
+        return "UserGroupBinder{" +
+                "id='" + id + '\'' +
+                ", accountId='" + accountId + '\'' +
+                ", groupName='" + groupName + '\'' +
+                ", remarks='" + remarks + '\'' +
+                '}';
     }
 }

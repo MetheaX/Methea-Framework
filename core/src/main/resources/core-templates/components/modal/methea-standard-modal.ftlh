@@ -8,7 +8,7 @@
 # Date : 2/09/2020
 #-->
 <#macro modal className labelTitle >
-    <div class="modal fade ${className}" tabindex="-1" role="dialog"
+    <div class="modal fade ${className}" role="dialog"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

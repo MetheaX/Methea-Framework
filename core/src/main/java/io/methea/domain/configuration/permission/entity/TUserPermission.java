@@ -1,8 +1,7 @@
-package io.methea.domain.configuration.permission;
+package io.methea.domain.configuration.permission.entity;
 
 import io.methea.domain.baseentity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +15,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "tbl_core_user_permission")
-public class TUserPermission extends BaseEntity implements GrantedAuthority {
+public class TUserPermission extends BaseEntity {
 
     @Id
     @Column(name = "permission_id")
@@ -58,10 +57,5 @@ public class TUserPermission extends BaseEntity implements GrantedAuthority {
 
     public void setUriName(String uriName) {
         this.uriName = uriName;
-    }
-
-    @Override
-    public String getAuthority() {
-        return uriName;
     }
 }
