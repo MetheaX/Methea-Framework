@@ -49,7 +49,7 @@ public class DataTableUIService {
             MCache.cacheMetaData.put(viewName.concat(MConstant.COLUMNS_KEY), columnKeys);
             MCache.cacheMetaData.put(viewName.concat(MConstant.COLUMNS_FILTER), columnFilter);
         } catch (Exception ex) {
-            log.error(">>>>> Get metadata of account's datatable error: ", ex);
+            log.error(">>>>> Get datatable meta data error: ", ex);
         }
     }
 }

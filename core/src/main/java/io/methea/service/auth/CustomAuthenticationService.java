@@ -1,8 +1,8 @@
 package io.methea.service.auth;
 
 import io.methea.config.security.domain.PrincipalAuthentication;
-import io.methea.domain.configuration.group.projection.GroupAuthorityProjection;
-import io.methea.domain.configuration.permission.projection.PermissionProjection;
+import io.methea.domain.configuration.group.view.GroupAuthorityView;
+import io.methea.domain.configuration.permission.view.PermissionView;
 import io.methea.domain.configuration.user.entity.TUser;
 import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
@@ -47,7 +47,7 @@ public class CustomAuthenticationService implements UserDetailsService {
         Map<String, Object> param = new HashMap<>();
         param.put("username", s);
         return new PrincipalAuthentication(user.getUsername(), user.getPassword(),
-                userGroupRepository.getByQuery(param, GroupAuthorityProjection.class),
-                userGrantedPermissionRepository.getByQuery(param, PermissionProjection.class));
+                userGroupRepository.getByQuery(param, GroupAuthorityView.class),
+                userGrantedPermissionRepository.getByQuery(param, PermissionView.class));
     }
 }

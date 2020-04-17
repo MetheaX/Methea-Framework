@@ -5,7 +5,7 @@ import io.methea.constant.MConstant;
 import io.methea.controller.abs.MBaseController;
 import io.methea.domain.configuration.account.dto.AccountBinder;
 import io.methea.domain.configuration.account.filter.AccountFilter;
-import io.methea.domain.configuration.account.projection.AccountProjection;
+import io.methea.domain.configuration.account.view.AccountView;
 import io.methea.service.configuration.account.MAccountService;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.util.Pagination;
@@ -69,7 +69,7 @@ public class MAccountController extends MBaseController {
             log.info(">>>>> Fetch meta data of account's datatable.");
         }
 
-        Map<String, List<AccountProjection>> mapBinder = new HashMap<>();
+        Map<String, List<AccountView>> mapBinder = new HashMap<>();
         mapBinder.put("data", mAccountService.getAllAccountsByFilter(filter, pagination));
 
         model.addAttribute("contextPath", SystemUtils.getBaseUrl(request));

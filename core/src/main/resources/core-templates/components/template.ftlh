@@ -16,6 +16,8 @@
         <#-- End plugin css for this page -->
         <#-- inject:css -->
         <link rel="stylesheet" href="${contextPath}/resources/css/style.css">
+        <link rel="stylesheet" href="${contextPath}/resources/vendor/select2/select2.min.css">
+        <link rel="stylesheet" href="${contextPath}/resources/vendor/select2/select2-bootstrap.min.css">
         <#-- endinject -->
     </head>
     <body>
@@ -259,6 +261,12 @@
     <script src="${contextPath}/resources/axios/axios.min.js"></script>
     <script src="${contextPath}/resources/vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="${contextPath}/resources/vendor/sweetalert/sweetalert.min.js"></script>
+    <script src="${contextPath}/resources/vendor/select2/select2.min.js"></script>
     <#-- End custom js for this page-->
+    <script>
+        $(document).ready(function () {
+            $.fn.select2.defaults.set( "theme", "bootstrap" );
+        });
+    </script>
 </html>
 </#macro>

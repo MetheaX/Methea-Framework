@@ -8,8 +8,11 @@ public class MConstant {
     private MConstant() {
     }
 
+    // freemarker template
     public static final String CORE_TEMPLATE_KEY = "methea.core.freemarker.templates";
     public static final String CLIENT_TEMPLATE_KEY = "methea.client.freemarker.templates";
+
+    // security config
     public static final String CLIENT_SECRET_KEY = "methea.client.security.secret";
     public static final String CLIENT_TOKEN_EXPIRATION = "methea.client.security.token.expiration_time";
     public static final String CLIENT_TOKEN_PREFIX = "methea.client.security.token.prefix";
@@ -18,10 +21,14 @@ public class MConstant {
     public static final String COMMA = ",";
     public static final String SPACE = " ";
 
-    // cache master data
+    // cache datatable meta data
     public static final String COLUMNS_LABEL = "_COLUMNS_LABEL";
     public static final String COLUMNS_KEY = "_COLUMNS_KEY";
     public static final String COLUMNS_FILTER = "_COLUMNS_FILTER";
+
+    // cache dropdown data
+    public static final String DROPDOWN = "mDropdown";
+    public static final String ACCOUNT_DROPDOWN = "accountDropdown";
 
     // security filter
     public static final String SLASH = "/";

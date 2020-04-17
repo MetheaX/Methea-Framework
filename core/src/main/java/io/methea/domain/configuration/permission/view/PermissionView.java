@@ -1,4 +1,4 @@
-package io.methea.domain.configuration.permission.projection;
+package io.methea.domain.configuration.permission.view;
 
 import io.methea.config.security.domain.GrantedPermission;
 import io.methea.repository.hibernateextension.annotation.Column;
@@ -9,11 +9,11 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Date : 16/04/2020
  */
 @SelectFrom(fromClause = "FROM TUserPermission o")
-public class PermissionProjection implements GrantedPermission {
+public class PermissionView implements GrantedPermission {
     @Column(name = "o.uriName", key = "username", where = "AND o.userId = :username", isLastColumn = true)
     private String uriName;
 
-    public PermissionProjection(String uriName) {
+    public PermissionView(String uriName) {
         this.uriName = uriName;
     }
 

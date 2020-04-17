@@ -3,7 +3,7 @@ package io.methea.service.configuration.account;
 import io.methea.domain.configuration.account.dto.AccountBinder;
 import io.methea.domain.configuration.account.entity.TAccount;
 import io.methea.domain.configuration.account.filter.AccountFilter;
-import io.methea.domain.configuration.account.projection.AccountProjection;
+import io.methea.domain.configuration.account.view.AccountView;
 import io.methea.repository.configuration.account.AccountRepository;
 import io.methea.repository.hibernateextension.domain.HibernatePage;
 import io.methea.util.Pagination;
@@ -118,7 +118,7 @@ public class MAccountService {
         return isDeactivate;
     }
 
-    public List<AccountProjection> getAllAccountsByFilter(AccountFilter filter, Pagination pagination) {
+    public List<AccountView> getAllAccountsByFilter(AccountFilter filter, Pagination pagination) {
         Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("accountName", "%".concat(filter.getAccountName().toLowerCase()).concat("%"));
@@ -126,7 +126,7 @@ public class MAccountService {
         parameters.put("status", "%".concat(StringUtils.isEmpty(filter.getStatus()) ? StringUtils.EMPTY :
                 (filter.getStatus().substring(0, 1).toLowerCase())).concat("%"));
 
-        HibernatePage<AccountProjection> accountHibernatePage = accountRepository.getByQuery(parameters, AccountProjection.class,
+        HibernatePage<AccountView> accountHibernatePage = accountRepository.getByQuery(parameters, AccountView.class,
                 pagination.getSize(), pagination.getOffSet());
         pagination.setTotalCounts(accountHibernatePage.getTotalCount());
 

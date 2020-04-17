@@ -4,11 +4,13 @@ import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
 import io.methea.controller.abs.MBaseController;
 import io.methea.domain.configuration.group.filter.GroupFilter;
-import io.methea.domain.configuration.group.projection.GroupProjection;
+import io.methea.domain.configuration.group.view.GroupView;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.service.configuration.group.MGroupService;
+import io.methea.service.dropdown.MDropdownService;
 import io.methea.util.Pagination;
 import io.methea.util.SystemUtils;
+import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -21,6 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,11 +50,13 @@ public class MGroupController extends MBaseController {
     private static final String VIEW_NAME = "groupList";
 
     private final DataTableUIService dataTableUIService;
+    private final MDropdownService dropdownService;
     private final MGroupService mGroupService;
 
     @Inject
-    public MGroupController(DataTableUIService dataTableUIService, MGroupService mGroupService) {
+    public MGroupController(DataTableUIService dataTableUIService, MDropdownService dropdownService, MGroupService mGroupService) {
         this.dataTableUIService = dataTableUIService;
+        this.dropdownService = dropdownService;
         this.mGroupService = mGroupService;
     }
 
@@ -63,14 +68,21 @@ public class MGroupController extends MBaseController {
             dataTableUIService.getMetaTableConfiguration(VIEW_NAME);
             log.info(">>>>> Fetch meta data of group's datatable.");
         }
-        Map<String, List<GroupProjection>> mapBinder = new HashMap<>();
+        Map<String, List<GroupView>> mapBinder = new HashMap<>();
         mapBinder.put("data", mGroupService.getAllGroupsByFilter(filter, pagination));
+
+        //noinspection unchecked
+        if (CollectionUtils.isEmpty((Map<String, Object>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
+            dropdownService.getDropdownData();
+            log.info(">>>>> Dropdown data loaded!");
+        }
 
         model.addAttribute("contextPath", SystemUtils.getBaseUrl(request));
         model.addAttribute("tableHead", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_LABEL)));
         model.addAttribute("tableColumns", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_KEY)));
         model.addAttribute("tableFilterColumns", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_FILTER)));
         model.addAttribute("groups", mapBinder);
+        model.addAttribute(MConstant.DROPDOWN, MCache.cacheMetaData.get(MConstant.DROPDOWN));
         model.addAttribute("dataFilters", filter);
         model.addAttribute("pagination", pagination);
         return GROUP_TEMPLATE_PATH;

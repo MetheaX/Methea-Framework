@@ -1,7 +1,7 @@
 package io.methea.service.configuration.group;
 
 import io.methea.domain.configuration.group.filter.GroupFilter;
-import io.methea.domain.configuration.group.projection.GroupProjection;
+import io.methea.domain.configuration.group.view.GroupView;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
 import io.methea.repository.hibernateextension.domain.HibernatePage;
 import io.methea.util.Pagination;
@@ -20,14 +20,14 @@ import java.util.Map;
 @Service
 public class MGroupService {
 
-    private final HibernateExtensionRepository<GroupProjection> repository;
+    private final HibernateExtensionRepository<GroupView> repository;
 
     @Inject
-    public MGroupService(HibernateExtensionRepository<GroupProjection> repository) {
+    public MGroupService(HibernateExtensionRepository<GroupView> repository) {
         this.repository = repository;
     }
 
-    public List<GroupProjection> getAllGroupsByFilter(GroupFilter filter, Pagination pagination) {
+    public List<GroupView> getAllGroupsByFilter(GroupFilter filter, Pagination pagination) {
         Map<String, Object> params = new HashMap<>();
 
         params.put("groupName", "%".concat(filter.getGroupName()).concat("%"));
@@ -35,7 +35,7 @@ public class MGroupService {
         params.put("status", "%".concat(StringUtils.isEmpty(filter.getStatus()) ? StringUtils.EMPTY :
                 (filter.getStatus().substring(0, 1).toLowerCase())).concat("%"));
 
-        HibernatePage<GroupProjection> page = repository.getByQuery(params, GroupProjection.class, pagination.getSize(),
+        HibernatePage<GroupView> page = repository.getByQuery(params, GroupView.class, pagination.getSize(),
                 pagination.getOffSet());
         pagination.setTotalCounts(page.getTotalCount());
         return page.getContent();

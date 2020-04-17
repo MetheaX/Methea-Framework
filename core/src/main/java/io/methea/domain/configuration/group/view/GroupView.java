@@ -1,4 +1,4 @@
-package io.methea.domain.configuration.group.projection;
+package io.methea.domain.configuration.group.view;
 
 import io.methea.repository.hibernateextension.annotation.Column;
 import io.methea.repository.hibernateextension.annotation.SelectFrom;
@@ -8,7 +8,7 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Date : 16/04/2020
  */
 @SelectFrom(fromClause = "FROM TUserGroup o, TAccount p", orderBy = "ORDER BY o.updatedDateTime DESC")
-public class GroupProjection {
+public class GroupView {
 
     @Column(name = "o.id")
     private String id;
@@ -20,9 +20,7 @@ public class GroupProjection {
             " AND o.accountId = p.id", isLastColumn = true)
     private String status;
 
-    public GroupProjection(){}
-
-    public GroupProjection(String id, String groupName, String accountName, String status) {
+    public GroupView(String id, String groupName, String accountName, String status) {
         this.id = id;
         this.groupName = groupName;
         this.accountName = accountName;
@@ -33,31 +31,15 @@ public class GroupProjection {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getGroupName() {
         return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
     }
 
     public String getAccountName() {
         return accountName;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }
