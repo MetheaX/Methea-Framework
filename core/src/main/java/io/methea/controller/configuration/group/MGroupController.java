@@ -17,10 +17,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -103,6 +106,53 @@ public class MGroupController extends MBaseController {
         group.setId(UUID.randomUUID().toString());
         mGroupService.saveEntity(group, binder);
         return new ModelAndView(REDIRECT_URL);
+    }
+
+    @RequestMapping(value = {MODIFY_GROUP_URL})
+    public ModelAndView modifyGroup(UserGroupBinder binder){
+        mGroupService.modifyEntity(binder.getId(), binder);
+        return new ModelAndView(REDIRECT_URL);
+    }
+
+    @ResponseBody
+    @GetMapping(value = {GET_GROUP_BY_ID_URL})
+    public ResponseEntity<Map<String, Object>> getGroupById(@RequestParam String id) {
+        Map<String, Object> map = new HashMap<>();
+        GroupView view;
+        map.put("status", 500);
+        map.put("message", "Failed to get group");
+        view = mGroupService.getEntityViewById(id);
+        if (!ObjectUtils.isEmpty(view)) {
+            map.put("status", 200);
+            map.put("group", view);
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping(value = {ACTIVATED_GROUP_URL})
+    public ResponseEntity<Map<String, Object>> activateGroup(@RequestBody Map<String, String> payload) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 500);
+        map.put("message", "Failed to activate group");
+        if (mGroupService.activateEntity(payload.get("id"))) {
+            map.put("status", 200);
+            map.put("message", "Activate group successfully");
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @PostMapping(value = {DEACTIVATED_GROUP_URL})
+    public ResponseEntity<Map<String, Object>> deactivateGroup(@RequestBody Map<String, String> payload) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 500);
+        map.put("message", "Failed to deactivate group");
+        if (mGroupService.deactivateEntity(payload.get("id"))) {
+            map.put("status", 200);
+            map.put("message", "Deactivate group successfully");
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }
 

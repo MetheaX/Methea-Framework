@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SelectFrom {
     String fromClause() default "";
-    String getById() default "";
+    String getById() default "o.id = :id";
     String orderBy() default "";
 }

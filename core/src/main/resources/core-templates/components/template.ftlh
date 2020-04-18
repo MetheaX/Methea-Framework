@@ -21,6 +21,29 @@
         <#-- endinject -->
     </head>
     <body>
+        <#-- plugins:js -->
+        <script src="${contextPath}/resources/vendor/js/vendor.bundle.base.js"></script>
+        <script src="${contextPath}/resources/vendor/js/vendor.bundle.addons.js"></script>
+        <#-- endinject -->
+        <#-- Plugin js for this page-->
+        <#-- End plugin js for this page-->
+        <#-- inject:js -->
+        <script src="${contextPath}/resources/js/off-canvas.js"></script>
+        <script src="${contextPath}/resources/js/misc.js"></script>
+        <#-- endinject -->
+        <#-- Custom js for this page-->
+        <script src="${contextPath}/resources/js/dashboard.js"></script>
+        <script src="${contextPath}/resources/axios/axios.min.js"></script>
+        <script src="${contextPath}/resources/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <script src="${contextPath}/resources/vendor/jquery/jquery.twbsPagination.min.js"></script>
+        <script src="${contextPath}/resources/vendor/sweetalert/sweetalert.min.js"></script>
+        <script src="${contextPath}/resources/vendor/select2/select2.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $.fn.select2.defaults.set( "theme", "bootstrap" );
+            });
+        </script>
+        <#-- End custom js for this page-->
         <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-top" style="padding-left: 10px">
                 <a class="navbar-brand brand-logo" href="index.html">
@@ -248,28 +271,5 @@
             </div>
         </div>
     </body>
-
-    <#-- plugins:js -->
-    <script src="${contextPath}/resources/vendor/js/vendor.bundle.base.js"></script>
-    <script src="${contextPath}/resources/vendor/js/vendor.bundle.addons.js"></script>
-    <#-- endinject -->
-    <#-- Plugin js for this page-->
-    <#-- End plugin js for this page-->
-    <#-- inject:js -->
-    <script src="${contextPath}/resources/js/off-canvas.js"></script>
-    <script src="${contextPath}/resources/js/misc.js"></script>
-    <#-- endinject -->
-    <#-- Custom js for this page-->
-    <script src="${contextPath}/resources/js/dashboard.js"></script>
-    <script src="${contextPath}/resources/axios/axios.min.js"></script>
-    <script src="${contextPath}/resources/vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="${contextPath}/resources/vendor/sweetalert/sweetalert.min.js"></script>
-    <script src="${contextPath}/resources/vendor/select2/select2.min.js"></script>
-    <#-- End custom js for this page-->
-    <script>
-        $(document).ready(function () {
-            $.fn.select2.defaults.set( "theme", "bootstrap" );
-        });
-    </script>
 </html>
 </#macro>

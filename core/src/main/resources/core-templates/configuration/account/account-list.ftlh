@@ -11,7 +11,7 @@
             dataFilters=dataFilters urlFilter="/app/accounts" id="tbl-accounts">
         </@mtable.table>
     </div>
-<#-- Modal Add Account   -->
+
     <@mmodal.modal className="modal-tbl-accounts-add" labelTitle="Add New Account">
         <@mform.form actionUrl="${contextPath}/app/account/save">
             <@minput.input labelName="Name" inputType="text" inputId="labelAccountName"
@@ -22,7 +22,7 @@
             inputPlaceHolder="Address" inputName="accountAddress" inputValue="" required="true"></@minput.input>
         </@mform.form>
     </@mmodal.modal>
-<#-- Modal Edit Account   -->
+
     <@mmodal.modal className="modal-tbl-accounts-edit" labelTitle="Edit Account">
         <@mform.form actionUrl="${contextPath}/app/account/modify">
             <@mhiddeninput.input inputType="text" inputId="labelEditAccountId" inputName="id"
@@ -37,65 +37,8 @@
     </@mmodal.modal>
     <@mpagination.pagination page=pagination url="/app/accounts"></@mpagination.pagination>
 </@template.main>
-
-<script src="${contextPath}/resources/vendor/jquery/jquery-3.2.1.min.js"></script>
-<script src="${contextPath}/resources/vendor/sweetalert/sweetalert.min.js"></script>
-<script src="${contextPath}/resources/vendor/jquery/jquery.twbsPagination.min.js"></script>
 <script>
     $(document).ready(function () {
-        // Disable account
-        $('.btn-tbl-accounts-disable').click(function () {
-            swal({
-                title: "Are you sure?",
-                text: "Once you disable, you still can enable its back.",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willDisable) => {
-                if (willDisable) {
-                    const $row = $(this).closest("tr");
-                    const $id = $row.find('td:eq(0)').text();
-                    axios.post('${contextPath}' + '/app/api/v1/accounts/deactivate', {
-                        id: $id
-                    }).then(function (response) {
-                        if (response.data.status === 200) {
-                            window.location.reload();
-                        }
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                } else {
-                    swal("Your operation cancel!");
-                }
-            });
-        });
-        // Activate account
-        $('.btn-tbl-accounts-enable').click(function () {
-            swal({
-                title: "Are you sure?",
-                text: "Once you enable, you still can disable its back.",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willActivate) => {
-                if (willActivate) {
-                    const $row = $(this).closest("tr");
-                    const $id = $row.find('td:eq(0)').text();
-                    axios.post('${contextPath}' + '/app/api/v1/accounts/activate', {
-                        id: $id
-                    }).then(function (response) {
-                        if (response.data.status === 200) {
-                            window.location.reload();
-                        }
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                } else {
-                    swal("Your operation cancel!");
-                }
-            });
-        });
-        // Bind data to edit form
         $('.btn-tbl-accounts-data-edit').click(function () {
             const $row = $(this).closest("tr");
             const $id = $row.find('td:eq(0)').text();

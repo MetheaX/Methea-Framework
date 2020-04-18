@@ -16,14 +16,20 @@ public class GroupView {
     private String groupName;
     @Column(name = "p.accountName", key = "accountName", where = "AND LOWER(p.accountName) LIKE :accountName")
     private String accountName;
+    @Column(name = "o.accountId")
+    private String accountId;
+    @Column(name = "o.remarks")
+    private String remarks;
     @Column(name = "o.status", key = "status", where = "AND LOWER(o.status) LIKE :status" +
             " AND o.accountId = p.id", isLastColumn = true)
     private String status;
 
-    public GroupView(String id, String groupName, String accountName, String status) {
+    public GroupView(String id, String groupName, String accountName, String accountId, String remarks, String status) {
         this.id = id;
         this.groupName = groupName;
         this.accountName = accountName;
+        this.accountId = accountId;
+        this.remarks = remarks;
         this.status = status;
     }
 
@@ -37,6 +43,14 @@ public class GroupView {
 
     public String getAccountName() {
         return accountName;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public String getRemarks() {
+        return remarks;
     }
 
     public String getStatus() {
