@@ -224,6 +224,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Column Datatable</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${contextPath}/app/clear-caches">Clear System Caches</a>
+                                </li>
                             </ul>
                         </div>
                     </li>

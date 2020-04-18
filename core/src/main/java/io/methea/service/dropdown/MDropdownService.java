@@ -42,7 +42,9 @@ public class MDropdownService {
     private List<AccountDropdown> getAccountDropdown() {
         List<AccountDropdown> list = new ArrayList<>();
         try {
-            list = repository.getByQuery(new HashMap<>(), AccountDropdown.class);
+            Map<String, Object> param = new HashMap<>();
+            param.put("status", "A");
+            list = repository.getByQuery(param, AccountDropdown.class);
         } catch (Exception ex) {
             log.error(">>>>> Get account dropdown error: ", ex);
         }

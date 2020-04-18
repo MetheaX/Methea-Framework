@@ -65,13 +65,13 @@ public class MGroupController extends MBaseController {
 
     @RequestMapping(value = {GET_ALL_GROUP_URL})
     public String viewGroupList(Model model, GroupFilter filter, Pagination pagination, HttpServletRequest request) {
-        //noinspection unchecked
-        if (CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_KEY)))
-                || CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_LABEL)))) {
+
+        if (CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_KEY)))
+                || CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_LABEL)))) {
             dataTableUIService.getMetaTableConfiguration(VIEW_NAME);
             log.info(">>>>> Fetch meta data of group's datatable.");
         }
-        Map<String, List<GroupView>> mapBinder = new HashMap<>();
+        Map<String, List<GroupView>> map = new HashMap<>();
 
         Map<String, Object> params = new HashMap<>();
         params.put("groupName", "%".concat(filter.getGroupName()).concat("%"));
@@ -79,10 +79,9 @@ public class MGroupController extends MBaseController {
         params.put("status", "%".concat(StringUtils.isEmpty(filter.getStatus()) ? StringUtils.EMPTY :
                 (filter.getStatus().substring(0, 1).toLowerCase())).concat("%"));
 
-        mapBinder.put("data", mGroupService.getAllEntityViewByFilter(params, pagination));
+        map.put("data", mGroupService.getAllEntityViewByFilter(params, pagination));
 
-        //noinspection unchecked
-        if (CollectionUtils.isEmpty((Map<String, Object>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
+        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
             dropdownService.getDropdownData();
             log.info(">>>>> Dropdown data loaded!");
         }
@@ -91,7 +90,7 @@ public class MGroupController extends MBaseController {
         model.addAttribute("tableHead", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_LABEL)));
         model.addAttribute("tableColumns", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_KEY)));
         model.addAttribute("tableFilterColumns", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_FILTER)));
-        model.addAttribute("groups", mapBinder);
+        model.addAttribute("groups", map);
         model.addAttribute(MConstant.DROPDOWN, MCache.cacheMetaData.get(MConstant.DROPDOWN));
         model.addAttribute("dataFilters", filter);
         model.addAttribute("pagination", pagination);

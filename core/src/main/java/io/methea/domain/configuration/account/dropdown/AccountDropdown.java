@@ -11,7 +11,7 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
 public class AccountDropdown {
     @Column(name = "o.id")
     private String id;
-    @Column(name = "o.accountName", where = "o.status = 'A'", isLastColumn = true)
+    @Column(name = "o.accountName", key = "status", where = "AND o.status = :status", isLastColumn = true)
     private String name;
 
     public AccountDropdown(String id, String name) {

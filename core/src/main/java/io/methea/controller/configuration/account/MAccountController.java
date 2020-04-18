@@ -64,14 +64,13 @@ public class MAccountController extends MBaseController {
     @RequestMapping(value = {GET_ALL_ACCOUNTS_URL})
     public String viewAccountList(Model model, AccountFilter filter, Pagination pagination, HttpServletRequest request) {
 
-        //noinspection unchecked
-        if (CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_KEY)))
-                || CollectionUtils.isEmpty((List<String>) MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_LABEL)))) {
+        if (CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_KEY)))
+                || CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_LABEL)))) {
             dataTableUIService.getMetaTableConfiguration(VIEW_NAME);
             log.info(">>>>> Fetch meta data of account's datatable.");
         }
 
-        Map<String, List<AccountView>> mapBinder = new HashMap<>();
+        Map<String, List<AccountView>> map = new HashMap<>();
         Map<String, Object> parameters = new HashMap<>();
 
         // filter column
@@ -80,13 +79,13 @@ public class MAccountController extends MBaseController {
         parameters.put("status", "%".concat(StringUtils.isEmpty(filter.getStatus()) ? StringUtils.EMPTY :
                 (filter.getStatus().substring(0, 1).toLowerCase())).concat("%"));
 
-        mapBinder.put("data", mAccountService.getAllEntityViewByFilter(parameters, pagination));
+        map.put("data", mAccountService.getAllEntityViewByFilter(parameters, pagination));
 
         model.addAttribute("contextPath", SystemUtils.getBaseUrl(request));
         model.addAttribute("tableHead", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_LABEL)));
         model.addAttribute("tableColumns", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_KEY)));
         model.addAttribute("tableFilterColumns", MCache.cacheMetaData.get(VIEW_NAME.concat(MConstant.COLUMNS_FILTER)));
-        model.addAttribute("accounts", mapBinder);
+        model.addAttribute("accounts", map);
         model.addAttribute("dataFilters", filter);
         model.addAttribute("pagination", pagination);
         return ACCOUNTS_TEMPLATE_PATH;
