@@ -6,7 +6,7 @@ import io.methea.domain.configuration.display.dto.DataTableBinder;
 import io.methea.domain.configuration.display.entity.TDataTableView;
 import io.methea.domain.configuration.display.view.DataTableView;
 import io.methea.repository.configuration.display.DisplayRepository;
-import io.methea.service.abs.AbstractEntityService;
+import io.methea.service.abs.AbstractMetheaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.*;
  * Date : 19/01/2020
  */
 @Service
-public class DataTableUIService extends AbstractEntityService<TDataTableView, DataTableBinder, String, DataTableView> {
+public class DataTableUIService extends AbstractMetheaService<TDataTableView, DataTableBinder, String, DataTableView> {
 
     private static Logger log = LoggerFactory.getLogger(DataTableUIService.class);
 

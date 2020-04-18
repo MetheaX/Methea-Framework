@@ -14,7 +14,7 @@
     </div>
 
     <@mmodal.modal className="modal-tbl-accounts-add" labelTitle="Add New Account">
-        <@mform.form actionUrl="${contextPath}/app/account/save">
+        <@mform.form actionUrl="${contextPath}/app/accounts/save">
             <@minput.input labelName="Name" inputType="text" inputId="labelAccountName"
             inputPlaceHolder="Name" inputName="accountName" inputValue="" required="true"></@minput.input>
             <@minput.input labelName="Email" inputType="email" inputId="labelEmailName"
@@ -25,7 +25,7 @@
     </@mmodal.modal>
 
     <@mmodal.modal className="modal-tbl-accounts-edit" labelTitle="Edit Account">
-        <@mform.form actionUrl="${contextPath}/app/account/modify">
+        <@mform.form actionUrl="${contextPath}/app/accounts/modify">
             <@mhiddeninput.input inputType="text" inputId="labelEditAccountId" inputName="id"
             inputValue="" required="true"></@mhiddeninput.input>
             <@minput.input labelName="Name" inputType="text" inputId="labelEditAccountName"
@@ -44,12 +44,12 @@
             const $row = $(this).closest("tr");
             const $id = $row.find('td:eq(0)').text();
             const $modalEdit = $('.modal-tbl-accounts-edit');
-            axios.get('${contextPath}' + '/app/api/v1/accounts/?id=' + $id).then(function (response) {
+            axios.get('${contextPath}' + '/app/accounts/rest?id=' + $id).then(function (response) {
                 if (response.data.status === 200) {
-                    $modalEdit.find('input[name="id"]').val(response.data.account.id);
-                    $modalEdit.find('input[name="accountName"]').val(response.data.account.accountName);
-                    $modalEdit.find('input[name="accountEmail"]').val(response.data.account.accountEmail);
-                    $modalEdit.find('input[name="accountAddress"]').val(response.data.account.accountAddress);
+                    $modalEdit.find('input[name="id"]').val(response.data.accounts.id);
+                    $modalEdit.find('input[name="accountName"]').val(response.data.accounts.accountName);
+                    $modalEdit.find('input[name="accountEmail"]').val(response.data.accounts.accountEmail);
+                    $modalEdit.find('input[name="accountAddress"]').val(response.data.accounts.accountAddress);
                 }
             }).catch(function (error) {
                 console.log(error);

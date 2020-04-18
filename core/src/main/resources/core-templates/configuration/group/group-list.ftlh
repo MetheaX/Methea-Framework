@@ -15,7 +15,7 @@
     </div>
 
     <@mmodal.modal className="modal-tbl-groups-add" labelTitle="Add New Group">
-        <@mform.form actionUrl="${contextPath}/app/group/save">
+        <@mform.form actionUrl="${contextPath}/app/groups/save">
             <@minput.input labelName="Group Name" inputType="text" inputId="labelGroupName"
             inputPlaceHolder="Group Name" inputName="groupName" inputValue="" required="true"></@minput.input>
             <@mselect.select labelName="Account Name" selectId="labelUserAccountName" selectName="accountId"
@@ -26,7 +26,7 @@
     </@mmodal.modal>
 
     <@mmodal.modal className="modal-tbl-groups-edit" labelTitle="Edit Group">
-        <@mform.form actionUrl="${contextPath}/app/group/modify">
+        <@mform.form actionUrl="${contextPath}/app/groups/modify">
             <@mhiddeninput.input inputType="text" inputId="labelEditGroupId" inputName="id"
             inputValue="" required="true"></@mhiddeninput.input>
             <@minput.input labelName="Group Name" inputType="text" inputId="labelEditGroupName"
@@ -45,12 +45,12 @@
             const $row = $(this).closest("tr");
             const $id = $row.find('td:eq(0)').text();
             const $modalEdit = $('.modal-tbl-groups-edit');
-            axios.get('${contextPath}' + '/app/api/v1/groups/?id=' + $id).then(function (response) {
+            axios.get('${contextPath}' + '/app/groups/rest?id=' + $id).then(function (response) {
                 if (response.data.status === 200) {
-                    $modalEdit.find('input[name="id"]').val(response.data.group.id);
-                    $modalEdit.find('input[name="groupName"]').val(response.data.group.groupName);
-                    $modalEdit.find('select[name="accountId"]').val(response.data.group.accountId).trigger('change');
-                    $modalEdit.find('input[name="remarks"]').val(response.data.group.remarks);
+                    $modalEdit.find('input[name="id"]').val(response.data.groups.id);
+                    $modalEdit.find('input[name="groupName"]').val(response.data.groups.groupName);
+                    $modalEdit.find('select[name="accountId"]').val(response.data.groups.accountId).trigger('change');
+                    $modalEdit.find('input[name="remarks"]').val(response.data.groups.remarks);
                 }
             }).catch(function (error) {
                 console.log(error);

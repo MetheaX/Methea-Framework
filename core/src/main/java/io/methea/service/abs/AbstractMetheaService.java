@@ -1,6 +1,9 @@
 package io.methea.service.abs;
 
+import io.methea.domain.basebinder.abs.AbstractMetheaBinder;
 import io.methea.domain.baseentity.BaseEntity;
+import io.methea.domain.baseentity.abs.AbstractMetheaEntity;
+import io.methea.domain.baseview.abs.AbstractMetheaView;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
 import io.methea.repository.hibernateextension.domain.HibernatePage;
 import io.methea.util.Pagination;
@@ -20,14 +23,15 @@ import java.util.*;
  * Author : DKSilverX
  * Date : 17/04/2020
  */
-public abstract class AbstractEntityService<E, B, ID, V> {
+public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>, ID,
+        V extends AbstractMetheaView<V>> {
 
-    private static Logger log = LoggerFactory.getLogger(AbstractEntityService.class);
+    private static Logger log = LoggerFactory.getLogger(AbstractMetheaService.class);
     private final Class<V> view;
     private final CrudRepository repository;
     private final HibernateExtensionRepository<V, ID> extensionRepository;
 
-    public AbstractEntityService(Class<V> view, CrudRepository repository,
+    public AbstractMetheaService(Class<V> view, CrudRepository repository,
                                  HibernateExtensionRepository<V, ID> extensionRepository) {
         this.view = view;
         this.repository = repository;

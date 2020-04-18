@@ -1,7 +1,6 @@
 package io.methea.controller.setting;
 
 import io.methea.cache.MCache;
-import io.methea.controller.abs.MBaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -17,13 +16,14 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class CacheController extends MBaseController {
+@RequestMapping(value = {CacheController.ROOT_URL})
+public class CacheController {
     private static Logger log = LoggerFactory.getLogger(CacheController.class);
 
-    private static final String CLEAR_CACHE_URL = "/clear-caches";
+    static final String ROOT_URL = "/app/clear-caches";
     private static final String REDIRECT_URL = "redirect:/app";
 
-    @RequestMapping(value = {CLEAR_CACHE_URL})
+    @RequestMapping
     public ModelAndView clearSystemCache(){
         MCache.cacheMetaData.clear();
         log.info(">>>>> Internal system cache clear!");

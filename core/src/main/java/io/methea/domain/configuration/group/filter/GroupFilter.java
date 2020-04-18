@@ -1,12 +1,13 @@
 package io.methea.domain.configuration.group.filter;
 
+import io.methea.domain.basefilter.AbstractMetheaFilter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * Author : DKSilverX
  * Date : 16/04/2020
  */
-public class GroupFilter {
+public class GroupFilter extends AbstractMetheaFilter<GroupFilter> {
     private String groupName = StringUtils.EMPTY;
     private String accountName = StringUtils.EMPTY;
     private String status = StringUtils.EMPTY;

@@ -1,7 +1,7 @@
 package io.methea.domain.baseentity;
 
 
-import io.methea.domain.baseentity.abs.AbstractEntity;
+import io.methea.domain.baseentity.abs.AbstractMetheaEntity;
 
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * Date : 01/02/2020
  */
 @MappedSuperclass
-public class BaseEntity<E> extends AbstractEntity<E> {
+public class BaseEntity<E> extends AbstractMetheaEntity<E> {
 
     private static final long serialVersionUID = -8290479674879840950L;
 

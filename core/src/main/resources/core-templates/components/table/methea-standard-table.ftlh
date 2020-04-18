@@ -96,7 +96,7 @@
                     if (willDisable) {
                         const $row = $(this).closest("tr");
                         const $id = $row.find('td:eq(0)').text();
-                        axios.post('${contextPath}' + '/app/api/v1/' + '${urlFilter}'.split('/')[2] + '/deactivate', {
+                        axios.post('${contextPath}' + '/app/' + '${urlFilter}'.split('/')[2] + '/rest/deactivate', {
                             id: $id
                         }).then(function (response) {
                             if (response.data.status === 200) {
@@ -121,7 +121,7 @@
                     if (willActivate) {
                         const $row = $(this).closest("tr");
                         const $id = $row.find('td:eq(0)').text();
-                        axios.post('${contextPath}' + '/app/api/v1/' + '${urlFilter}'.split('/')[2] + '/activate', {
+                        axios.post('${contextPath}' + '/app/' + '${urlFilter}'.split('/')[2] + '/rest/activate', {
                             id: $id
                         }).then(function (response) {
                             if (response.data.status === 200) {
