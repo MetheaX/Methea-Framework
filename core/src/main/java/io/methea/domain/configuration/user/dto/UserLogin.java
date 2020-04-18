@@ -1,6 +1,9 @@
 package io.methea.domain.configuration.user.dto;
 
-public class UserLogin {
+import io.methea.domain.basebinder.BaseBinder;
+
+public class UserLogin extends BaseBinder<UserLogin> {
+    private static final long serialVersionUID = 6209391752160194710L;
     private String username;
     private String password;
 

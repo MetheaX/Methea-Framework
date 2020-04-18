@@ -15,8 +15,9 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "tbl_core_user_permission")
-public class TUserPermission extends BaseEntity {
+public class TUserPermission extends BaseEntity<TUserPermission> {
 
+    private static final long serialVersionUID = -1637342316864349272L;
     @Id
     @Column(name = "permission_id")
     private String id;

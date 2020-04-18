@@ -1,5 +1,6 @@
 package io.methea.domain.configuration.group.view;
 
+import io.methea.domain.baseview.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;
 import io.methea.repository.hibernateextension.annotation.SelectFrom;
 
@@ -8,8 +9,9 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Date : 16/04/2020
  */
 @SelectFrom(fromClause = "FROM TUserGroup o, TAccount p", orderBy = "ORDER BY o.updatedDateTime DESC")
-public class GroupView {
+public class GroupView extends BaseView<GroupView> {
 
+    private static final long serialVersionUID = -4838869017108743247L;
     @Column(name = "o.id")
     private String id;
     @Column(name = "o.groupName", key = "groupName", where = "AND LOWER(o.groupName) LIKE :groupName")

@@ -1,5 +1,6 @@
 package io.methea.domain.configuration.group.view;
 
+import io.methea.domain.baseview.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;
 import io.methea.repository.hibernateextension.annotation.SelectFrom;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,7 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
  * Date : 16/04/2020
  */
 @SelectFrom(fromClause = "FROM TUser n, TUserGroup o")
-public class GroupAuthorityView implements GrantedAuthority {
+public class GroupAuthorityView extends BaseView<GroupAuthorityView> implements GrantedAuthority {
+    private static final long serialVersionUID = 3730481416886472698L;
     @Column(name = "o.groupName", key ="username", where = "AND n.username = :username" +
             " AND n.groupId = o.id", isLastColumn = true)
     private String groupName;

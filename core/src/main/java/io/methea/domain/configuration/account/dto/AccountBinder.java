@@ -1,11 +1,14 @@
 package io.methea.domain.configuration.account.dto;
 
+import io.methea.domain.basebinder.BaseBinder;
+
 /**
  * Author : DKSilverX
  * Date : 1/3/2020
  */
-public class AccountBinder {
+public class AccountBinder extends BaseBinder<AccountBinder> {
 
+    private static final long serialVersionUID = -7725591983076415843L;
     private String id;
     private String accountName;
     private String accountEmail;

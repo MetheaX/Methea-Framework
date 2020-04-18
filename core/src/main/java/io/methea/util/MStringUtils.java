@@ -6,8 +6,8 @@ package io.methea.util;
  */
 import org.apache.commons.lang3.StringUtils;
 
-public class MetheaStringUtils {
-    private MetheaStringUtils(){}
+public class MStringUtils {
+    private MStringUtils(){}
 
     public static String nullToEmptyOrValue(String text){
         return StringUtils.isEmpty(text) ? StringUtils.EMPTY : text.trim();

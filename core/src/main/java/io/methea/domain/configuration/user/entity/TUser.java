@@ -13,8 +13,9 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "tbl_core_user")
-public class TUser extends BaseEntity {
+public class TUser extends BaseEntity<TUser> {
 
+    private static final long serialVersionUID = 6855359535244575164L;
     @Id
     @Column(name = "user_id")
     private String id;

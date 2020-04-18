@@ -1,12 +1,15 @@
 package io.methea.domain.configuration.display.dto;
 
+import io.methea.domain.basebinder.BaseBinder;
+
 import java.util.List;
 
 /**
  * Author : DKSilverX
  * Date : 18/01/2020
  */
-public class MDataTableBinder {
+public class DataTableBinder extends BaseBinder<DataTableBinder> {
+    private static final long serialVersionUID = 913896882019600220L;
     private List<String> labelColumnHead;
     private List<String> columnKey;
 
