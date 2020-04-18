@@ -6,6 +6,7 @@
 <#import "../../components/select/methea-standard-select.ftlh" as mselect>
 <#import "../../components/input/methea-hidden-input.ftlh" as mhiddeninput>
 <#import "../../components/pagination/methea-pagination.ftlh" as mpagination>
+<#compress>
 <@template.main title="Groups">
     <div class="table-responsive">
         <@mtable.table thead=tableHead tdata=groups tcolumns=tableColumns filters=tableFilterColumns
@@ -57,3 +58,4 @@
         });
     });
 </script>
+</#compress>

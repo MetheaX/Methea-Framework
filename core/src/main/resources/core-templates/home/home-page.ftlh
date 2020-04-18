@@ -1,4 +1,5 @@
 <#import "../components/template.ftlh" as template>
+<#compress>
 <@template.main title="Dashboard">
     <div class="row">
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
@@ -83,3 +84,4 @@
         </div>
     </div>
 </@template.main>
+</#compress>

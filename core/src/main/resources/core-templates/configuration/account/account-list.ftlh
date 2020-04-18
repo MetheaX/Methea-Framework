@@ -5,6 +5,7 @@
 <#import "../../components/input/methea-standard-input.ftlh" as minput>
 <#import "../../components/input/methea-hidden-input.ftlh" as mhiddeninput>
 <#import "../../components/pagination/methea-pagination.ftlh" as mpagination>
+<#compress>
 <@template.main title="Accounts">
     <div class="table-responsive">
         <@mtable.table thead=tableHead tdata=accounts tcolumns=tableColumns filters=tableFilterColumns
@@ -56,3 +57,4 @@
         });
     });
 </script>
+</#compress>
