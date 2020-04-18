@@ -31,7 +31,8 @@
                 <th>
                     <button class="btn btn-facebook" onclick="onFilter()">Search</button>
                     <button class="btn btn-google" onclick="onResetFilter()">Reset</button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target=".modal-${id}-add">Add New
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target=".modal-${id}-add">Add
+                        New
                         <i class="mdi mdi-plus"></i></button>
                 </th>
             </tr>
@@ -73,7 +74,8 @@
                 </#list>
                 <td>
                     <button class="btn badge ${buttonClassName}">${buttonLabel}</button>
-                    <button class="btn badge badge-success btn-${id}-data-edit" data-toggle="modal" data-target=".modal-${id}-edit">
+                    <button class="btn badge badge-success btn-${id}-data-edit" data-toggle="modal"
+                            data-target=".modal-${id}-edit">
                         Edit
                     </button>
                 </td>
@@ -82,7 +84,61 @@
         </tbody>
     </table>
     <script>
+        $(document).ready(function () {
+            $('.btn-${id}-disable').click(function () {
+                swal({
+                    title: "Are you sure?",
+                    text: "Once you disable, you still can enable its back.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDisable) => {
+                    if (willDisable) {
+                        const $row = $(this).closest("tr");
+                        const $id = $row.find('td:eq(0)').text();
+                        axios.post('${contextPath}' + '/app/' + '${urlFilter}'.split('/')[2] + '/rest/deactivate', {
+                            id: $id
+                        }).then(function (response) {
+                            if (response.data.status === 200) {
+                                window.location.reload();
+                            }
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    } else {
+                        swal("Your operation cancel!");
+                    }
+                });
+            });
+            $('.btn-${id}-enable').click(function () {
+                swal({
+                    title: "Are you sure?",
+                    text: "Once you enable, you still can disable its back.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willActivate) => {
+                    if (willActivate) {
+                        const $row = $(this).closest("tr");
+                        const $id = $row.find('td:eq(0)').text();
+                        axios.post('${contextPath}' + '/app/' + '${urlFilter}'.split('/')[2] + '/rest/activate', {
+                            id: $id
+                        }).then(function (response) {
+                            if (response.data.status === 200) {
+                                window.location.reload();
+                            }
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    } else {
+                        swal("Your operation cancel!");
+                    }
+                });
+            });
+        });
+
         let requestURL = "";
+
         function onFilter() {
             <#list filters?keys as key>
                 <#if key == "filter_status">
@@ -93,6 +149,7 @@
             </#list>
             window.location.href = "${contextPath}${urlFilter}?page=1&size=10&" + requestURL;
         }
+
         function onResetFilter() {
             window.location.href = "${contextPath}${urlFilter}";
         }

@@ -10,8 +10,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tbl_core_datatable_view")
-public class TDataTableView extends BaseEntity {
+public class TDataTableView extends BaseEntity<TDataTableView> {
 
+    private static final long serialVersionUID = 2479617149185927338L;
     @Id
     private String id;
     private String viewName;

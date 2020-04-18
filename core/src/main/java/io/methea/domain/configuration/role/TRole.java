@@ -13,7 +13,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tbl_core_role")
-public class TRole extends BaseEntity {
+public class TRole extends BaseEntity<TRole> {
+    private static final long serialVersionUID = 707732334293126239L;
     @Id
     @Column(name = "role_id")
     private String id;

@@ -16,7 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
+import java.util.Map;
 
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -34,7 +34,7 @@ public class MHomeController {
 
     @RequestMapping(value = {"/", "/app"})
     public String home(Model model, HttpServletRequest request) {
-        if (CollectionUtils.isEmpty((Collection<?>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
+        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
             dropdownService.getDropdownData();
             log.info(">>>>> Dropdown data loaded!");
         }

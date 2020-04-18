@@ -35,7 +35,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/activate-sys/**").permitAll()
-                .antMatchers("/auth/token/**", "/login/**", "/access-denied/**", "/resources/**", "/testing/**").permitAll()
+                .antMatchers("/auth/token/**", "/login/**", "/access-denied/**", "/resources/**").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login")
                 .usernameParameter("username").passwordParameter("password").and()

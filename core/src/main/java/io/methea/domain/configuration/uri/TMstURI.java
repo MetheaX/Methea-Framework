@@ -13,8 +13,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tbl_core_uri")
-public class TMstURI extends BaseEntity {
+public class TMstURI extends BaseEntity<TMstURI> {
 
+    private static final long serialVersionUID = -8160909806511195577L;
     @Id
     @Column(name = "uri_id")
     private String id;

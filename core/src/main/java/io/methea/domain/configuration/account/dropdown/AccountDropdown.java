@@ -1,5 +1,6 @@
 package io.methea.domain.configuration.account.dropdown;
 
+import io.methea.domain.baseview.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;
 import io.methea.repository.hibernateextension.annotation.SelectFrom;
 
@@ -8,10 +9,11 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Date : 17/04/2020
  */
 @SelectFrom(fromClause = "FROM TAccount o", orderBy = "ORDER BY o.accountName ASC")
-public class AccountDropdown {
+public class AccountDropdown extends BaseView<AccountDropdown> {
+    private static final long serialVersionUID = 5519154975427265865L;
     @Column(name = "o.id")
     private String id;
-    @Column(name = "o.accountName", where = "o.status = 'A'", isLastColumn = true)
+    @Column(name = "o.accountName", key = "status", where = "AND o.status = :status", isLastColumn = true)
     private String name;
 
     public AccountDropdown(String id, String name) {

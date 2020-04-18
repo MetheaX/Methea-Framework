@@ -5,7 +5,7 @@ import io.methea.domain.configuration.group.entity.TUserGroup;
 import io.methea.domain.configuration.group.view.GroupView;
 import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
-import io.methea.service.abs.AbstractEntityService;
+import io.methea.service.abs.AbstractMetheaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import javax.inject.Inject;
  * Date : 16/04/2020
  */
 @Service
-public class MGroupService extends AbstractEntityService<TUserGroup, UserGroupBinder, String, GroupView> {
+public class MGroupService extends AbstractMetheaService<TUserGroup, UserGroupBinder, String, GroupView> {
 
     private static Logger log = LoggerFactory.getLogger(MGroupService.class);
 

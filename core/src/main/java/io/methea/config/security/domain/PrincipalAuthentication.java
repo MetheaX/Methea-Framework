@@ -12,6 +12,7 @@ import java.util.*;
  */
 public class PrincipalAuthentication extends User {
 
+    private static final long serialVersionUID = 1710102819742330038L;
     private final List<GrantedPermission> grantedPermissions;
 
     public PrincipalAuthentication(String username, String password, Collection<? extends GrantedAuthority> authorities) {

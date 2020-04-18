@@ -1,6 +1,7 @@
 package io.methea.domain.configuration.permission.view;
 
 import io.methea.config.security.domain.GrantedPermission;
+import io.methea.domain.baseview.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;
 import io.methea.repository.hibernateextension.annotation.SelectFrom;
 
@@ -9,7 +10,8 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Date : 16/04/2020
  */
 @SelectFrom(fromClause = "FROM TUserPermission o")
-public class PermissionView implements GrantedPermission {
+public class PermissionView extends BaseView<PermissionView> implements GrantedPermission {
+    private static final long serialVersionUID = -3006282444338388548L;
     @Column(name = "o.uriName", key = "username", where = "AND o.userId = :username", isLastColumn = true)
     private String uriName;
 

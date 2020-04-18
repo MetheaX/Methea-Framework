@@ -1,13 +1,15 @@
 package io.methea.domain.configuration.account.filter;
 
+import io.methea.domain.basefilter.AbstractMetheaFilter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * Author : DKSilverX
  * Date : 14/04/2020
  */
-public class AccountFilter {
+public class AccountFilter extends AbstractMetheaFilter<AccountFilter> {
 
+    private static final long serialVersionUID = 6594832273463421285L;
     private String accountName = StringUtils.EMPTY;
     private String accountEmail = StringUtils.EMPTY;
     private String status = StringUtils.EMPTY;

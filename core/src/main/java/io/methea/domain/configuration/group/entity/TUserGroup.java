@@ -15,8 +15,9 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "tbl_core_group")
-public class TUserGroup extends BaseEntity {
+public class TUserGroup extends BaseEntity<TUserGroup> {
 
+    private static final long serialVersionUID = -4855334223690873520L;
     @Id
     @Column(name = "group_id")
     private String id;

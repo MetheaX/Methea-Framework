@@ -28,7 +28,6 @@
             </div>
         </div>
     </div>
-    <script src="${contextPath}/resources/vendor/jquery/jquery-3.2.1.min.js"></script>
     <script>
         // initial pagination
         let pageNumber = ${page['page']};

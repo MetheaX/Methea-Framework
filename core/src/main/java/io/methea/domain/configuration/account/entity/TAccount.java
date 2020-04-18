@@ -12,7 +12,10 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "tbl_core_account")
-public class TAccount extends BaseEntity {
+public class TAccount extends BaseEntity<TAccount> {
+
+    private static final long serialVersionUID = -8120388696917673449L;
+
     @Id
     @Column(name = "account_id")
     private String id;

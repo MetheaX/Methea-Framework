@@ -1,3 +1,4 @@
+<#compress>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -78,3 +79,4 @@
         <script src="${contextPath}/resources/js/main.js"></script>
     </body>
 </html>
+</#compress>

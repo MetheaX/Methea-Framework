@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @Repository
 @SuppressWarnings("unchecked")
-public class HibernateExtensionRepositoryImpl<T, ID> implements HibernateExtensionRepository<T, ID> {
+public class HibernateExtensionRepositoryImpl<V, ID> implements HibernateExtensionRepository<V, ID> {
 
     private SessionFactory sessionFactory;
     private EntityManager entityManager;
@@ -50,7 +50,7 @@ public class HibernateExtensionRepositoryImpl<T, ID> implements HibernateExtensi
 
     @Override
     @SuppressWarnings("rawtypes")
-    public List<T> getByQuery(String hql, Map<String, Object> parameters, Class<T> view, int limit, int offset) {
+    public List<V> getByQuery(String hql, Map<String, Object> parameters, Class<V> view, int limit, int offset) {
         try (Session session = sessionFactory.openSession()) {
             Query query = session.createQuery(hql, view);
             setCriteria(query, parameters);
@@ -61,24 +61,24 @@ public class HibernateExtensionRepositoryImpl<T, ID> implements HibernateExtensi
             if (offset > 0) {
                 query.setFirstResult(offset);
             }
-            return (List<T>) query.list();
+            return (List<V>) query.list();
         } catch (Exception ex) {
             throw new RuntimeException("[HibernateExtensionRepositoryImpl] getByQuery error: ", ex);
         }
     }
 
     @Override
-    public List<T> getByQuery(Map<String, Object> parameters, Class<T> view) {
+    public List<V> getByQuery(Map<String, Object> parameters, Class<V> view) {
         return queryWithPage(parameters, view, 0, 0, false).getContent();
     }
 
     @Override
-    public T getEntityById(Class<T> view, ID id) {
+    public V getEntityById(Class<V> view, ID id) {
         return queryByID(view, id);
     }
 
     @Override
-    public HibernatePage<T> getByQuery(Map<String, Object> parameters, Class<T> view, int limit, int offset) {
+    public HibernatePage<V> getByQuery(Map<String, Object> parameters, Class<V> view, int limit, int offset) {
         return queryWithPage(parameters, view, limit, offset, true);
     }
 
@@ -109,7 +109,7 @@ public class HibernateExtensionRepositoryImpl<T, ID> implements HibernateExtensi
         }
     }
 
-    private HibernatePage<T> queryWithPage(Map<String, Object> parameters, Class<T> view, int limit, int offset, boolean isCount) {
+    private HibernatePage<V> queryWithPage(Map<String, Object> parameters, Class<V> view, int limit, int offset, boolean isCount) {
         String hql = StringUtils.EMPTY;
         String selectClause = "SELECT new ".concat(view.getName()).concat("(");
         String countHQL = "SELECT DISTINCT COUNT (o.id) ".concat(view.getAnnotation(SelectFrom.class).fromClause());
@@ -133,15 +133,15 @@ public class HibernateExtensionRepositoryImpl<T, ID> implements HibernateExtensi
                     .concat(SPACE).concat(view.getAnnotation(SelectFrom.class).orderBy());
             if (isCount) {
                 countHQL = countHQL.concat(whereClause);
-                return new HibernatePage<T>(getByQuery(hql, parameters, view, limit, offset), count(countHQL, parameters));
+                return new HibernatePage<V>(getByQuery(hql, parameters, view, limit, offset), count(countHQL, parameters));
             }
-            return new HibernatePage<T>(getByQuery(hql, parameters, view, limit, offset));
+            return new HibernatePage<V>(getByQuery(hql, parameters, view, limit, offset));
         } catch (Exception ex) {
             throw new RuntimeException("[HibernateExtensionRepositoryImpl] Failed to generate hibernate query language: ", ex);
         }
     }
 
-    private T queryByID(Class<T> view, ID id) {
+    private V queryByID(Class<V> view, ID id) {
         String hql = StringUtils.EMPTY;
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", id);
@@ -161,7 +161,7 @@ public class HibernateExtensionRepositoryImpl<T, ID> implements HibernateExtensi
             selectClause = selectClause.concat(")").concat(SPACE);
             hql = hql.concat(selectClause).concat(view.getAnnotation(SelectFrom.class).fromClause()).concat(SPACE)
                     .concat(whereClause).concat(" AND ").concat(view.getAnnotation(SelectFrom.class).getById());
-            List<T> page = getByQuery(hql, parameters, view, 0, 0);
+            List<V> page = getByQuery(hql, parameters, view, 0, 0);
             if (!CollectionUtils.isEmpty(page)) {
                 return page.get(0);
             }

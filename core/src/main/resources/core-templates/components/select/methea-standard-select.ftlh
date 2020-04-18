@@ -10,13 +10,21 @@
 # Author : DKSilverX
 # Date : 4/17/2020
 #-->
-<#macro select lableName selectId selectName values required >
+<#macro select labelName selectId selectName values required >
     <div class="form-group">
-        <label for="${selectId}">${lableName}</label>
+        <label for="${selectId}">${labelName}</label>
         <select id="${selectId}" name="${selectName}" class="form-control" required="${required}" style="width:100% !important;">
             <#list values as value>
                 <option value="${value.id}">${value.name}</option>
             </#list>
         </select>
     </div>
+    <script>
+        $(document).ready(function () {
+            $('#${selectId}').select2({
+                placeholder: "- Choose ${labelName} -",
+                allowClear: true
+            });
+        });
+    </script>
 </#macro>

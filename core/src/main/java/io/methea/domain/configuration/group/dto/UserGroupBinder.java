@@ -1,10 +1,13 @@
 package io.methea.domain.configuration.group.dto;
 
+import io.methea.domain.basebinder.BaseBinder;
+
 /**
  * Author : DKSilverX
  * Date : 17/04/2020
  */
-public class UserGroupBinder {
+public class UserGroupBinder extends BaseBinder<UserGroupBinder> {
+    private static final long serialVersionUID = -7486953695198367520L;
     private String id;
     private String accountId;
     private String groupName;
