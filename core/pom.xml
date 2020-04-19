@@ -17,6 +17,7 @@
         <inject.version>1</inject.version>
         <jwt.version>0.9.1</jwt.version>
         <apache.commons.version>3.9</apache.commons.version>
+        <apache.commons.collection.version>4.4</apache.commons.collection.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -34,6 +35,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${apache.commons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${apache.commons.collection.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

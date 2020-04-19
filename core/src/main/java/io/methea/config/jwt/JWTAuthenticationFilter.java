@@ -36,7 +36,6 @@ import java.util.Objects;
  * Date : 09/04/2018
  */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private static Logger log = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
     private final AuthenticationManager authenticationManager;
     private final Environment env;
