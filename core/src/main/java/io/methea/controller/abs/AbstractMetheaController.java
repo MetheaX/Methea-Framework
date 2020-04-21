@@ -10,8 +10,7 @@ import io.methea.service.abs.AbstractMetheaService;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.util.Pagination;
 import io.methea.util.SystemUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.HttpStatus;
@@ -38,8 +37,6 @@ import java.util.Map;
 public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>,
         V extends AbstractMetheaView<V>, F extends AbstractMetheaFilter<F>> {
 
-    private static Logger log = LoggerFactory.getLogger(AbstractMetheaController.class);
-
     private static final String ROOT_URL = "/app";
     private static final String SAVE_URL = "/save";
     private static final String MODIFY_URL = "/modify";
@@ -58,17 +55,16 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
         this.dataTableUIService = dataTableUIService;
     }
 
-    @RequestMapping
+    @RequestMapping(value = StringUtils.EMPTY, method = RequestMethod.GET)
     public String viewAllWithFilter(Model model, F filter, Pagination pagination, HttpServletRequest request) {
         if (CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_KEY)))
                 || CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_LABEL)))) {
             dataTableUIService.getMetaTableConfiguration(configViewName);
-            log.info(">>>>> Fetch meta data of " + entity + "s datatable.");
         }
 
         Map<String, List<?>> map = new HashMap<>();
-        map.put("data", metheaService.getAllEntityViewByFilter(getFilterColumns(filter), pagination));
-        model.addAttribute("contextPath", SystemUtils.getBaseUrl(request));
+        map.put(MConstant.JSON_DATA, metheaService.getAllEntityViewByFilter(getFilterColumns(filter), pagination));
+        model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
         model.addAttribute("tableHead", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_LABEL)));
         model.addAttribute("tableColumns", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_KEY)));
         model.addAttribute("tableFilterColumns", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_FILTER)));
@@ -80,54 +76,54 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
         return templatePath;
     }
 
-    @RequestMapping(value = {SAVE_URL})
+    @RequestMapping(value = SAVE_URL, method = RequestMethod.POST)
     public ModelAndView save(B binder) {
         metheaService.saveEntity(getEntityFromBinder(binder), binder);
-        return new ModelAndView("redirect:" + ROOT_URL.concat("/").concat(entity));
+        return new ModelAndView("redirect:" + ROOT_URL.concat(MConstant.SLASH).concat(entity));
     }
 
-    @RequestMapping(value = {MODIFY_URL})
+    @RequestMapping(value = MODIFY_URL, method = RequestMethod.POST)
     public ModelAndView modify(B binder) {
         metheaService.modifyEntity(getEntityId(binder), binder);
-        return new ModelAndView("redirect:" + ROOT_URL.concat("/").concat(entity));
+        return new ModelAndView("redirect:" + ROOT_URL.concat(MConstant.SLASH).concat(entity));
     }
 
     @ResponseBody
-    @GetMapping(value = {API_GET_BY_ID})
+    @GetMapping(value = API_GET_BY_ID)
     public ResponseEntity<Map<String, Object>> getById(@RequestParam String id) {
         Map<String, Object> map = new HashMap<>();
-        map.put("status", 500);
-        map.put("message", "Failed to get " + entity);
+        map.put(MConstant.JSON_STATUS, 500);
+        map.put(MConstant.JSON_MESSAGE, String.format("Failed to get %s", entity));
         Object view = metheaService.getEntityViewById(id);
         if (!ObjectUtils.isEmpty(view)) {
-            map.put("status", 200);
+            map.put(MConstant.JSON_STATUS, 200);
             map.put(entity, view);
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @ResponseBody
-    @PostMapping(value = {API_ACTIVATE_URL})
+    @PostMapping(value = API_ACTIVATE_URL)
     public ResponseEntity<Map<String, Object>> activateEntity(@RequestBody Map<String, String> payload) {
         Map<String, Object> map = new HashMap<>();
-        map.put("status", 500);
-        map.put("message", "Failed to activate " + entity);
+        map.put(MConstant.JSON_STATUS, 500);
+        map.put(MConstant.JSON_MESSAGE, String.format("Failed to activate %s", entity));
         if (metheaService.activateEntity(payload.get("id"))) {
-            map.put("status", 200);
-            map.put("message", "Activate " + entity + " successfully");
+            map.put(MConstant.JSON_STATUS, 200);
+            map.put(MConstant.JSON_MESSAGE, String.format("Activate %s success!", entity));
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @ResponseBody
-    @PostMapping(value = {API_DEACTIVATE_URL})
+    @PostMapping(value = API_DEACTIVATE_URL)
     public ResponseEntity<Map<String, Object>> deactivateEntity(@RequestBody Map<String, String> payload) {
         Map<String, Object> map = new HashMap<>();
-        map.put("status", 500);
-        map.put("message", "Failed to deactivate " + entity);
+        map.put(MConstant.JSON_STATUS, 500);
+        map.put(MConstant.JSON_MESSAGE, String.format("Failed to deactivate %s", entity));
         if (metheaService.deactivateEntity(payload.get("id"))) {
-            map.put("status", 200);
-            map.put("message", "Deactivate " + entity + " successfully");
+            map.put(MConstant.JSON_STATUS, 200);
+            map.put(MConstant.JSON_MESSAGE, String.format("Deactivate %s success!", entity));
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }

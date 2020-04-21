@@ -27,6 +27,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
         V extends AbstractMetheaView<V>> {
 
     private static Logger log = LoggerFactory.getLogger(AbstractMetheaService.class);
+    private static final String STATUS = "status";
     private final Class<V> view;
     private final CrudRepository repository;
     private final HibernateExtensionRepository<V, ID> extensionRepository;
@@ -43,7 +44,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
 
     public E saveEntity(E entity, B binder) {
         try {
-            BeanUtils.copyProperties(binder, entity, "status");
+            BeanUtils.copyProperties(binder, entity, STATUS);
             setCreateAuditLog(entity);
             repository.save(entity);
             return entity;
@@ -58,7 +59,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
             Optional<E> optional = repository.findById(id);
             if (optional.isPresent()) {
                 E entity = optional.get();
-                BeanUtils.copyProperties(binder, entity, "status");
+                BeanUtils.copyProperties(binder, entity, STATUS);
                 setModifiedAuditLog(entity);
                 repository.save(entity);
                 return entity;
@@ -133,7 +134,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
     private void setModifiedAuditLog(E entity) {
         BaseEntity obj = new BaseEntity(PrincipalUtils.getUserLoginId(request), LocalDateTime.ofInstant(new Date().toInstant(),
                 ZoneId.systemDefault()));
-        BeanUtils.copyProperties(obj, entity, "status", "createdDateTime", "createdUser");
+        BeanUtils.copyProperties(obj, entity, STATUS, "createdDateTime", "createdUser");
     }
 
     private void setStatusAuditLog(E entity, String status) {

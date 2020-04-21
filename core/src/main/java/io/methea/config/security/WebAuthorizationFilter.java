@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 public class WebAuthorizationFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        // do nothing here
     }
 
     @Override
@@ -73,5 +74,6 @@ public class WebAuthorizationFilter implements Filter {
 
     @Override
     public void destroy() {
+        // do nothing here
     }
 }

@@ -18,11 +18,11 @@ public class MDateUtil {
 
     private MDateUtil(){}
 
-    private static final String pattern = "DD/MM/YYYY HH:mm:ss";
+    private static final String PATTERN = "DD/MM/YYYY HH:mm:ss";
     public static String convertDateToString(LocalDateTime date){
         String dateAsString = StringUtils.EMPTY;
         try{
-            DateTimeFormatter df = DateTimeFormatter.ofPattern(pattern);
+            DateTimeFormatter df = DateTimeFormatter.ofPattern(PATTERN);
             dateAsString = date.format(df);
         }catch (Exception ex){
             log.error(">>>>> Convert datetime to string error: ", ex);

@@ -43,7 +43,7 @@ public class MDropdownService {
         List<AccountDropdown> list = new ArrayList<>();
         try {
             Map<String, Object> param = new HashMap<>();
-            param.put("status", "A");
+            param.put(MConstant.JSON_STATUS, "A");
             list = repository.getByQuery(param, AccountDropdown.class);
         } catch (Exception ex) {
             log.error(">>>>> Get account dropdown error: ", ex);

@@ -2,8 +2,6 @@ package io.methea.config.bean;
 
 import io.methea.constant.MConstant;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -20,8 +18,6 @@ import javax.inject.Inject;
  */
 @Configuration
 public class BeanConfiguration {
-
-    private static Logger log = LoggerFactory.getLogger(BeanConfiguration.class);
 
     private final Environment env;
 
@@ -53,7 +49,6 @@ public class BeanConfiguration {
             configurer.setTemplateLoaderPaths(coreTemplate.split(MConstant.COMMA));
             return configurer;
         }
-        log.info(">>>>> Failed to load core template - " + MConstant.CORE_TEMPLATE_KEY);
         return null;
     }
 }

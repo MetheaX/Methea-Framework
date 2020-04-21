@@ -53,7 +53,6 @@ public class MGroupController extends AbstractMetheaController<TUserGroup, UserG
     protected Model getExtraAttribute(Model model) {
         if (CollectionUtils.isEmpty((Map<?, ?>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
             dropdownService.getDropdownData();
-            log.info(">>>>> Dropdown data loaded!");
         }
         model.addAttribute(MConstant.DROPDOWN, MCache.cacheMetaData.get(MConstant.DROPDOWN));
         return model;
