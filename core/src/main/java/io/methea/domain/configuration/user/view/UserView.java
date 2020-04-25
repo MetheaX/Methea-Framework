@@ -16,6 +16,8 @@ public class UserView extends BaseView<UserView> {
     private String id;
     @Column(name = "o.username", key = "username", where = "AND LOWER(o.username) LIKE :username")
     private String username;
+    @Column(name = "o.groupId")
+    private String groupId;
     @Column(name = "p.groupName", key = "groupName", where = "AND LOWER(p.groupName) LIKE :groupName")
     private String groupName;
     @Column(name = "o.firstName", key = "firstName", where = "AND LOWER(o.firstName) LIKE :firstName")
@@ -30,10 +32,11 @@ public class UserView extends BaseView<UserView> {
             "AND o.groupId = p.id", isLastColumn = true)
     private String status;
 
-    public UserView(String id, String username, String groupName, String firstName, String lastName, String phone,
-                    String email, String status) {
+    public UserView(String id, String username, String groupId, String groupName, String firstName, String lastName,
+                    String phone, String email, String status) {
         this.id = id;
         this.username = username;
+        this.groupId = groupId;
         this.groupName = groupName;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -56,6 +59,14 @@ public class UserView extends BaseView<UserView> {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public String getGroupName() {
