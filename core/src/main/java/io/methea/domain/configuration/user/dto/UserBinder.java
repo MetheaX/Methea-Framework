@@ -1,23 +1,14 @@
-package io.methea.domain.configuration.user.entity;
+package io.methea.domain.configuration.user.dto;
 
-import io.methea.domain.baseentity.BaseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.StringUtils;
-
-import javax.persistence.*;
-import java.util.UUID;
+import io.methea.domain.basebinder.BaseBinder;
 
 /**
  * Author : DKSilverX
- * Date : 21/08/2019
+ * Date : 23/04/2020
  */
-@Entity
-@Table(name = "tbl_core_user")
-public class TUser extends BaseEntity<TUser> {
+public class UserBinder extends BaseBinder<UserBinder> {
+    private static final long serialVersionUID = 562319370498560845L;
 
-    private static final long serialVersionUID = 6855359535244575164L;
-    @Id
-    @Column(name = "user_id")
     private String id;
     private String groupId;
     private String username;
@@ -33,9 +24,6 @@ public class TUser extends BaseEntity<TUser> {
 
     public void setId(String id) {
         this.id = id;
-        if (StringUtils.isEmpty(id)) {
-            this.id = UUID.randomUUID().toString();
-        }
     }
 
     public String getGroupId() {
@@ -91,6 +79,6 @@ public class TUser extends BaseEntity<TUser> {
     }
 
     public void setPassword(String password) {
-        this.password = new BCryptPasswordEncoder().encode(password);
+        this.password = password;
     }
 }

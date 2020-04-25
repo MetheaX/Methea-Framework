@@ -18,6 +18,7 @@
         <jwt.version>0.9.1</jwt.version>
         <apache.commons.version>3.9</apache.commons.version>
         <apache.commons.collection.version>4.4</apache.commons.collection.version>
+        <apache.commons.bean.version>1.9.4</apache.commons.bean.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -40,6 +41,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>${apache.commons.collection.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${apache.commons.bean.version}</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
