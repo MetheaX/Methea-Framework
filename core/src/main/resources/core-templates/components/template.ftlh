@@ -38,6 +38,7 @@
         <script src="${contextPath}/resources/vendor/jquery/jquery.twbsPagination.min.js"></script>
         <script src="${contextPath}/resources/vendor/sweetalert/sweetalert.min.js"></script>
         <script src="${contextPath}/resources/vendor/select2/select2.min.js"></script>
+        <script src="${contextPath}/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
         <script>
             $(document).ready(function () {
                 $.fn.select2.defaults.set( "theme", "bootstrap" );

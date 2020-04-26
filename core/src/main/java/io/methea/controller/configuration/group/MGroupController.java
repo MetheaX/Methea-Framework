@@ -10,6 +10,7 @@ import io.methea.domain.configuration.group.view.GroupView;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.service.configuration.group.MGroupService;
 import io.methea.service.dropdown.MDropdownService;
+import io.methea.validator.configuration.group.GroupValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -37,13 +38,15 @@ public class MGroupController extends AbstractMetheaController<TUserGroup, UserG
     private final MDropdownService dropdownService;
 
     @Inject
-    public MGroupController(DataTableUIService dataTableUIService, MDropdownService dropdownService, MGroupService mGroupService) {
+    public MGroupController(DataTableUIService dataTableUIService, MDropdownService dropdownService,
+                            GroupValidator groupValidator, MGroupService mGroupService) {
         super(dataTableUIService);
         metheaService = mGroupService;
         entity = "groups";
         configViewName = "groupList";
         templatePath = "configuration/group/group-list";
         this.dropdownService = dropdownService;
+        validator = groupValidator;
     }
 
     @Override

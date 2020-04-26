@@ -16,11 +16,11 @@
     <@mmodal.modal className="modal-tbl-accounts-add" labelTitle="Add New Account">
         <@mform.form actionUrl="${contextPath}/app/accounts/save">
             <@minput.input labelName="Name" inputType="text" inputId="labelAccountName"
-            inputPlaceHolder="Name" inputName="accountName" inputValue="" required="true"></@minput.input>
+            inputPlaceHolder="Name" inputName="accountName" inputValue="" required="true" errors=errors></@minput.input>
             <@minput.input labelName="Email" inputType="email" inputId="labelEmailName"
-            inputPlaceHolder="Email" inputName="accountEmail" inputValue="" required="true"></@minput.input>
+            inputPlaceHolder="Email" inputName="accountEmail" inputValue="" required="true" errors=errors></@minput.input>
             <@minput.input labelName="Address" inputType="text" inputId="labelAddress"
-            inputPlaceHolder="Address" inputName="accountAddress" inputValue="" required="true"></@minput.input>
+            inputPlaceHolder="Address" inputName="accountAddress" inputValue="" required="true" errors=errors></@minput.input>
         </@mform.form>
     </@mmodal.modal>
 
@@ -29,11 +29,11 @@
             <@mhiddeninput.input inputType="text" inputId="labelEditAccountId" inputName="id"
             inputValue="" required="true"></@mhiddeninput.input>
             <@minput.input labelName="Name" inputType="text" inputId="labelEditAccountName"
-            inputPlaceHolder="Name" inputName="accountName" inputValue="DK Inc" required="true"></@minput.input>
+            inputPlaceHolder="Name" inputName="accountName" inputValue="DK Inc" required="true" errors=errors></@minput.input>
             <@minput.input labelName="Email" inputType="email" inputValue="dk@mail.com" inputId="labelEditEmailName"
-            inputPlaceHolder="Email" inputName="accountEmail" required="true"></@minput.input>
+            inputPlaceHolder="Email" inputName="accountEmail" required="true" errors=errors></@minput.input>
             <@minput.input labelName="Address" inputType="text" inputValue="Phnom Penh" inputId="labelEditAddress"
-            inputPlaceHolder="Address" inputName="accountAddress" required="true"></@minput.input>
+            inputPlaceHolder="Address" inputName="accountAddress" required="true" errors=errors></@minput.input>
         </@mform.form>
     </@mmodal.modal>
     <@mpagination.pagination page=pagination url="/app/accounts"></@mpagination.pagination>

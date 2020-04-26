@@ -1,11 +1,13 @@
 package io.methea.service.abs;
 
+import io.methea.constant.MConstant;
 import io.methea.domain.basebinder.abs.AbstractMetheaBinder;
 import io.methea.domain.baseentity.BaseEntity;
 import io.methea.domain.baseentity.abs.AbstractMetheaEntity;
 import io.methea.domain.baseview.abs.AbstractMetheaView;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
 import io.methea.repository.hibernateextension.domain.HibernatePage;
+import io.methea.util.MBeanUtils;
 import io.methea.util.Pagination;
 import io.methea.util.PrincipalUtils;
 import org.slf4j.Logger;
@@ -44,7 +46,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
 
     public E saveEntity(E entity, B binder) {
         try {
-            BeanUtils.copyProperties(binder, entity, STATUS);
+            BeanUtils.copyProperties(binder, entity, MBeanUtils.getNullProperties(binder));
             setCreateAuditLog(entity);
             repository.save(entity);
             return entity;
@@ -59,7 +61,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
             Optional<E> optional = repository.findById(id);
             if (optional.isPresent()) {
                 E entity = optional.get();
-                BeanUtils.copyProperties(binder, entity, STATUS);
+                BeanUtils.copyProperties(binder, entity, MBeanUtils.getNullProperties(binder));
                 setModifiedAuditLog(entity);
                 repository.save(entity);
                 return entity;
@@ -76,7 +78,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
             Optional<E> optional = repository.findById(id);
             if (optional.isPresent()) {
                 E entity = optional.get();
-                setStatusAuditLog(entity, "A");
+                setStatusAuditLog(entity, MConstant.ACTIVE_STATUS);
                 repository.save(entity);
                 isActivate = true;
             }
@@ -125,7 +127,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
     }
 
     private void setCreateAuditLog(E entity) {
-        BaseEntity obj = new BaseEntity("A", PrincipalUtils.getUserLoginId(request), LocalDateTime.ofInstant(new Date().toInstant(),
+        BaseEntity obj = new BaseEntity(MConstant.ACTIVE_STATUS, PrincipalUtils.getUserLoginId(request), LocalDateTime.ofInstant(new Date().toInstant(),
                 ZoneId.systemDefault()), PrincipalUtils.getUserLoginId(request), LocalDateTime.ofInstant(new Date().toInstant(),
                 ZoneId.systemDefault()));
         BeanUtils.copyProperties(obj, entity);

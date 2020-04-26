@@ -10,6 +10,7 @@ import io.methea.service.abs.AbstractMetheaService;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.util.Pagination;
 import io.methea.util.SystemUtils;
+import io.methea.validator.abs.AbstractMetheaValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -34,8 +35,7 @@ import java.util.Map;
  */
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>,
-        V extends AbstractMetheaView<V>, F extends AbstractMetheaFilter<F>> {
+public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>, V extends AbstractMetheaView<V>, F extends AbstractMetheaFilter<F>> {
 
     private static final String ROOT_URL = "/app";
     private static final String SAVE_URL = "/save";
@@ -50,36 +50,31 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
 
     private final DataTableUIService dataTableUIService;
     protected AbstractMetheaService metheaService;
+    protected AbstractMetheaValidator validator;
 
     public AbstractMetheaController(DataTableUIService dataTableUIService) {
         this.dataTableUIService = dataTableUIService;
     }
 
     @RequestMapping(value = StringUtils.EMPTY, method = RequestMethod.GET)
-    public String viewAllWithFilter(Model model, F filter, Pagination pagination, HttpServletRequest request) {
-        if (CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_KEY)))
-                || CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_LABEL)))) {
-            dataTableUIService.getMetaTableConfiguration(configViewName);
-        }
-
-        Map<String, List<?>> map = new HashMap<>();
-        map.put(MConstant.JSON_DATA, metheaService.getAllEntityViewByFilter(getFilterColumns(filter), pagination));
-        model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
-        model.addAttribute("tableHead", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_LABEL)));
-        model.addAttribute("tableColumns", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_KEY)));
-        model.addAttribute("tableFilterColumns", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_FILTER)));
-        model.addAttribute(entity, map);
-        model.addAttribute("dataFilters", filter);
-        model.addAttribute("pagination", pagination);
-        getExtraAttribute(model);
-
+    public String viewAllWithFilter(Model model, B binder, F filter, Pagination pagination, HttpServletRequest request) {
+        dataTableAttributes(model, binder, filter, pagination, request);
         return templatePath;
     }
 
     @RequestMapping(value = SAVE_URL, method = RequestMethod.POST)
-    public ModelAndView save(B binder) {
+    public ModelAndView save(B binder, Model model, F filter, Pagination pagination, HttpServletRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        validator.validate(binder, errors);
+        dataTableAttributes(model, binder, filter, pagination, request);
+        model.addAttribute("isNew", true);
+        if (!CollectionUtils.isEmpty(errors)) {
+            model.addAttribute("errors", errors);
+            model.addAttribute("hasErrors", true);
+            return new ModelAndView(templatePath);
+        }
         metheaService.saveEntity(getEntityFromBinder(binder), binder);
-        return new ModelAndView("redirect:" + ROOT_URL.concat(MConstant.SLASH).concat(entity));
+        return new ModelAndView(templatePath);
     }
 
     @RequestMapping(value = MODIFY_URL, method = RequestMethod.POST)
@@ -126,6 +121,28 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
             map.put(MConstant.JSON_MESSAGE, String.format("Deactivate %s success!", entity));
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    private void dataTableAttributes(Model model, B binder, F filter, Pagination pagination, HttpServletRequest request) {
+        if (CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_KEY)))
+                || CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_LABEL)))) {
+            dataTableUIService.getMetaTableConfiguration(configViewName);
+        }
+
+        Map<String, List<?>> map = new HashMap<>();
+        map.put(MConstant.JSON_DATA, metheaService.getAllEntityViewByFilter(getFilterColumns(filter), pagination));
+        model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
+        model.addAttribute("tableHead", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_LABEL)));
+        model.addAttribute("tableColumns", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_KEY)));
+        model.addAttribute("tableFilterColumns", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_FILTER)));
+        model.addAttribute(entity, map);
+        model.addAttribute("dataFilters", filter);
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("binder", binder);
+        model.addAttribute("errors", new HashMap<>());
+        model.addAttribute("hasErrors", false);
+        model.addAttribute("isNew", false);
+        getExtraAttribute(model);
     }
 
     protected Map<String, Object> getFilterColumns(F filter) {

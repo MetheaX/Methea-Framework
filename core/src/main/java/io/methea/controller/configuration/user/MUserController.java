@@ -10,6 +10,7 @@ import io.methea.domain.configuration.user.view.UserView;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.service.configuration.user.MUserService;
 import io.methea.service.dropdown.MDropdownService;
+import io.methea.validator.configuration.user.UserValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -39,8 +40,9 @@ public class MUserController extends AbstractMetheaController<TUser, UserBinder,
 
     @Inject
     public MUserController(DataTableUIService dataTableUIService, MUserService mUserService,
-                           MDropdownService dropdownService) {
+                           MDropdownService dropdownService, UserValidator userValidator) {
         super(dataTableUIService);
+        validator = userValidator;
         metheaService = mUserService;
         entity = "users";
         configViewName = "userList";

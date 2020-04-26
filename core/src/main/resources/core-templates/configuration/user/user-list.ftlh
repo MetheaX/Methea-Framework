@@ -20,19 +20,19 @@
                 <@mselect.select labelName="Group Name" selectId="labelDropDownGroupName" selectName="groupId"
                 values=mDropdown.groupDropdown required="true"></@mselect.select>
                 <@minput.input labelName="Username" inputType="text" inputId="labelUsername"
-                inputPlaceHolder="Username" inputName="username" inputValue="" required="true"></@minput.input>
+                inputPlaceHolder="Username" inputName="username" inputValue="" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Firstname" inputType="text" inputId="labelFirstname"
-                inputPlaceHolder="Firstname" inputName="firstName" inputValue="" required="true"></@minput.input>
+                inputPlaceHolder="Firstname" inputName="firstName" inputValue="" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Lastname" inputType="text" inputId="labelLastname"
-                inputPlaceHolder="Lastname" inputName="lastName" inputValue="" required="true"></@minput.input>
+                inputPlaceHolder="Lastname" inputName="lastName" inputValue="" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Phone" inputType="text" inputId="labelPhone"
-                inputPlaceHolder="Phone" inputName="phone" inputValue="" required="true"></@minput.input>
+                inputPlaceHolder="Phone" inputName="phone" inputValue="" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Email" inputType="text" inputId="labelEmail"
-                inputPlaceHolder="Email" inputName="email" inputValue="" required="true"></@minput.input>
+                inputPlaceHolder="Email" inputName="email" inputValue="" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Password" inputType="password" inputId="labelPassword"
-                inputPlaceHolder="Password" inputName="password" inputValue="" required="true"></@minput.input>
+                inputPlaceHolder="Password" inputName="password" inputValue="" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Confirm Password" inputType="password" inputId="labelConfirmPassword"
-                inputPlaceHolder="Confirm Password" inputName="confirmPassword" inputValue="" required="true"></@minput.input>
+                inputPlaceHolder="Confirm Password" inputName="confirmPassword" inputValue="" required="true" errors=errors></@minput.input>
             </@mform.form>
         </@mmodal.modal>
 
@@ -45,13 +45,13 @@
                 <@mreadonlyinput.input labelName="Username" inputType="text" inputId="labelEditUsername"
                 inputPlaceHolder="Username" inputName="username" inputValue="" required="true"></@mreadonlyinput.input>
                 <@minput.input labelName="Firstname" inputType="text" inputId="labelEditFirstname"
-                inputPlaceHolder="Firstname" inputName="firstName" inputValue="" required="true"></@minput.input>
+                inputPlaceHolder="Firstname" inputName="firstName" inputValue="" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Lastname" inputType="text" inputId="labelEditLastname"
-                inputPlaceHolder="Lastname" inputName="lastName" inputValue="" required="true"></@minput.input>
+                inputPlaceHolder="Lastname" inputName="lastName" inputValue="" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Phone" inputType="text" inputId="labelEditPhone"
-                inputPlaceHolder="Phone" inputName="phone" inputValue="" required="true"></@minput.input>
+                inputPlaceHolder="Phone" inputName="phone" inputValue="" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Email" inputType="text" inputId="labelEditEmail"
-                inputPlaceHolder="Email" inputName="email" inputValue="" required="true"></@minput.input>
+                inputPlaceHolder="Email" inputName="email" inputValue="" required="true" errors=errors></@minput.input>
             </@mform.form>
         </@mmodal.modal>
 
