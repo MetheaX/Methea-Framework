@@ -40,10 +40,11 @@
 </@template.main>
 <script>
     $(document).ready(function () {
+        const $modalEdit = $('.modal-tbl-accounts-edit');
+        const $modalAdd = $('.modal-tbl-accounts-add');
         $('.btn-tbl-accounts-data-edit').click(function () {
             const $row = $(this).closest("tr");
             const $id = $row.find('td:eq(0)').text();
-            const $modalEdit = $('.modal-tbl-accounts-edit');
             axios.get('${contextPath}' + '/app/accounts/rest?id=' + $id).then(function (response) {
                 if (response.data.status === 200) {
                     $modalEdit.find('input[name="id"]').val(response.data.accounts.id);
@@ -55,6 +56,11 @@
                 console.log(error);
             });
         });
+        if(${hasErrors?c} && ${isNew?c}) {
+            $modalAdd.modal('show');
+        } else if(${hasErrors?c} && !${isNew?c}){
+            $modalEdit.modal('show');
+        }
     });
 </script>
 </#compress>

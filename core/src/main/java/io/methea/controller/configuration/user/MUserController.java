@@ -42,12 +42,17 @@ public class MUserController extends AbstractMetheaController<TUser, UserBinder,
     public MUserController(DataTableUIService dataTableUIService, MUserService mUserService,
                            MDropdownService dropdownService, UserValidator userValidator) {
         super(dataTableUIService);
-        validator = userValidator;
-        metheaService = mUserService;
+        super.validator = userValidator;
+        super.metheaService = mUserService;
         entity = "users";
         configViewName = "userList";
         templatePath = "configuration/user/user-list";
         this.dropdownService = dropdownService;
+    }
+
+    @Override
+    protected UserFilter initFilter() {
+        return new UserFilter();
     }
 
     @Override

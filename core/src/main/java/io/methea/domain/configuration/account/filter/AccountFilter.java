@@ -10,11 +10,15 @@ import org.apache.commons.lang3.StringUtils;
 public class AccountFilter extends AbstractMetheaFilter<AccountFilter> {
 
     private static final long serialVersionUID = 6594832273463421285L;
-    private String accountName = StringUtils.EMPTY;
-    private String accountEmail = StringUtils.EMPTY;
-    private String status = StringUtils.EMPTY;
+    private String accountName;
+    private String accountEmail;
+    private String status;
 
-    public AccountFilter(){}
+    public AccountFilter(){
+        this.accountName = StringUtils.EMPTY;
+        this.accountEmail = StringUtils.EMPTY;
+        this.status = StringUtils.EMPTY;
+    }
 
     public AccountFilter(String accountName, String accountEmail, String status) {
         this.accountName = accountName;

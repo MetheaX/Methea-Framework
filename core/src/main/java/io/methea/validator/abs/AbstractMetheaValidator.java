@@ -4,11 +4,11 @@ import io.methea.domain.basebinder.abs.AbstractMetheaBinder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.repository.CrudRepository;
 
 import javax.inject.Inject;
 import java.util.Map;
-
-import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
+import java.util.Optional;
 
 /**
  * Author : DKSilverX
@@ -18,6 +18,7 @@ public abstract class AbstractMetheaValidator<B extends AbstractMetheaBinder<B>>
 
     @Inject
     protected MessageSource messageSource;
+    protected CrudRepository repository;
 
     protected void rejectIfNotMatch(Map<String, String> errors, String code, String fieldValueA, String fieldValueB, String field, String fieldName) {
         if (StringUtils.isEmpty(fieldValueA)) {
@@ -33,8 +34,17 @@ public abstract class AbstractMetheaValidator<B extends AbstractMetheaBinder<B>>
         }
     }
 
-    protected void rejectIfEmpty(Map<String, String> errors, String code, String fieldValue, String field, String fieldName) {
+    protected void rejectIfBlank(Map<String, String> errors, String code, String fieldValue, String field, String fieldName) {
         if (StringUtils.isBlank(fieldValue)) {
+            String msg = messageSource.getMessage(code, new Object[]{},
+                    LocaleContextHolder.getLocale());
+            errors.put(field, msg);
+        }
+    }
+
+    protected void rejectIfInvalidParent(Map<String, String> errors, String code, String fieldValue, String field, String fieldName) {
+        Optional baseEntity = repository.findById(fieldValue);
+        if (baseEntity.isEmpty()) {
             String msg = messageSource.getMessage(code, new Object[]{},
                     LocaleContextHolder.getLocale());
             errors.put(field, msg);

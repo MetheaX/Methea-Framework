@@ -18,7 +18,7 @@
         <@mmodal.modal className="modal-tbl-users-add" labelTitle="Add New User">
             <@mform.form actionUrl="${contextPath}/app/users/save">
                 <@mselect.select labelName="Group Name" selectId="labelDropDownGroupName" selectName="groupId"
-                values=mDropdown.groupDropdown required="true"></@mselect.select>
+                values=mDropdown.groupDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Username" inputType="text" inputId="labelUsername"
                 inputPlaceHolder="Username" inputName="username" inputValue="" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Firstname" inputType="text" inputId="labelFirstname"
@@ -41,7 +41,7 @@
                 <@mhiddeninput.input inputType="text" inputId="labelEditUserId" inputName="id"
                 inputValue="" required="true"></@mhiddeninput.input>
                 <@mselect.select labelName="Group Name" selectId="labelEditDropDownGroupName" selectName="groupId"
-                values=mDropdown.groupDropdown required="true"></@mselect.select>
+                values=mDropdown.groupDropdown required="true" errors=errors></@mselect.select>
                 <@mreadonlyinput.input labelName="Username" inputType="text" inputId="labelEditUsername"
                 inputPlaceHolder="Username" inputName="username" inputValue="" required="true"></@mreadonlyinput.input>
                 <@minput.input labelName="Firstname" inputType="text" inputId="labelEditFirstname"
@@ -59,10 +59,11 @@
     </@template.main>
     <script>
         $(document).ready(function () {
+            const $modalAdd = $('.modal-tbl-users-add');
+            const $modalEdit = $('.modal-tbl-users-edit');
             $('.btn-tbl-users-data-edit').click(function () {
                 const $row = $(this).closest("tr");
                 const $id = $row.find('td:eq(0)').text();
-                const $modalEdit = $('.modal-tbl-users-edit');
                 axios.get('${contextPath}' + '/app/users/rest?id=' + $id).then(function (response) {
                     if (response.data.status === 200) {
                         $modalEdit.find('input[name="id"]').val(response.data.users.id);
@@ -77,6 +78,11 @@
                     console.log(error);
                 });
             });
+            if(${hasErrors?c} && ${isNew?c}) {
+                $modalAdd.modal('show');
+            } else if(${hasErrors?c} && !${isNew?c}){
+                $modalEdit.modal('show');
+            }
         });
     </script>
 </#compress>

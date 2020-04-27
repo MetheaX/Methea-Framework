@@ -8,11 +8,15 @@ import org.apache.commons.lang3.StringUtils;
  * Date : 16/04/2020
  */
 public class GroupFilter extends AbstractMetheaFilter<GroupFilter> {
-    private String groupName = StringUtils.EMPTY;
-    private String accountName = StringUtils.EMPTY;
-    private String status = StringUtils.EMPTY;
+    private static final long serialVersionUID = -8789027105206740582L;
+    private String groupName;
+    private String accountName;
+    private String status;
 
     public GroupFilter() {
+        this.groupName = StringUtils.EMPTY;
+        this.accountName = StringUtils.EMPTY;
+        this.status = StringUtils.EMPTY;
     }
 
     public GroupFilter(String groupName, String accountName, String status) {

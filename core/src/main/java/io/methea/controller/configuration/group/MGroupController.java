@@ -59,6 +59,11 @@ public class MGroupController extends AbstractMetheaController<TUserGroup, UserG
     }
 
     @Override
+    protected GroupFilter initFilter(){
+        return new GroupFilter();
+    }
+
+    @Override
     protected Map<String, Object> getFilterColumns(GroupFilter filter) {
         Map<String, Object> params = new HashMap<>();
         params.put("groupName", "%".concat(filter.getGroupName().toLowerCase()).concat("%"));

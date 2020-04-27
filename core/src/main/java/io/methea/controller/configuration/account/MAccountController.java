@@ -7,6 +7,7 @@ import io.methea.domain.configuration.account.filter.AccountFilter;
 import io.methea.domain.configuration.account.view.AccountView;
 import io.methea.service.configuration.account.MAccountService;
 import io.methea.service.configuration.display.DataTableUIService;
+import io.methea.validator.configuration.account.AccountValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -29,12 +30,18 @@ public class MAccountController extends AbstractMetheaController<TAccount, Accou
     static final String ROOT_URL = "/app/accounts";
 
     @Inject
-    public MAccountController(DataTableUIService dataTableUIService, MAccountService mAccountService) {
+    public MAccountController(DataTableUIService dataTableUIService, MAccountService mAccountService, AccountValidator validator) {
         super(dataTableUIService);
-        metheaService = mAccountService;
+        super.validator = validator;
+        super.metheaService = mAccountService;
         entity = "accounts";
         configViewName = "accountList";
         templatePath = "configuration/account/account-list";
+    }
+
+    @Override
+    protected AccountFilter initFilter() {
+        return new AccountFilter();
     }
 
     @Override

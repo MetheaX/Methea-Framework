@@ -10,15 +10,23 @@ import org.apache.commons.lang3.StringUtils;
 public class UserFilter extends AbstractMetheaFilter<UserFilter> {
     private static final long serialVersionUID = 3824325380005821866L;
 
-    private String groupName = StringUtils.EMPTY;
-    private String username = StringUtils.EMPTY;
-    private String firstName = StringUtils.EMPTY;
-    private String lastName = StringUtils.EMPTY;
-    private String phone = StringUtils.EMPTY;
-    private String email = StringUtils.EMPTY;
-    private String status = StringUtils.EMPTY;
+    private String groupName;
+    private String username;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String email;
+    private String status;
 
-    public UserFilter(){}
+    public UserFilter(){
+        this.groupName = StringUtils.EMPTY;
+        this.username = StringUtils.EMPTY;
+        this.firstName = StringUtils.EMPTY;
+        this.lastName = StringUtils.EMPTY;
+        this.phone = StringUtils.EMPTY;
+        this.email = StringUtils.EMPTY;
+        this.status = StringUtils.EMPTY;
+    }
 
     public UserFilter(String groupName, String username, String firstName, String lastName, String phone, String email,
                       String status) {

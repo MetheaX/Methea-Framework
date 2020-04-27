@@ -35,8 +35,8 @@ import java.util.Map;
  */
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>, V extends AbstractMetheaView<V>, F extends AbstractMetheaFilter<F>> {
-
+public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>,
+        V extends AbstractMetheaView<V>, F extends AbstractMetheaFilter<F>> {
     private static final String ROOT_URL = "/app";
     private static final String SAVE_URL = "/save";
     private static final String MODIFY_URL = "/modify";
@@ -66,7 +66,7 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
     public ModelAndView save(B binder, Model model, F filter, Pagination pagination, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
         validator.validate(binder, errors);
-        dataTableAttributes(model, binder, filter, pagination, request);
+        dataTableAttributes(model, binder, initFilter(), pagination, request);
         model.addAttribute("isNew", true);
         if (!CollectionUtils.isEmpty(errors)) {
             model.addAttribute("errors", errors);
@@ -74,11 +74,19 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
             return new ModelAndView(templatePath);
         }
         metheaService.saveEntity(getEntityFromBinder(binder), binder);
-        return new ModelAndView(templatePath);
+        return new ModelAndView("redirect:" + ROOT_URL.concat(MConstant.SLASH).concat(entity));
     }
 
     @RequestMapping(value = MODIFY_URL, method = RequestMethod.POST)
-    public ModelAndView modify(B binder) {
+    public ModelAndView modify(B binder, Model model, F filter, Pagination pagination, HttpServletRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        validator.validate(binder, errors);
+        dataTableAttributes(model, binder, initFilter(), pagination, request);
+        if (!CollectionUtils.isEmpty(errors)) {
+            model.addAttribute("hasErrors", true);
+            model.addAttribute("errors", errors);
+            return new ModelAndView(templatePath);
+        }
         metheaService.modifyEntity(getEntityId(binder), binder);
         return new ModelAndView("redirect:" + ROOT_URL.concat(MConstant.SLASH).concat(entity));
     }
@@ -144,6 +152,8 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
         model.addAttribute("isNew", false);
         getExtraAttribute(model);
     }
+
+    protected F initFilter(){return null;}
 
     protected Map<String, Object> getFilterColumns(F filter) {
         return null;

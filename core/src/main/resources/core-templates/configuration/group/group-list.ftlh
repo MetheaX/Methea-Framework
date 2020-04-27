@@ -19,7 +19,7 @@
             <@minput.input labelName="Group Name" inputType="text" inputId="labelGroupName"
             inputPlaceHolder="Group Name" inputName="groupName" inputValue="${binder.groupName}" required="true" errors=errors></@minput.input>
             <@mselect.select labelName="Account Name" selectId="labelUserAccountName" selectName="accountId"
-            values=mDropdown.accountDropdown required="true"></@mselect.select>
+            values=mDropdown.accountDropdown required="true" errors=errors></@mselect.select>
             <@minput.input labelName="Remarks" inputType="text" inputId="labelRemarks"
             inputPlaceHolder="Remarks" inputName="remarks" inputValue="${binder.remarks}" required="true" errors=errors></@minput.input>
         </@mform.form>
@@ -28,13 +28,13 @@
     <@mmodal.modal className="modal-tbl-groups-edit" labelTitle="Edit Group">
         <@mform.form actionUrl="${contextPath}/app/groups/modify">
             <@mhiddeninput.input inputType="text" inputId="labelEditGroupId" inputName="id"
-            inputValue="" required="true"></@mhiddeninput.input>
+            inputValue="${binder.id}" required="true"></@mhiddeninput.input>
             <@minput.input labelName="Group Name" inputType="text" inputId="labelEditGroupName"
-            inputPlaceHolder="Group Name" inputName="groupName" inputValue="SYS_ADMIN" required="true" errors=errors></@minput.input>
+            inputPlaceHolder="Group Name" inputName="groupName" inputValue="${binder.groupName}" required="true" errors=errors></@minput.input>
             <@mselect.select labelName="Account Name" selectId="labelEditUserAccountName" selectName="accountId"
-            values=mDropdown.accountDropdown required="true"></@mselect.select>
+            values=mDropdown.accountDropdown required="true" errors=errors></@mselect.select>
             <@minput.input labelName="Remarks" inputType="text" inputId="labelEditRemarks"
-            inputPlaceHolder="Remarks" inputName="remarks" inputValue="" required="true" errors=errors></@minput.input>
+            inputPlaceHolder="Remarks" inputName="remarks" inputValue="${binder.remarks}" required="true" errors=errors></@minput.input>
         </@mform.form>
     </@mmodal.modal>
     <@mpagination.pagination page=pagination url="/app/groups"></@mpagination.pagination>
@@ -57,9 +57,9 @@
                 console.log(error);
             });
         });
-        if(${hasErrors?c} && ${isNew?c}){
+        if(${hasErrors?c} && ${isNew?c}) {
             $modalAdd.modal('show');
-        }else if(${hasErrors?c} && !${isNew?c}){
+        } else if(${hasErrors?c} && !${isNew?c}){
             $modalEdit.modal('show');
         }
     });
