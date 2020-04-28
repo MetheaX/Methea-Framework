@@ -135,6 +135,12 @@
                     }
                 });
             });
+
+            if(${hasErrors?c} && ${isNew?c}) {
+                $('.modal-${id}-add').modal('show');
+            } else if(${hasErrors?c} && !${isNew?c}){
+                $('.modal-${id}-edit').modal('show');
+            }
         });
 
         let requestURL = "";

@@ -15,7 +15,7 @@
     </div>
 
     <@mmodal.modal className="modal-tbl-groups-add" labelTitle="Add New Group">
-        <@mform.form actionUrl="${contextPath}/app/groups/save">
+        <@mform.form actionUrl="${contextPath}/app/groups/save" resetUrl="/app/groups">
             <@minput.input labelName="Group Name" inputType="text" inputId="labelGroupName"
             inputPlaceHolder="Group Name" inputName="groupName" inputValue="${binder.groupName}" required="true" errors=errors></@minput.input>
             <@mselect.select labelName="Account Name" selectId="labelUserAccountName" selectName="accountId"
@@ -26,7 +26,7 @@
     </@mmodal.modal>
 
     <@mmodal.modal className="modal-tbl-groups-edit" labelTitle="Edit Group">
-        <@mform.form actionUrl="${contextPath}/app/groups/modify">
+        <@mform.form actionUrl="${contextPath}/app/groups/modify" resetUrl="/app/groups">
             <@mhiddeninput.input inputType="text" inputId="labelEditGroupId" inputName="id"
             inputValue="${binder.id}" required="true"></@mhiddeninput.input>
             <@minput.input labelName="Group Name" inputType="text" inputId="labelEditGroupName"
@@ -42,7 +42,6 @@
 <script>
     $(document).ready(function () {
         const $modalEdit = $('.modal-tbl-groups-edit');
-        const $modalAdd = $('.modal-tbl-groups-add');
         $('.btn-tbl-groups-data-edit').click(function () {
             const $row = $(this).closest("tr");
             const $id = $row.find('td:eq(0)').text();
@@ -57,11 +56,6 @@
                 console.log(error);
             });
         });
-        if(${hasErrors?c} && ${isNew?c}) {
-            $modalAdd.modal('show');
-        } else if(${hasErrors?c} && !${isNew?c}){
-            $modalEdit.modal('show');
-        }
     });
 </script>
 </#compress>

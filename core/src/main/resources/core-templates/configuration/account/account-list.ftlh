@@ -14,25 +14,25 @@
     </div>
 
     <@mmodal.modal className="modal-tbl-accounts-add" labelTitle="Add New Account">
-        <@mform.form actionUrl="${contextPath}/app/accounts/save">
+        <@mform.form actionUrl="${contextPath}/app/accounts/save" resetUrl="/app/accounts">
             <@minput.input labelName="Name" inputType="text" inputId="labelAccountName"
-            inputPlaceHolder="Name" inputName="accountName" inputValue="" required="true" errors=errors></@minput.input>
+            inputPlaceHolder="Name" inputName="accountName" inputValue="${binder.accountName}" required="true" errors=errors></@minput.input>
             <@minput.input labelName="Email" inputType="email" inputId="labelEmailName"
-            inputPlaceHolder="Email" inputName="accountEmail" inputValue="" required="true" errors=errors></@minput.input>
+            inputPlaceHolder="Email" inputName="accountEmail" inputValue="${binder.accountEmail}" required="true" errors=errors></@minput.input>
             <@minput.input labelName="Address" inputType="text" inputId="labelAddress"
-            inputPlaceHolder="Address" inputName="accountAddress" inputValue="" required="true" errors=errors></@minput.input>
+            inputPlaceHolder="Address" inputName="accountAddress" inputValue="${binder.accountAddress}" required="true" errors=errors></@minput.input>
         </@mform.form>
     </@mmodal.modal>
 
     <@mmodal.modal className="modal-tbl-accounts-edit" labelTitle="Edit Account">
-        <@mform.form actionUrl="${contextPath}/app/accounts/modify">
+        <@mform.form actionUrl="${contextPath}/app/accounts/modify" resetUrl="/app/accounts">
             <@mhiddeninput.input inputType="text" inputId="labelEditAccountId" inputName="id"
             inputValue="" required="true"></@mhiddeninput.input>
             <@minput.input labelName="Name" inputType="text" inputId="labelEditAccountName"
-            inputPlaceHolder="Name" inputName="accountName" inputValue="DK Inc" required="true" errors=errors></@minput.input>
-            <@minput.input labelName="Email" inputType="email" inputValue="dk@mail.com" inputId="labelEditEmailName"
+            inputPlaceHolder="Name" inputName="accountName" inputValue="${binder.accountName}" required="true" errors=errors></@minput.input>
+            <@minput.input labelName="Email" inputType="email" inputValue="${binder.accountEmail}" inputId="labelEditEmailName"
             inputPlaceHolder="Email" inputName="accountEmail" required="true" errors=errors></@minput.input>
-            <@minput.input labelName="Address" inputType="text" inputValue="Phnom Penh" inputId="labelEditAddress"
+            <@minput.input labelName="Address" inputType="text" inputValue="${binder.accountAddress}" inputId="labelEditAddress"
             inputPlaceHolder="Address" inputName="accountAddress" required="true" errors=errors></@minput.input>
         </@mform.form>
     </@mmodal.modal>
@@ -41,7 +41,6 @@
 <script>
     $(document).ready(function () {
         const $modalEdit = $('.modal-tbl-accounts-edit');
-        const $modalAdd = $('.modal-tbl-accounts-add');
         $('.btn-tbl-accounts-data-edit').click(function () {
             const $row = $(this).closest("tr");
             const $id = $row.find('td:eq(0)').text();
@@ -56,11 +55,6 @@
                 console.log(error);
             });
         });
-        if(${hasErrors?c} && ${isNew?c}) {
-            $modalAdd.modal('show');
-        } else if(${hasErrors?c} && !${isNew?c}){
-            $modalEdit.modal('show');
-        }
     });
 </script>
 </#compress>

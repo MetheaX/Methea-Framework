@@ -16,42 +16,42 @@
         </div>
 
         <@mmodal.modal className="modal-tbl-users-add" labelTitle="Add New User">
-            <@mform.form actionUrl="${contextPath}/app/users/save">
+            <@mform.form actionUrl="${contextPath}/app/users/save" resetUrl="/app/users">
                 <@mselect.select labelName="Group Name" selectId="labelDropDownGroupName" selectName="groupId"
                 values=mDropdown.groupDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Username" inputType="text" inputId="labelUsername"
-                inputPlaceHolder="Username" inputName="username" inputValue="" required="true" errors=errors></@minput.input>
+                inputPlaceHolder="Username" inputName="username" inputValue="${binder.username}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Firstname" inputType="text" inputId="labelFirstname"
-                inputPlaceHolder="Firstname" inputName="firstName" inputValue="" required="true" errors=errors></@minput.input>
+                inputPlaceHolder="Firstname" inputName="firstName" inputValue="${binder.firstName}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Lastname" inputType="text" inputId="labelLastname"
-                inputPlaceHolder="Lastname" inputName="lastName" inputValue="" required="true" errors=errors></@minput.input>
+                inputPlaceHolder="Lastname" inputName="lastName" inputValue="${binder.lastName}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Phone" inputType="text" inputId="labelPhone"
-                inputPlaceHolder="Phone" inputName="phone" inputValue="" required="true" errors=errors></@minput.input>
+                inputPlaceHolder="Phone" inputName="phone" inputValue="${binder.phone}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Email" inputType="text" inputId="labelEmail"
-                inputPlaceHolder="Email" inputName="email" inputValue="" required="true" errors=errors></@minput.input>
+                inputPlaceHolder="Email" inputName="email" inputValue="${binder.email}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Password" inputType="password" inputId="labelPassword"
-                inputPlaceHolder="Password" inputName="password" inputValue="" required="true" errors=errors></@minput.input>
+                inputPlaceHolder="Password" inputName="password" inputValue="${binder.password}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Confirm Password" inputType="password" inputId="labelConfirmPassword"
-                inputPlaceHolder="Confirm Password" inputName="confirmPassword" inputValue="" required="true" errors=errors></@minput.input>
+                inputPlaceHolder="Confirm Password" inputName="confirmPassword" inputValue="${binder.confirmPassword}" required="true" errors=errors></@minput.input>
             </@mform.form>
         </@mmodal.modal>
 
         <@mmodal.modal className="modal-tbl-users-edit" labelTitle="Edit User Information">
-            <@mform.form actionUrl="${contextPath}/app/users/modify">
+            <@mform.form actionUrl="${contextPath}/app/users/modify" resetUrl="/app/users">
                 <@mhiddeninput.input inputType="text" inputId="labelEditUserId" inputName="id"
                 inputValue="" required="true"></@mhiddeninput.input>
                 <@mselect.select labelName="Group Name" selectId="labelEditDropDownGroupName" selectName="groupId"
                 values=mDropdown.groupDropdown required="true" errors=errors></@mselect.select>
                 <@mreadonlyinput.input labelName="Username" inputType="text" inputId="labelEditUsername"
-                inputPlaceHolder="Username" inputName="username" inputValue="" required="true"></@mreadonlyinput.input>
+                inputPlaceHolder="Username" inputName="username" inputValue="${binder.username}" required="true"></@mreadonlyinput.input>
                 <@minput.input labelName="Firstname" inputType="text" inputId="labelEditFirstname"
-                inputPlaceHolder="Firstname" inputName="firstName" inputValue="" required="true" errors=errors></@minput.input>
+                inputPlaceHolder="Firstname" inputName="firstName" inputValue="${binder.firstName}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Lastname" inputType="text" inputId="labelEditLastname"
-                inputPlaceHolder="Lastname" inputName="lastName" inputValue="" required="true" errors=errors></@minput.input>
+                inputPlaceHolder="Lastname" inputName="lastName" inputValue="${binder.lastName}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Phone" inputType="text" inputId="labelEditPhone"
-                inputPlaceHolder="Phone" inputName="phone" inputValue="" required="true" errors=errors></@minput.input>
+                inputPlaceHolder="Phone" inputName="phone" inputValue="${binder.phone}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Email" inputType="text" inputId="labelEditEmail"
-                inputPlaceHolder="Email" inputName="email" inputValue="" required="true" errors=errors></@minput.input>
+                inputPlaceHolder="Email" inputName="email" inputValue="${binder.email}" required="true" errors=errors></@minput.input>
             </@mform.form>
         </@mmodal.modal>
 
@@ -59,7 +59,6 @@
     </@template.main>
     <script>
         $(document).ready(function () {
-            const $modalAdd = $('.modal-tbl-users-add');
             const $modalEdit = $('.modal-tbl-users-edit');
             $('.btn-tbl-users-data-edit').click(function () {
                 const $row = $(this).closest("tr");
@@ -78,11 +77,6 @@
                     console.log(error);
                 });
             });
-            if(${hasErrors?c} && ${isNew?c}) {
-                $modalAdd.modal('show');
-            } else if(${hasErrors?c} && !${isNew?c}){
-                $modalEdit.modal('show');
-            }
         });
     </script>
 </#compress>
