@@ -3,8 +3,6 @@ package io.methea.config.jwt;
 import io.jsonwebtoken.Jwts;
 import io.methea.constant.MConstant;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,7 +26,6 @@ import java.util.Objects;
  */
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private static Logger log = LoggerFactory.getLogger(JWTAuthorizationFilter.class);
     private final Environment env;
 
     @Inject
@@ -37,6 +34,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         this.env = env;
     }
 
+    @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
         // check if authenticated user from webservice, must validate they have a valid token

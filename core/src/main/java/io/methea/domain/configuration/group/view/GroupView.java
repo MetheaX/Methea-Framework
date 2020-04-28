@@ -10,7 +10,6 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  */
 @SelectFrom(fromClause = "FROM TUserGroup o, TAccount p", orderBy = "ORDER BY o.updatedDateTime DESC")
 public class GroupView extends BaseView<GroupView> {
-
     private static final long serialVersionUID = -4838869017108743247L;
     @Column(name = "o.id")
     private String id;

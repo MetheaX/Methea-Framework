@@ -1,6 +1,7 @@
 package io.methea.domain.configuration.account.dto;
 
 import io.methea.domain.basebinder.BaseBinder;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Author : DKSilverX
@@ -9,15 +10,15 @@ import io.methea.domain.basebinder.BaseBinder;
 public class AccountBinder extends BaseBinder<AccountBinder> {
 
     private static final long serialVersionUID = -7725591983076415843L;
-    private String id;
-    private String accountName;
-    private String accountEmail;
-    private String accountAddress;
-    private String accountCreatedUser;
-    private String accountCreatedDate;
-    private String accountUpdatedUser;
-    private String accountUpdatedDate;
-    private String status;
+    private String id = StringUtils.EMPTY;
+    private String accountName = StringUtils.EMPTY;
+    private String accountEmail = StringUtils.EMPTY;
+    private String accountAddress = StringUtils.EMPTY;
+    private String accountCreatedUser = StringUtils.EMPTY;
+    private String accountCreatedDate = StringUtils.EMPTY;
+    private String accountUpdatedUser = StringUtils.EMPTY;
+    private String accountUpdatedDate = StringUtils.EMPTY;
+    private String status = StringUtils.EMPTY;
 
     public String getId() {
         return id;

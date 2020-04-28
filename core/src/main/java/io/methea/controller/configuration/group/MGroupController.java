@@ -10,9 +10,8 @@ import io.methea.domain.configuration.group.view.GroupView;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.service.configuration.group.MGroupService;
 import io.methea.service.dropdown.MDropdownService;
+import io.methea.validator.configuration.group.GroupValidator;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
@@ -31,38 +30,43 @@ import java.util.UUID;
  * Date : 16/04/2020
  */
 @Controller
+@RequestMapping(value = MGroupController.ROOT_URL)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-@RequestMapping(value = {MGroupController.ROOT_URL})
 public class MGroupController extends AbstractMetheaController<TUserGroup, UserGroupBinder, GroupView, GroupFilter> {
-
-    private static Logger log = LoggerFactory.getLogger(MGroupController.class);
 
     static final String ROOT_URL = "/app/groups";
     private final MDropdownService dropdownService;
 
     @Inject
-    public MGroupController(DataTableUIService dataTableUIService, MDropdownService dropdownService, MGroupService mGroupService) {
+    public MGroupController(DataTableUIService dataTableUIService, MDropdownService dropdownService,
+                            GroupValidator groupValidator, MGroupService mGroupService) {
         super(dataTableUIService);
         metheaService = mGroupService;
         entity = "groups";
         configViewName = "groupList";
         templatePath = "configuration/group/group-list";
         this.dropdownService = dropdownService;
+        validator = groupValidator;
     }
 
+    @Override
     protected Model getExtraAttribute(Model model) {
         if (CollectionUtils.isEmpty((Map<?, ?>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
             dropdownService.getDropdownData();
-            log.info(">>>>> Dropdown data loaded!");
         }
         model.addAttribute(MConstant.DROPDOWN, MCache.cacheMetaData.get(MConstant.DROPDOWN));
         return model;
     }
 
     @Override
+    protected GroupFilter initFilter(){
+        return new GroupFilter();
+    }
+
+    @Override
     protected Map<String, Object> getFilterColumns(GroupFilter filter) {
         Map<String, Object> params = new HashMap<>();
-        params.put("groupName", "%".concat(filter.getGroupName()).concat("%"));
+        params.put("groupName", "%".concat(filter.getGroupName().toLowerCase()).concat("%"));
         params.put("accountName", "%".concat(filter.getAccountName().toLowerCase()).concat("%"));
         params.put("status", "%".concat(StringUtils.isEmpty(filter.getStatus()) ? StringUtils.EMPTY :
                 (filter.getStatus().substring(0, 1).toLowerCase())).concat("%"));

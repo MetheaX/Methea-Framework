@@ -1,6 +1,7 @@
 package io.methea.domain.configuration.group.dto;
 
 import io.methea.domain.basebinder.BaseBinder;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Author : DKSilverX
@@ -8,10 +9,10 @@ import io.methea.domain.basebinder.BaseBinder;
  */
 public class UserGroupBinder extends BaseBinder<UserGroupBinder> {
     private static final long serialVersionUID = -7486953695198367520L;
-    private String id;
-    private String accountId;
-    private String groupName;
-    private String remarks;
+    private String id = StringUtils.EMPTY;
+    private String accountId = StringUtils.EMPTY;
+    private String groupName = StringUtils.EMPTY;
+    private String remarks = StringUtils.EMPTY;
 
     public String getId() {
         return id;

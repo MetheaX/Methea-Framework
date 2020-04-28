@@ -5,8 +5,6 @@ import io.methea.domain.configuration.account.entity.TAccount;
 import io.methea.domain.configuration.account.view.AccountView;
 import io.methea.repository.configuration.account.AccountRepository;
 import io.methea.service.abs.AbstractMetheaService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -17,8 +15,6 @@ import javax.inject.Inject;
  */
 @Service
 public class MAccountService extends AbstractMetheaService<TAccount, AccountBinder, String, AccountView> {
-
-    private static Logger log = LoggerFactory.getLogger(MAccountService.class);
 
     @Inject
     public MAccountService(AccountRepository accountRepository) {

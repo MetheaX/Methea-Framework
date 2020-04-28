@@ -4,15 +4,13 @@ import io.methea.config.security.domain.GrantedPermission;
 import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;
 import io.methea.util.SystemUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import javax.servlet.*;
@@ -20,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,56 +28,45 @@ import java.util.stream.Collectors;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class WebAuthorizationFilter implements Filter {
-    private static Logger log = LoggerFactory.getLogger(WebAuthorizationFilter.class);
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        // do nothing here
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession(true);
-        boolean isNotValidURI = true;
+        boolean isNotAuthorize = true;
 
         SecurityContextImpl securityContext = (SecurityContextImpl) session.getAttribute(MConstant.SPRING_SECURITY_CONTEXT);
         if (!ObjectUtils.isEmpty(securityContext)) {
+            String uri = StringUtils.EMPTY;
+            String requestURI = req.getRequestURI();
             Authentication user = securityContext.getAuthentication();
-            String uri = req.getRequestURI();
 
             PrincipalAuthentication principle = (PrincipalAuthentication) user.getPrincipal();
-            List<GrantedPermission> URIs = principle.getGrantedPermissions();
-            List<String> grantedURIs = new ArrayList<>();
+            List<GrantedPermission> grantedPermissions = principle.getGrantedPermissions();
+            List<String> grantedURIs = CollectionUtils.emptyIfNull(grantedPermissions).stream()
+                    .map(GrantedPermission::getGrantedPermission)
+                    .collect(Collectors.toList());
 
-            if (!CollectionUtils.isEmpty(URIs)) {
-                grantedURIs = URIs.stream()
-                        .map(GrantedPermission::getGrantedPermission)
-                        .collect(Collectors.toList());
+            //>>>>> is it contain parent configuration?
+            for (String str : requestURI.split(MConstant.SLASH)) {
+                uri = uri.concat(MConstant.SLASH).concat(StringUtils.stripToEmpty(str));
+                StringBuilder builder = new StringBuilder(uri);
+                if (grantedURIs.contains(requestURI) || grantedURIs.contains((builder.deleteCharAt(0).toString() + MConstant.SLASH_STAR))) {
+                    isNotAuthorize = false;
+                }
             }
-
-            if (StringUtils.isNotEmpty(uri)) {
-                String[] subURI = uri.split(MConstant.SLASH);
-                String specificURI = uri;
-                uri = StringUtils.EMPTY; //>>>>> reset URI value
-
-                //>>>>> is it contain parent configuration?
-                for (String str : subURI) {
-                    if(StringUtils.isNotEmpty(str)){
-                        uri = uri.concat(MConstant.SLASH).concat(str);
-                    }
-                    //>>>>> check if, is it qualify to pass our security guard
-                    if (grantedURIs.contains((uri + MConstant.SLASH_STAR))) {
-                        isNotValidURI = false;
-                    }
-                }
-                //>>>>> is it config with this specific URI, will check on second condition will subURI length == 0
-                if (grantedURIs.contains(specificURI) || grantedURIs.contains((uri + MConstant.SLASH_STAR))) {
-                    isNotValidURI = false;
-                }
-                //>>>>> You cannot fake our security gard, go to access denied page
-                if (isNotValidURI) {
-                    ((HttpServletResponse) response).sendRedirect(SystemUtils.getBaseUrl(req).concat("/access-denied"));
-                    return;
-                }
+            //>>>>> is it config with this specific URI, will check on second condition when request "/"
+            if (grantedURIs.contains(requestURI) || grantedURIs.contains(requestURI + MConstant.SLASH_STAR)
+                    || grantedURIs.contains(requestURI + "**")) {
+                isNotAuthorize = false;
+            }
+            if (isNotAuthorize) {
+                ((HttpServletResponse) response).sendRedirect(SystemUtils.getBaseUrl(req).concat("/access-denied"));
+                return;
             }
         }
         chain.doFilter(request, response);
@@ -88,5 +74,6 @@ public class WebAuthorizationFilter implements Filter {
 
     @Override
     public void destroy() {
+        // do nothing here
     }
 }
