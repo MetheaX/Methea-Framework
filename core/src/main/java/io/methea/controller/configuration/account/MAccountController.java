@@ -35,6 +35,7 @@ public class MAccountController extends AbstractMetheaController<TAccount, Accou
         super.validator = validator;
         super.metheaService = mAccountService;
         entity = "accounts";
+        super.dataTableId = "tbl-accounts";
         configViewName = "accountList";
         templatePath = "configuration/account/account-list";
     }

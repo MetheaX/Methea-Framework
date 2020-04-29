@@ -13,7 +13,7 @@
 # Date : 1/12/2020
 #-->
 <#import "../input/methea-filter-input.ftlh" as filter>
-<#macro table thead tdata tcolumns filters dataFilters urlFilter id>
+<#macro table id thead tdata tcolumns filters dataFilters urlFilter>
     <table class="table table-striped">
         <#if thead?has_content>
             <thead>
@@ -75,9 +75,8 @@
                 <td>
                     <button class="btn badge ${buttonClassName}">${buttonLabel}</button>
                     <button class="btn badge badge-success btn-${id}-data-edit" data-toggle="modal"
-                            data-target=".modal-${id}-edit">
-                        Edit
-                    </button>
+                            data-target=".modal-${id}-edit">Edit</button>
+                    <#nested>
                 </td>
             </tr>
         </#list>
@@ -136,10 +135,8 @@
                 });
             });
 
-            if(${hasErrors?c} && ${isNew?c}) {
-                $('.modal-${id}-add').modal('show');
-            } else if(${hasErrors?c} && !${isNew?c}){
-                $('.modal-${id}-edit').modal('show');
+            if(${hasErrors?c}) {
+                $('.modal-${popup}').modal('show');
             }
         });
 

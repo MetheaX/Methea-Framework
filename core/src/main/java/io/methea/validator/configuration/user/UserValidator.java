@@ -26,19 +26,27 @@ public class UserValidator extends AbstractMetheaValidator<UserBinder> {
 
     @Override
     public void validate(UserBinder binder, Map<String, String> errors) {
+
+        if ("true".equalsIgnoreCase(errors.get("validatePassword"))) {
+            rejectIfBlank(errors, "label.user.password.blank", binder.getPassword(), "password", "Password");
+            rejectIfNotMatch(errors, "label.password.not.match.error", binder.getPassword(), binder.getConfirmPassword(),
+                    "password", "Password");
+            errors.remove("validatePassword");
+            return;
+        }
+
         rejectIfInvalidParent(errors, "label.user.group.invalid", binder.getGroupId(), "groupId", "Group Name");
         rejectIfBlank(errors, "label.user.username.blank", binder.getUsername(), "username", "Username");
         TUser user = userRepository.findByUsername(binder.getUsername());
-        if(!ObjectUtils.isEmpty(user)){
+        if (!ObjectUtils.isEmpty(user)) {
             errors.put("username", "*Error: user already exist!!!");
         }
-        rejectIfBlank(errors,"label.user.firstName.blank", binder.getFirstName(), "firstName", "Firstname");
-        rejectIfBlank(errors,"label.user.lastName.blank", binder.getLastName(), "lastName", "Lastname");
-        rejectIfBlank(errors,"label.user.phone.blank", binder.getPhone(), "phone", "Phone");
-        rejectIfBlank(errors,"label.user.email.blank", binder.getEmail(), "email", "Email");
-        rejectIfBlank(errors,"label.user.password.blank", binder.getPassword(), "password", "Password");
+        rejectIfBlank(errors, "label.user.firstName.blank", binder.getFirstName(), "firstName", "Firstname");
+        rejectIfBlank(errors, "label.user.lastName.blank", binder.getLastName(), "lastName", "Lastname");
+        rejectIfBlank(errors, "label.user.phone.blank", binder.getPhone(), "phone", "Phone");
+        rejectIfBlank(errors, "label.user.email.blank", binder.getEmail(), "email", "Email");
+        rejectIfBlank(errors, "label.user.password.blank", binder.getPassword(), "password", "Password");
         rejectIfNotMatch(errors, "label.password.not.match.error", binder.getPassword(), binder.getConfirmPassword(),
                 "password", "Password");
-
     }
 }

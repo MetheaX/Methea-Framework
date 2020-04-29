@@ -12,6 +12,8 @@
         <div class="table-responsive">
             <@mtable.table thead=tableHead tdata=users tcolumns=tableColumns filters=tableFilterColumns
             dataFilters=dataFilters urlFilter="/app/users" id="tbl-users">
+                <button class="btn badge badge-inverse-danger btn-reset-user-password" data-toggle="modal"
+                        data-target=".modal-tbl-users-reset-password">Reset Password</button>
             </@mtable.table>
         </div>
 
@@ -39,7 +41,7 @@
         <@mmodal.modal className="modal-tbl-users-edit" labelTitle="Edit User Information">
             <@mform.form actionUrl="${contextPath}/app/users/modify" resetUrl="/app/users">
                 <@mhiddeninput.input inputType="text" inputId="labelEditUserId" inputName="id"
-                inputValue="" required="true"></@mhiddeninput.input>
+                inputValue="${binder.id}" required="true"></@mhiddeninput.input>
                 <@mselect.select labelName="Group Name" selectId="labelEditDropDownGroupName" selectName="groupId"
                 values=mDropdown.groupDropdown required="true" errors=errors></@mselect.select>
                 <@mreadonlyinput.input labelName="Username" inputType="text" inputId="labelEditUsername"
@@ -55,11 +57,23 @@
             </@mform.form>
         </@mmodal.modal>
 
+        <@mmodal.modal className="modal-tbl-users-reset-password" labelTitle="Reset User Password">
+            <@mform.form actionUrl="${contextPath}/app/users/reset-password" resetUrl="/app/users">
+                <@mhiddeninput.input inputType="text" inputId="labelResetUserId" inputName="id"
+                inputValue="${binder.id}" required="true"></@mhiddeninput.input>
+                <@minput.input labelName="Password" inputType="password" inputId="labelResetPassword"
+                inputPlaceHolder="Password" inputName="password" inputValue="${binder.password}" required="true" errors=errors></@minput.input>
+                <@minput.input labelName="Confirm Password" inputType="password" inputId="labelResetConfirmPassword"
+                inputPlaceHolder="Confirm Password" inputName="confirmPassword" inputValue="${binder.confirmPassword}" required="true" errors=errors></@minput.input>
+            </@mform.form>
+        </@mmodal.modal>
+
         <@mpagination.pagination page=pagination url="/app/users"></@mpagination.pagination>
     </@template.main>
     <script>
         $(document).ready(function () {
             const $modalEdit = $('.modal-tbl-users-edit');
+            const $modalResetPassword = $('.modal-tbl-users-reset-password');
             $('.btn-tbl-users-data-edit').click(function () {
                 const $row = $(this).closest("tr");
                 const $id = $row.find('td:eq(0)').text();
@@ -76,6 +90,11 @@
                 }).catch(function (error) {
                     console.log(error);
                 });
+            });
+            $('.btn-reset-user-password').click(function () {
+                const $row = $(this).closest("tr");
+                const $id = $row.find('td:eq(0)').text();
+                $modalResetPassword.find('input[name="id"]').val($id);
             });
         });
     </script>

@@ -10,6 +10,7 @@ import io.methea.domain.configuration.user.view.UserView;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.service.configuration.user.MUserService;
 import io.methea.service.dropdown.MDropdownService;
+import io.methea.util.Pagination;
 import io.methea.validator.configuration.user.UserValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
@@ -18,13 +19,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 
 /**
  * Author : DKSilverX
@@ -36,7 +39,9 @@ import java.util.UUID;
 public class MUserController extends AbstractMetheaController<TUser, UserBinder, UserView, UserFilter> {
 
     static final String ROOT_URL = "/app/users";
+    private static final String RESET_PASSWORD = "/reset-password";
     private final MDropdownService dropdownService;
+    private final MUserService service;
 
     @Inject
     public MUserController(DataTableUIService dataTableUIService, MUserService mUserService,
@@ -44,10 +49,12 @@ public class MUserController extends AbstractMetheaController<TUser, UserBinder,
         super(dataTableUIService);
         super.validator = userValidator;
         super.metheaService = mUserService;
-        entity = "users";
-        configViewName = "userList";
-        templatePath = "configuration/user/user-list";
+        super.entity = "users";
+        super.dataTableId = "tbl-users";
+        super.configViewName = "userList";
+        super.templatePath = "configuration/user/user-list";
         this.dropdownService = dropdownService;
+        this.service = mUserService;
     }
 
     @Override
@@ -79,14 +86,31 @@ public class MUserController extends AbstractMetheaController<TUser, UserBinder,
     }
 
     @Override
-    protected TUser getEntityFromBinder(UserBinder binder){
+    protected TUser getEntityFromBinder(UserBinder binder) {
         TUser user = new TUser();
         user.setId(UUID.randomUUID().toString());
         return user;
     }
 
     @Override
-    protected String getEntityId(UserBinder binder){
+    protected String getEntityId(UserBinder binder) {
         return binder.getId();
+    }
+
+    @RequestMapping(value = RESET_PASSWORD, method = RequestMethod.POST)
+    public ModelAndView resetUserPassword(UserBinder binder, Model model, UserFilter filter, Pagination pagination,
+                                          HttpServletRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("validatePassword", "true");
+        validator.validate(binder, errors);
+        dataTableAttributes(model, binder, initFilter(), pagination, request);
+        model.addAttribute("popup", dataTableId.concat("-reset-password"));
+        if (!CollectionUtils.isEmpty(errors)) {
+            model.addAttribute("hasErrors", true);
+            model.addAttribute("errors", errors);
+            return new ModelAndView(templatePath);
+        }
+        service.resetUserPassword(binder.getId(), binder);
+        return new ModelAndView("redirect:" + AbstractMetheaController.ROOT_URL.concat(MConstant.SLASH).concat(entity));
     }
 }
