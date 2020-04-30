@@ -155,7 +155,9 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
         getExtraAttribute(model);
     }
 
-    protected F initFilter(){return null;}
+    protected F initFilter() {
+        return null;
+    }
 
     protected Map<String, Object> getFilterColumns(F filter) {
         return null;

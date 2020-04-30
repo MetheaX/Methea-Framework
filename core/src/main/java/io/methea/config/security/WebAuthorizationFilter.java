@@ -28,6 +28,11 @@ import java.util.stream.Collectors;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class WebAuthorizationFilter implements Filter {
+
+    private static final String CHN_PWD_URL = "/profile/change-password";
+    private static final String ACCESS_DENIED_URL = "/access-denied";
+    private static final String IS_FRC_CHN_PWD = "Y";
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // do nothing here
@@ -46,6 +51,11 @@ public class WebAuthorizationFilter implements Filter {
             Authentication user = securityContext.getAuthentication();
 
             PrincipalAuthentication principle = (PrincipalAuthentication) user.getPrincipal();
+            if (IS_FRC_CHN_PWD.equalsIgnoreCase(principle.getMetheaPrincipal().getForceUserResetPassword())
+                    && !CHN_PWD_URL.equals(requestURI)) {
+                ((HttpServletResponse) response).sendRedirect(SystemUtils.getBaseUrl(req).concat(CHN_PWD_URL));
+                return;
+            }
             List<GrantedPermission> grantedPermissions = principle.getGrantedPermissions();
             List<String> grantedURIs = CollectionUtils.emptyIfNull(grantedPermissions).stream()
                     .map(GrantedPermission::getGrantedPermission)
@@ -65,7 +75,7 @@ public class WebAuthorizationFilter implements Filter {
                 isNotAuthorize = false;
             }
             if (isNotAuthorize) {
-                ((HttpServletResponse) response).sendRedirect(SystemUtils.getBaseUrl(req).concat("/access-denied"));
+                ((HttpServletResponse) response).sendRedirect(SystemUtils.getBaseUrl(req).concat(ACCESS_DENIED_URL));
                 return;
             }
         }
