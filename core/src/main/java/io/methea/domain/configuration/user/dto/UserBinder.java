@@ -19,6 +19,7 @@ public class UserBinder extends BaseBinder<UserBinder> {
     private String email = StringUtils.EMPTY;
     private String password = StringUtils.EMPTY;
     private String confirmPassword = StringUtils.EMPTY;
+    private String forceUserResetPassword = StringUtils.EMPTY;
 
     public String getId() {
         return id;
@@ -90,5 +91,13 @@ public class UserBinder extends BaseBinder<UserBinder> {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getForceUserResetPassword() {
+        return forceUserResetPassword;
+    }
+
+    public void setForceUserResetPassword(String forceUserResetPassword) {
+        this.forceUserResetPassword = forceUserResetPassword;
     }
 }

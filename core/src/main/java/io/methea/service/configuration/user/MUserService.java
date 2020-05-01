@@ -32,6 +32,7 @@ public class MUserService extends AbstractMetheaService<TUser, UserBinder, Strin
             Optional<TUser> optional = repository.findById(id);
             if (optional.isPresent()) {
                 TUser user = optional.get();
+                user.setForceUserResetPassword(binder.getForceUserResetPassword());
                 user.setPassword(binder.getPassword());
                 setModifiedAuditLog(user);
                 repository.save(user);

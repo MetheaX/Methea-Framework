@@ -153,6 +153,13 @@ iframe {
   text-transform: uppercase;
 }
 
+.txt4 {
+  font-family: Ubuntu-Regular;
+  font-size: 15px;
+  color: red;
+  line-height: 1.4;
+}
+
 
 /*//////////////////////////////////////////////////////////////////
 [ login ]*/

@@ -101,7 +101,7 @@ public class MUserController extends AbstractMetheaController<TUser, UserBinder,
     public ModelAndView resetUserPassword(UserBinder binder, Model model, UserFilter filter, Pagination pagination,
                                           HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
-        errors.put("validatePassword", "true");
+        errors.put("validateType", "RST");
         validator.validate(binder, errors);
         dataTableAttributes(model, binder, initFilter(), pagination, request);
         model.addAttribute("popup", dataTableId.concat("-reset-password"));
@@ -110,6 +110,7 @@ public class MUserController extends AbstractMetheaController<TUser, UserBinder,
             model.addAttribute("errors", errors);
             return new ModelAndView(templatePath);
         }
+        binder.setForceUserResetPassword("Y");
         service.resetUserPassword(binder.getId(), binder);
         return new ModelAndView("redirect:" + AbstractMetheaController.ROOT_URL.concat(MConstant.SLASH).concat(entity));
     }

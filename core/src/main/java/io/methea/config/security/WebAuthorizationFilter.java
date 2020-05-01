@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +34,9 @@ public class WebAuthorizationFilter implements Filter {
     private static final String CHN_PWD_URL = "/profile/change-password";
     private static final String ACCESS_DENIED_URL = "/access-denied";
     private static final String IS_FRC_CHN_PWD = "Y";
+
+    // etc
+    private static final List<String> WHITE_URLS = List.of("resources", "login", "logout", "access-denied", "profile");
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -51,8 +56,13 @@ public class WebAuthorizationFilter implements Filter {
             Authentication user = securityContext.getAuthentication();
 
             PrincipalAuthentication principle = (PrincipalAuthentication) user.getPrincipal();
-            if (IS_FRC_CHN_PWD.equalsIgnoreCase(principle.getMetheaPrincipal().getForceUserResetPassword())
-                    && !CHN_PWD_URL.equals(requestURI)) {
+            try {
+                if (IS_FRC_CHN_PWD.equalsIgnoreCase(principle.getMetheaPrincipal().getForceUserResetPassword())
+                        && !WHITE_URLS.contains(requestURI.split(MConstant.SLASH)[1])) {
+                    ((HttpServletResponse) response).sendRedirect(SystemUtils.getBaseUrl(req).concat(CHN_PWD_URL));
+                    return;
+                }
+            } catch (Exception ex) {
                 ((HttpServletResponse) response).sendRedirect(SystemUtils.getBaseUrl(req).concat(CHN_PWD_URL));
                 return;
             }
