@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,14 @@ import java.util.stream.Collectors;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class WebAuthorizationFilter implements Filter {
+
+    private static final String CHN_PWD_URL = "/profile/change-password";
+    private static final String ACCESS_DENIED_URL = "/access-denied";
+    private static final String IS_FRC_CHN_PWD = "Y";
+
+    // etc
+    private static final List<String> WHITE_URLS = List.of("resources", "login", "logout", "access-denied", "profile");
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // do nothing here
@@ -46,6 +56,16 @@ public class WebAuthorizationFilter implements Filter {
             Authentication user = securityContext.getAuthentication();
 
             PrincipalAuthentication principle = (PrincipalAuthentication) user.getPrincipal();
+            try {
+                if (IS_FRC_CHN_PWD.equalsIgnoreCase(principle.getMetheaPrincipal().getForceUserResetPassword())
+                        && !WHITE_URLS.contains(requestURI.split(MConstant.SLASH)[1])) {
+                    ((HttpServletResponse) response).sendRedirect(SystemUtils.getBaseUrl(req).concat(CHN_PWD_URL));
+                    return;
+                }
+            } catch (Exception ex) {
+                ((HttpServletResponse) response).sendRedirect(SystemUtils.getBaseUrl(req).concat(CHN_PWD_URL));
+                return;
+            }
             List<GrantedPermission> grantedPermissions = principle.getGrantedPermissions();
             List<String> grantedURIs = CollectionUtils.emptyIfNull(grantedPermissions).stream()
                     .map(GrantedPermission::getGrantedPermission)
@@ -65,7 +85,7 @@ public class WebAuthorizationFilter implements Filter {
                 isNotAuthorize = false;
             }
             if (isNotAuthorize) {
-                ((HttpServletResponse) response).sendRedirect(SystemUtils.getBaseUrl(req).concat("/access-denied"));
+                ((HttpServletResponse) response).sendRedirect(SystemUtils.getBaseUrl(req).concat(ACCESS_DENIED_URL));
                 return;
             }
         }

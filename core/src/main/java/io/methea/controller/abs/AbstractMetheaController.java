@@ -37,7 +37,7 @@ import java.util.Map;
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>,
         V extends AbstractMetheaView<V>, F extends AbstractMetheaFilter<F>> {
-    private static final String ROOT_URL = "/app";
+    protected static final String ROOT_URL = "/app";
     private static final String SAVE_URL = "/save";
     private static final String MODIFY_URL = "/modify";
     private static final String API_GET_BY_ID = "/rest";
@@ -45,6 +45,7 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
     private static final String API_DEACTIVATE_URL = "/rest/deactivate";
 
     protected String entity;
+    protected String dataTableId;
     protected String templatePath;
     protected String configViewName;
 
@@ -67,7 +68,7 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
         Map<String, String> errors = new HashMap<>();
         validator.validate(binder, errors);
         dataTableAttributes(model, binder, initFilter(), pagination, request);
-        model.addAttribute("isNew", true);
+        model.addAttribute("popup", dataTableId.concat("-add"));
         if (!CollectionUtils.isEmpty(errors)) {
             model.addAttribute("errors", errors);
             model.addAttribute("hasErrors", true);
@@ -82,6 +83,7 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
         Map<String, String> errors = new HashMap<>();
         validator.validate(binder, errors);
         dataTableAttributes(model, binder, initFilter(), pagination, request);
+        model.addAttribute("popup", dataTableId.concat("-edit"));
         if (!CollectionUtils.isEmpty(errors)) {
             model.addAttribute("hasErrors", true);
             model.addAttribute("errors", errors);
@@ -131,7 +133,7 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    private void dataTableAttributes(Model model, B binder, F filter, Pagination pagination, HttpServletRequest request) {
+    protected void dataTableAttributes(Model model, B binder, F filter, Pagination pagination, HttpServletRequest request) {
         if (CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_KEY)))
                 || CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_LABEL)))) {
             dataTableUIService.getMetaTableConfiguration(configViewName);
@@ -149,11 +151,13 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
         model.addAttribute("binder", binder);
         model.addAttribute("errors", new HashMap<>());
         model.addAttribute("hasErrors", false);
-        model.addAttribute("isNew", false);
+        model.addAttribute("popup", dataTableId);
         getExtraAttribute(model);
     }
 
-    protected F initFilter(){return null;}
+    protected F initFilter() {
+        return null;
+    }
 
     protected Map<String, Object> getFilterColumns(F filter) {
         return null;

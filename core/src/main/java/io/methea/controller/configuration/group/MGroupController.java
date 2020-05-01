@@ -43,6 +43,7 @@ public class MGroupController extends AbstractMetheaController<TUserGroup, UserG
         super(dataTableUIService);
         metheaService = mGroupService;
         entity = "groups";
+        super.dataTableId = "tbl-groups";
         configViewName = "groupList";
         templatePath = "configuration/group/group-list";
         this.dropdownService = dropdownService;

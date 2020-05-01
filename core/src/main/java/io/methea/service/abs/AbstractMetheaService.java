@@ -133,7 +133,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
         BeanUtils.copyProperties(obj, entity);
     }
 
-    private void setModifiedAuditLog(E entity) {
+    protected void setModifiedAuditLog(E entity) {
         BaseEntity obj = new BaseEntity(PrincipalUtils.getUserLoginId(request), LocalDateTime.ofInstant(new Date().toInstant(),
                 ZoneId.systemDefault()));
         BeanUtils.copyProperties(obj, entity, STATUS, "createdDateTime", "createdUser");

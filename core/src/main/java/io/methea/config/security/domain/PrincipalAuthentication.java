@@ -14,22 +14,33 @@ public class PrincipalAuthentication extends User {
 
     private static final long serialVersionUID = 1710102819742330038L;
     private final List<GrantedPermission> grantedPermissions;
+    private final MetheaPrincipal metheaPrincipal;
 
     public PrincipalAuthentication(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.grantedPermissions = new ArrayList<>();
+        this.metheaPrincipal = null;
     }
 
     public PrincipalAuthentication(String username, String password, Collection<? extends GrantedAuthority> authorities,
                                    Collection<? extends GrantedPermission> grantedPermissions) {
         super(username, password, authorities);
         this.grantedPermissions = validatedGrantedPermission(new ArrayList<>(grantedPermissions));
+        this.metheaPrincipal = null;
+    }
+
+    public PrincipalAuthentication(String username, String password, Collection<? extends GrantedAuthority> authorities,
+                                   Collection<? extends GrantedPermission> grantedPermissions, MetheaPrincipal principal) {
+        super(username, password, authorities);
+        this.grantedPermissions = validatedGrantedPermission(new ArrayList<>(grantedPermissions));
+        this.metheaPrincipal = principal;
     }
 
     public PrincipalAuthentication(String username, String password, boolean enabled, boolean accountNonExpired,
                                    boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.grantedPermissions = new ArrayList<>();
+        this.metheaPrincipal = null;
     }
 
     private List<GrantedPermission> validatedGrantedPermission(List<GrantedPermission> grantedPermissions) {
@@ -41,5 +52,9 @@ public class PrincipalAuthentication extends User {
 
     public List<GrantedPermission> getGrantedPermissions() {
         return grantedPermissions;
+    }
+
+    public MetheaPrincipal getMetheaPrincipal() {
+        return metheaPrincipal;
     }
 }

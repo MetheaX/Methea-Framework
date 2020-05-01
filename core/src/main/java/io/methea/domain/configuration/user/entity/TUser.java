@@ -19,13 +19,22 @@ public class TUser extends BaseEntity<TUser> {
     @Id
     @Column(name = "user_id")
     private String id;
+    @Column(name = "group_id", nullable = false)
     private String groupId;
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
+    @Column(name = "first_name", nullable = false)
     private String firstName;
+    @Column(name = "last_name", nullable = false)
     private String lastName;
+    @Column(name = "phone", nullable = false)
     private String phone;
+    @Column(name = "email", nullable = false)
     private String email;
+    @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "frc_usr_rst_pwd", nullable = false)
+    private String forceUserResetPassword;
 
     public String getId() {
         return id;
@@ -92,5 +101,13 @@ public class TUser extends BaseEntity<TUser> {
 
     public void setPassword(String password) {
         this.password = new BCryptPasswordEncoder().encode(password);
+    }
+
+    public String getForceUserResetPassword() {
+        return forceUserResetPassword;
+    }
+
+    public void setForceUserResetPassword(String forceUserResetPassword) {
+        this.forceUserResetPassword = forceUserResetPassword;
     }
 }
