@@ -6,12 +6,14 @@ import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.repository.configuration.user.UserRepository;
 import io.methea.util.PrincipalUtils;
 import io.methea.validator.abs.AbstractMetheaValidator;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Author : DKSilverX
@@ -32,7 +34,7 @@ public class UserValidator extends AbstractMetheaValidator<UserBinder> {
     @Override
     public void validate(UserBinder binder, Map<String, String> errors) {
         TUser user;
-        switch (errors.get("validateType")) {
+        switch (Optional.ofNullable(errors.get("validateType")).orElse(StringUtils.EMPTY)) {
             case "RST":
                 rejectIfBlank(errors, "label.user.password.blank", binder.getPassword(), "password", "Password");
                 rejectIfNotMatch(errors, "label.password.not.match.error", binder.getPassword(), binder.getConfirmPassword(),

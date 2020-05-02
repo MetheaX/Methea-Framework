@@ -10,4 +10,5 @@ import org.springframework.data.repository.CrudRepository;
  * Date : 21/08/2019
  */
 public interface UserRoleRepository extends CrudRepository<TRole, String>, HibernateExtensionRepository<RoleView, String> {
+    TRole findTRoleByName(String name);
 }

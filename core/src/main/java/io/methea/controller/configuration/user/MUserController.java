@@ -89,6 +89,7 @@ public class MUserController extends AbstractMetheaController<TUser, UserBinder,
     protected TUser getEntityFromBinder(UserBinder binder) {
         TUser user = new TUser();
         user.setId(UUID.randomUUID().toString());
+        user.setForceUserResetPassword("Y");
         return user;
     }
 
