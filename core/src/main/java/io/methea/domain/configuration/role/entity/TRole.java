@@ -1,4 +1,4 @@
-package io.methea.domain.configuration.role;
+package io.methea.domain.configuration.role.entity;
 
 import io.methea.domain.baseentity.BaseEntity;
 
