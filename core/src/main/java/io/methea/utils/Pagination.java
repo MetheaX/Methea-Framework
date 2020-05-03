@@ -1,4 +1,4 @@
-package io.methea.util;
+package io.methea.utils;
 
 /**
  * Author : DKSilverX

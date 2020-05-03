@@ -10,7 +10,7 @@ import io.methea.domain.configuration.user.view.UserView;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.service.configuration.user.MUserService;
 import io.methea.service.dropdown.MDropdownService;
-import io.methea.util.Pagination;
+import io.methea.utils.Pagination;
 import io.methea.validator.configuration.user.UserValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;

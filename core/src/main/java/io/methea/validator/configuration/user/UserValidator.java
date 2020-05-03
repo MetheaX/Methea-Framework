@@ -4,7 +4,7 @@ import io.methea.domain.configuration.user.dto.UserBinder;
 import io.methea.domain.configuration.user.entity.TUser;
 import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.repository.configuration.user.UserRepository;
-import io.methea.util.PrincipalUtils;
+import io.methea.utils.PrincipalUtils;
 import io.methea.validator.abs.AbstractMetheaValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -1,5 +1,6 @@
 package io.methea.service.configuration.uri;
 
+import io.methea.constant.MConstant;
 import io.methea.domain.configuration.permission.entity.TUserPermission;
 import io.methea.domain.configuration.role.entity.TRole;
 import io.methea.domain.configuration.uri.TRoleURI;
@@ -7,7 +8,7 @@ import io.methea.domain.configuration.user.entity.TUser;
 import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
 import io.methea.repository.configuration.role.UserRoleRepository;
 import io.methea.repository.configuration.uri.RoleUIRRepository;
-import io.methea.util.PrincipalUtils;
+import io.methea.utils.PrincipalUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,7 @@ public class URIHelperService {
             permission.setUriName(o.getUriName());
             permission.setUserId(entity.getUsername());
 
+            permission.setStatus(MConstant.ACTIVE_STATUS);
             permission.setCreatedUser(PrincipalUtils.getUserLoginId(request));
             permission.setUpdatedUser(PrincipalUtils.getUserLoginId(request));
             permission.setCreatedDateTime(LocalDateTime.ofInstant(new Date().toInstant(),

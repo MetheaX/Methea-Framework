@@ -39,8 +39,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login")
                 .usernameParameter("username").passwordParameter("password").and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager(), env))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(), env));
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), customAuthenticationService, env))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), env, customAuthenticationService));
     }
 
     @Override
