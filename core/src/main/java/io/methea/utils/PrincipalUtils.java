@@ -1,4 +1,4 @@
-package io.methea.util;
+package io.methea.utils;
 
 import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;

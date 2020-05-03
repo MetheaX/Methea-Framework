@@ -1,7 +1,7 @@
 package io.methea.controller.auth;
 
 import io.methea.constant.MConstant;
-import io.methea.util.SystemUtils;
+import io.methea.utils.SystemUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;

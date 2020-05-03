@@ -1,7 +1,9 @@
 package io.methea.config.jwt;
 
-import io.jsonwebtoken.Jwts;
+import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;
+import io.methea.service.auth.CustomAuthenticationService;
+import io.methea.utils.auth.JwtUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
@@ -17,8 +19,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Author : DKSilverX
@@ -27,11 +27,14 @@ import java.util.Objects;
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final Environment env;
+    private final CustomAuthenticationService authenticationService;
 
     @Inject
-    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, @Lazy Environment env) {
+    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, @Lazy Environment env,
+                                  CustomAuthenticationService authenticationService) {
         super(authenticationManager);
         this.env = env;
+        this.authenticationService = authenticationService;
     }
 
     @Override
@@ -53,19 +56,12 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
         String token = req.getHeader(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY))
                 ? JWTConstants.HEADER_STRING : env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY));
-
+        String[] tokens = token.split(MConstant.SEPARATOR);
         if (!StringUtils.isEmpty(token)) {
-            String user = Jwts.parser()
-                    .setSigningKey(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_SECRET_KEY))
-                            ? JWTConstants.SECRET.getBytes() : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_SECRET_KEY)).getBytes())
-                    .parseClaimsJws(token.replace(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_TOKEN_PREFIX))
-                            ? JWTConstants.TOKEN_PREFIX.concat(MConstant.SPACE)
-                            : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_TOKEN_PREFIX)).concat(MConstant.SPACE), StringUtils.EMPTY))
-                    .getBody()
-                    .getSubject();
-
+            String user = JwtUtil.decodeToken(tokens[0], tokens[1]);
             if (!StringUtils.isEmpty(user)) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+                PrincipalAuthentication authentication = authenticationService.loadClientByClientId(user);
+                return new UsernamePasswordAuthenticationToken(authentication, null, authentication.getAuthorities());
             }
             return null;
         }

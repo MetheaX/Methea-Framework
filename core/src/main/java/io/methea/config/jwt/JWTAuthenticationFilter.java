@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;
 import io.methea.domain.configuration.user.dto.UserLogin;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.methea.domain.webservice.dto.ClientAuthentication;
+import io.methea.service.auth.CustomAuthenticationService;
+import io.methea.utils.SystemUtils;
+import io.methea.utils.auth.JwtUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,9 +27,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Author : DKSilverX
@@ -38,13 +36,16 @@ import java.util.Objects;
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final CustomAuthenticationService customAuthenticationService;
     private final Environment env;
 
-    private UserLogin cred = null;
+    private ClientAuthentication authentication = null;
 
     @Inject
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, @Lazy Environment env) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager,
+                                   CustomAuthenticationService customAuthenticationService, @Lazy Environment env) {
         this.authenticationManager = authenticationManager;
+        this.customAuthenticationService = customAuthenticationService;
         this.env = env;
     }
 
@@ -67,17 +68,24 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             }
         } else {
             // it request from webservices
-            try {
-                this.cred = new ObjectMapper().readValue(req.getInputStream(), UserLogin.class);
-                return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                        this.cred.getUsername(),
-                        this.cred.getPassword(),
-                        new ArrayList<>()
-                ));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            return authenticate(req);
         }
+    }
+
+    private UsernamePasswordAuthenticationToken authenticate(HttpServletRequest request) {
+        try {
+            this.authentication = new ObjectMapper().readValue(request.getInputStream(), ClientAuthentication.class);
+            if (!ObjectUtils.isEmpty(this.authentication)) {
+                PrincipalAuthentication authentication = customAuthenticationService.loadClientByClientId(this.authentication);
+                if(!ObjectUtils.isEmpty(authentication)){
+                    return new UsernamePasswordAuthenticationToken(authentication, authentication.getPassword(), authentication.getAuthorities());
+                }
+                return null;
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        return null;
     }
 
     @Override
@@ -86,20 +94,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(cal.getTimeInMillis() + Long.parseLong(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))
                 ? JWTConstants.EXPIRATION_TIME : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))));
-        String token = Jwts.builder()
-                .setSubject(((PrincipalAuthentication) auth.getPrincipal()).getUsername())
-                .setExpiration(cal.getTime())
-                .signWith(SignatureAlgorithm.HS512, ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_SECRET_KEY))
-                        ? JWTConstants.SECRET.getBytes() : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_SECRET_KEY)).getBytes())
-                .compact();
+        Map<String, String> map = JwtUtil.encodeToken(((PrincipalAuthentication) auth.getPrincipal()).getUsername(), SystemUtils.getBaseUrl(req), cal);
         SecurityContextHolder.getContext().setAuthentication(getAuthentication(((PrincipalAuthentication) auth.getPrincipal())));
-        // if authenticate request from webservice success, give access token to client
-        if (!ObjectUtils.isEmpty(cred)) {
+        if (!ObjectUtils.isEmpty(authentication)) {
             res.addHeader(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY)) ? JWTConstants.HEADER_STRING
-                    : env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY), token);
-        }
-        // otherwise if authenticate success from UI, redirect to home page
-        else {
+                    : env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY), map.get(MConstant.JWT_TOKEN));
+            res.addHeader(MConstant.VERIFY_CODE, map.get(MConstant.VERIFY_CODE));
+            res.addHeader(MConstant.EXPIRED_IN, String.valueOf(cal.getTimeInMillis()));
+        } else {
             successHandler.onAuthenticationSuccess(req, res, auth);
         }
     }
@@ -107,13 +109,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                            AuthenticationException failed) throws IOException, ServletException {
+
         response.addHeader("Authentication Failed ::", failed.getMessage());
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(PrincipalAuthentication pricipal) {
-        if (!ObjectUtils.isEmpty(pricipal)) {
-            return new UsernamePasswordAuthenticationToken(pricipal, null,
-                    pricipal.getAuthorities());
+    private UsernamePasswordAuthenticationToken getAuthentication(PrincipalAuthentication principal) {
+        if (!ObjectUtils.isEmpty(principal)) {
+            return new UsernamePasswordAuthenticationToken(principal, null,
+                    principal.getAuthorities());
         }
         return null;
     }

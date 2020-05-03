@@ -8,6 +8,9 @@ public class MConstant {
     private MConstant() {
     }
 
+    public static final String RSA = "RSA";
+    public static final String SEPARATOR = "\\.";
+
     public static final String CONTEXT_PATH_KEY = "contextPath";
 
     // freemarker template
@@ -40,6 +43,9 @@ public class MConstant {
     public static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
     // webservice
+    public static final String VERIFY_CODE = "verify_code";
+    public static final String JWT_TOKEN = "jwt_token";
+    public static final String EXPIRED_IN = "expired_in";
     public static final String JSON_STATUS = "status";
     public static final String JSON_MESSAGE = "message";
     public static final String JSON_DATA = "data";

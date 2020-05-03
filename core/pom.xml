@@ -15,10 +15,12 @@
     <properties>
         <java.version>11</java.version>
         <inject.version>1</inject.version>
-        <jwt.version>0.9.1</jwt.version>
+        <jwt.version>8.16</jwt.version>
         <apache.commons.version>3.9</apache.commons.version>
         <apache.commons.collection.version>4.4</apache.commons.collection.version>
         <apache.commons.bean.version>1.9.4</apache.commons.bean.version>
+        <apache.commons.text.version>1.8</apache.commons.text.version>
+        <apache.commons.codec.version>1.8</apache.commons.codec.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -56,9 +58,24 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
             <version>${jwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.65</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>${apache.commons.text.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.directory.studio</groupId>
+            <artifactId>org.apache.commons.codec</artifactId>
+            <version>${apache.commons.codec.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

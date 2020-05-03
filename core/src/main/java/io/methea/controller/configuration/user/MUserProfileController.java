@@ -3,7 +3,7 @@ package io.methea.controller.configuration.user;
 import io.methea.constant.MConstant;
 import io.methea.domain.configuration.user.dto.UserBinder;
 import io.methea.service.configuration.user.MUserService;
-import io.methea.util.SystemUtils;
+import io.methea.utils.SystemUtils;
 import io.methea.validator.configuration.user.UserValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;

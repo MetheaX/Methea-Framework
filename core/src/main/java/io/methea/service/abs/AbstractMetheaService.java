@@ -7,12 +7,13 @@ import io.methea.domain.baseentity.abs.AbstractMetheaEntity;
 import io.methea.domain.baseview.abs.AbstractMetheaView;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
 import io.methea.repository.hibernateextension.domain.HibernatePage;
-import io.methea.util.MBeanUtils;
-import io.methea.util.Pagination;
-import io.methea.util.PrincipalUtils;
+import io.methea.utils.MBeanUtils;
+import io.methea.utils.Pagination;
+import io.methea.utils.PrincipalUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.inject.Inject;
@@ -33,6 +34,8 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
     private final Class<V> view;
     private final CrudRepository repository;
     private final HibernateExtensionRepository<V, ID> extensionRepository;
+    @Inject
+    private ApplicationEventPublisher publisher;
 
     public AbstractMetheaService(Class<V> view, CrudRepository repository,
                                  HibernateExtensionRepository<V, ID> extensionRepository) {
@@ -49,6 +52,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
             BeanUtils.copyProperties(binder, entity, MBeanUtils.getNullProperties(binder));
             setCreateAuditLog(entity);
             repository.save(entity);
+            publisher.publishEvent(entity);
             return entity;
         } catch (Exception ex) {
             log.error(">>>>> Save entity error: ", ex);

@@ -3,7 +3,7 @@ package io.methea.config.security;
 import io.methea.config.security.domain.GrantedPermission;
 import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;
-import io.methea.util.SystemUtils;
+import io.methea.utils.SystemUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.Ordered;
@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -54,10 +54,3 @@ How to build
     * Please note that currently, we testing only with [PostgreSQL](https://www.postgresql.org/)
  5. Sample project
     * Still have doubt here is our [sample project](https://github.com/MetheaX/Methea-Sample-Project)
-    * Access token from `client` by using this url `${baseURL}/auth/token` with following payload:
-        
-          {
-            	"username": "admin",
-            	"password": "admin"
-          }
-       
