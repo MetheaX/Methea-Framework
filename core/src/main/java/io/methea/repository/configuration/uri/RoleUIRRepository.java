@@ -1,6 +1,6 @@
 package io.methea.repository.configuration.uri;
 
-import io.methea.domain.configuration.uri.TRoleURI;
+import io.methea.domain.configuration.uri.entity.TRoleURI;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

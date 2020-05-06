@@ -3,7 +3,7 @@ package io.methea.service.configuration.uri;
 import io.methea.constant.MConstant;
 import io.methea.domain.configuration.permission.entity.TUserPermission;
 import io.methea.domain.configuration.role.entity.TRole;
-import io.methea.domain.configuration.uri.TRoleURI;
+import io.methea.domain.configuration.uri.entity.TRoleURI;
 import io.methea.domain.configuration.user.entity.TUser;
 import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
 import io.methea.repository.configuration.role.UserRoleRepository;
