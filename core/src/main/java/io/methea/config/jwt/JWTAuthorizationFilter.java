@@ -2,6 +2,8 @@ package io.methea.config.jwt;
 
 import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;
+import io.methea.domain.webservice.SystemCertificate;
+import io.methea.repository.webservice.SystemCertificateRepository;
 import io.methea.service.auth.CustomAuthenticationService;
 import io.methea.utils.auth.JwtUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -28,12 +30,14 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final Environment env;
     private final CustomAuthenticationService authenticationService;
+    private final SystemCertificateRepository certificateRepository;
 
     @Inject
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager, @Lazy Environment env,
-                                  CustomAuthenticationService authenticationService) {
+                                  CustomAuthenticationService authenticationService, SystemCertificateRepository certificateRepository) {
         super(authenticationManager);
         this.env = env;
+        this.certificateRepository = certificateRepository;
         this.authenticationService = authenticationService;
     }
 
@@ -56,9 +60,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
         String token = req.getHeader(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY))
                 ? JWTConstants.HEADER_STRING : env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY));
-        String[] tokens = token.split(MConstant.SEPARATOR);
+        SystemCertificate certificate = certificateRepository.findSystemCertificateByCode(MConstant.CERT_TYPE);
         if (!StringUtils.isEmpty(token)) {
-            String user = JwtUtil.decodeToken(tokens[0], tokens[1]);
+            String user = JwtUtil.decodeToken(token.replace(JWTConstants.TOKEN_PREFIX, StringUtils.EMPTY), certificate.getPrivateKey());
             if (!StringUtils.isEmpty(user)) {
                 PrincipalAuthentication authentication = authenticationService.loadClientByClientId(user);
                 return new UsernamePasswordAuthenticationToken(authentication, null, authentication.getAuthorities());

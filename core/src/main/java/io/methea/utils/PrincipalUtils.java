@@ -19,7 +19,7 @@ public class PrincipalUtils {
     }
 
     public static String getUserLoginId(HttpServletRequest request) {
-        String userLoginId = StringUtils.EMPTY;
+        String userLoginId = "SYS";
         HttpSession session = request.getSession(true);
         SecurityContextImpl securityContext = (SecurityContextImpl) session.getAttribute(MConstant.SPRING_SECURITY_CONTEXT);
         if (!ObjectUtils.isEmpty(securityContext)) {

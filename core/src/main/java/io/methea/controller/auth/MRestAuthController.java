@@ -5,7 +5,6 @@ import io.methea.constant.MConstant;
 import io.methea.domain.webservice.dto.ClientAuthentication;
 import io.methea.domain.webservice.dto.TokenInfo;
 import io.methea.utils.SystemUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
@@ -63,16 +62,14 @@ public class MRestAuthController {
                 map.put(MConstant.JSON_MESSAGE, "Bad request, please contact support team!!!");
                 map.put(MConstant.JSON_STATUS, 400);
             }
-            TokenInfo token = new TokenInfo(Objects.requireNonNull(response.getHeaders().get(tokenKey)).get(0)
-                    .concat(".").concat(Objects.requireNonNull(response.getHeaders().get(VERIFY_CODE)).get(0)),
-                    StringUtils.EMPTY, Objects.requireNonNull(response.getHeaders().get(MConstant.EXPIRED_IN)).get(0));
+            TokenInfo token = new TokenInfo(String.format("%s", Objects.requireNonNull(response.getHeaders().get(tokenKey)).get(0))
+                    , JWTConstants.TOKEN_PREFIX, Objects.requireNonNull(response.getHeaders().get(MConstant.EXPIRED_IN)).get(0));
             map.put("token", token);
             map.put(MConstant.JSON_MESSAGE, "Access token generated!!!");
             map.put(MConstant.JSON_STATUS, 200);
         } catch (Exception ex) {
             log.error(">>>>> Generate access token error: ", ex);
         }
-
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

@@ -8,16 +8,11 @@ import io.methea.domain.configuration.user.entity.TUser;
 import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
 import io.methea.repository.configuration.role.UserRoleRepository;
 import io.methea.repository.configuration.uri.RoleUIRRepository;
-import io.methea.utils.PrincipalUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,15 +27,13 @@ public class URIHelperService {
     private final RoleUIRRepository repository;
     private final UserRoleRepository roleRepository;
     private final UserGrantedPermissionRepository userGrantedPermissionRepository;
-    private final HttpServletRequest request;
 
     @Inject
     public URIHelperService(RoleUIRRepository repository, UserRoleRepository roleRepository,
-                            UserGrantedPermissionRepository userGrantedPermissionRepository, HttpServletRequest request) {
+                            UserGrantedPermissionRepository userGrantedPermissionRepository) {
         this.repository = repository;
         this.roleRepository = roleRepository;
         this.userGrantedPermissionRepository = userGrantedPermissionRepository;
-        this.request = request;
     }
 
     @Async
@@ -57,13 +50,6 @@ public class URIHelperService {
             permission.setUserId(entity.getUsername());
 
             permission.setStatus(MConstant.ACTIVE_STATUS);
-            permission.setCreatedUser(PrincipalUtils.getUserLoginId(request));
-            permission.setUpdatedUser(PrincipalUtils.getUserLoginId(request));
-            permission.setCreatedDateTime(LocalDateTime.ofInstant(new Date().toInstant(),
-                    ZoneId.systemDefault()));
-            permission.setUpdatedDateTime(LocalDateTime.ofInstant(new Date().toInstant(),
-                    ZoneId.systemDefault()));
-
             userGrantedPermissionRepository.save(permission);
         }
     }
