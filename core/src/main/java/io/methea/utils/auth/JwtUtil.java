@@ -15,11 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.KeyFactory;
-import java.security.KeyPair;
 import java.security.Security;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
 
 /**
@@ -52,13 +52,16 @@ public class JwtUtil {
         return username;
     }
 
-    public static Map<String, String> encodeToken(String subject, String issuer, Calendar expiration) {
+    public static Map<String, String> encodeToken(String key, String subject, String issuer, Calendar expiration) {
 
         Map<String, String> map = new HashMap<>();
-        KeyPair pair = new RsaKeyGenerate().createRsa();
         try {
-            RSAPublicKey pubKey = (RSAPublicKey) pair.getPublic();
-            RSAPrivateKey privateKey = (RSAPrivateKey) pair.getPrivate();
+            Security.addProvider(new BouncyCastleProvider());
+            byte[] data = Base64.decodeBase64(key);
+            X509EncodedKeySpec spec = new X509EncodedKeySpec (data);
+            KeyFactory fact = KeyFactory.getInstance(MConstant.RSA);
+            RSAPublicKey pubKey = (RSAPublicKey) fact.generatePublic(spec);
+
             JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                     .subject(subject)
                     .issuer(issuer)
@@ -76,7 +79,6 @@ public class JwtUtil {
             String jwtToken = jwtEncrypt.serialize();
 
             map.put(MConstant.JWT_TOKEN, Base64.encodeBase64String(jwtToken.getBytes()));
-            map.put(MConstant.VERIFY_CODE, Base64.encodeBase64String(privateKey.getEncoded()));
         } catch (Exception e) {
             log.error(">>>>> encodeToken error: " + e);
         }

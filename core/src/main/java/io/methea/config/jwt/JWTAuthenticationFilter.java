@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;
 import io.methea.domain.configuration.user.dto.UserLogin;
+import io.methea.domain.webservice.SystemCertificate;
 import io.methea.domain.webservice.dto.ClientAuthentication;
+import io.methea.repository.webservice.SystemCertificateRepository;
 import io.methea.service.auth.CustomAuthenticationService;
 import io.methea.utils.SystemUtils;
 import io.methea.utils.auth.JwtUtil;
@@ -38,16 +40,20 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
     private final CustomAuthenticationService customAuthenticationService;
     private final Environment env;
+    private final SystemCertificateRepository certificateRepository;
 
     private ClientAuthentication authentication = null;
 
     @Inject
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager,
-                                   CustomAuthenticationService customAuthenticationService, @Lazy Environment env) {
-        this.authenticationManager = authenticationManager;
-        this.customAuthenticationService = customAuthenticationService;
+                                   CustomAuthenticationService customAuthenticationService, @Lazy Environment env,
+                                   SystemCertificateRepository certificateRepository) {
         this.env = env;
+        this.authenticationManager = authenticationManager;
+        this.certificateRepository = certificateRepository;
+        this.customAuthenticationService = customAuthenticationService;
     }
+
 
     private AuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
 
@@ -63,6 +69,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                         cred.getPassword(),
                         new ArrayList<>()
                 ));
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -91,15 +98,18 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public void successfulAuthentication(HttpServletRequest req, HttpServletResponse res,
                                          FilterChain chain, Authentication auth) throws IOException, ServletException {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(cal.getTimeInMillis() + Long.parseLong(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))
-                ? JWTConstants.EXPIRATION_TIME : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))));
-        Map<String, String> map = JwtUtil.encodeToken(((PrincipalAuthentication) auth.getPrincipal()).getUsername(), SystemUtils.getBaseUrl(req), cal);
+
         SecurityContextHolder.getContext().setAuthentication(getAuthentication(((PrincipalAuthentication) auth.getPrincipal())));
         if (!ObjectUtils.isEmpty(authentication)) {
+            SystemCertificate certificate = certificateRepository.findSystemCertificateByCode(MConstant.CERT_TYPE);
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(cal.getTimeInMillis() + Long.parseLong(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))
+                    ? JWTConstants.EXPIRATION_TIME : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))));
+            Map<String, String> map = JwtUtil.encodeToken(certificate.getPublicKey(),
+                    ((PrincipalAuthentication) auth.getPrincipal()).getUsername(), SystemUtils.getBaseUrl(req), cal);
+
             res.addHeader(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY)) ? JWTConstants.HEADER_STRING
                     : env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY), map.get(MConstant.JWT_TOKEN));
-            res.addHeader(MConstant.VERIFY_CODE, map.get(MConstant.VERIFY_CODE));
             res.addHeader(MConstant.EXPIRED_IN, String.valueOf(cal.getTimeInMillis()));
         } else {
             successHandler.onAuthenticationSuccess(req, res, auth);

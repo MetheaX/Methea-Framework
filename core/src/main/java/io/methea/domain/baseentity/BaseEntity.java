@@ -2,7 +2,14 @@ package io.methea.domain.baseentity;
 
 
 import io.methea.domain.baseentity.abs.AbstractMetheaEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
@@ -11,14 +18,24 @@ import java.time.LocalDateTime;
  * Date : 01/02/2020
  */
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity<E> extends AbstractMetheaEntity<E> {
 
     private static final long serialVersionUID = -8290479674879840950L;
 
+    @Column(name = "status")
     private String status;
+    @CreatedBy
+    @Column(name = "created_user")
     private String createdUser;
+    @CreationTimestamp
+    @Column(name = "created_date_time")
     private LocalDateTime createdDateTime;
+    @LastModifiedBy
+    @Column(name = "updated_user")
     private String updatedUser;
+    @UpdateTimestamp
+    @Column(name = "updated_date_time")
     private LocalDateTime updatedDateTime;
 
     public BaseEntity() {

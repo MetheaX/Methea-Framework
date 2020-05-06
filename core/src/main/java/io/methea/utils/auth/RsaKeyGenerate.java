@@ -11,7 +11,7 @@ import java.security.*;
  */
 public class RsaKeyGenerate {
 
-    public KeyPair createRsa() {
+    public KeyPair createRsa(int keySize) {
 
         KeyPair keyPair = null;
         try {
@@ -20,7 +20,7 @@ public class RsaKeyGenerate {
             KeyPairGenerator generator = KeyPairGenerator.getInstance(MConstant.RSA, "BC");
 
             SecureRandom random = createFixedRandom();
-            generator.initialize(2048, random);
+            generator.initialize(keySize, random);
 
             keyPair = generator.generateKeyPair();
         } catch (Exception ex) {
@@ -42,10 +42,10 @@ public class RsaKeyGenerate {
 
         FixedRand() {
             try {
-                this.sha = MessageDigest.getInstance("SHA-1");
+                this.sha = MessageDigest.getInstance("SHA-512");
                 this.state = sha.digest();
             } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException("can't find SHA-1!");
+                throw new RuntimeException("can't find SHA-512!");
             }
         }
 

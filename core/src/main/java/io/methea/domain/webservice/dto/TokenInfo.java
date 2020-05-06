@@ -1,6 +1,5 @@
 package io.methea.domain.webservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.methea.domain.basebinder.BaseBinder;
 
@@ -12,15 +11,15 @@ public class TokenInfo extends BaseBinder<TokenInfo> {
     private static final long serialVersionUID = -1214966833081523840L;
 
     private String accessToken;
-    private String verifyCode;
+    private String tokenType;
     private String expiredIn;
 
     public TokenInfo() {
     }
 
-    public TokenInfo(String accessToken, String verifyCode, String expiredIn) {
+    public TokenInfo(String accessToken, String tokenType, String expiredIn) {
         this.accessToken = accessToken;
-        this.verifyCode = verifyCode;
+        this.tokenType = tokenType;
         this.expiredIn = expiredIn;
     }
 
@@ -33,14 +32,13 @@ public class TokenInfo extends BaseBinder<TokenInfo> {
         this.accessToken = accessToken;
     }
 
-    @JsonIgnore
-    @JsonProperty("verify_code")
-    public String getVerifyCode() {
-        return verifyCode;
+    @JsonProperty("token_type")
+    public String getTokenType() {
+        return tokenType;
     }
 
-    public void setVerifyCode(String verifyCode) {
-        this.verifyCode = verifyCode;
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
     }
 
     @JsonProperty("expired_in")
