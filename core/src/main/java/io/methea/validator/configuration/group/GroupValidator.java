@@ -15,7 +15,7 @@ import java.util.Map;
 public class GroupValidator extends AbstractMetheaValidator<UserGroupBinder> {
 
     public GroupValidator(AccountRepository accountRepository) {
-       repository = accountRepository;
+       super.repository = accountRepository;
     }
 
     @Override

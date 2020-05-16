@@ -1,4 +1,4 @@
-package io.methea.domain.configuration.account.dropdown;
+package io.methea.domain.configuration.uri.dropdown;
 
 import io.methea.domain.baseview.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;
@@ -6,17 +6,17 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
 
 /**
  * Author : DKSilverX
- * Date : 25/04/2020
+ * Date : 16/05/2020
  */
-@SelectFrom(fromClause = "FROM TUserGroup o", orderBy = "ORDER BY o.groupName ASC")
-public class GroupDropdown extends BaseView<GroupDropdown> {
-    private static final long serialVersionUID = -8990771004017469895L;
+@SelectFrom(fromClause = "FROM TMstURI o", orderBy = "ORDER BY o.uriName ASC")
+public class URIDropdown extends BaseView<URIDropdown> {
+    private static final long serialVersionUID = -1139917831592179706L;
     @Column(name = "o.id")
     private String id;
-    @Column(name = "o.groupName", key = "status", where = "AND o.status = :status", isLastColumn = true)
+    @Column(name = "o.uriName", key = "status", where = "AND o.status = :status", isLastColumn = true)
     private String name;
 
-    public GroupDropdown(String id, String name) {
+    public URIDropdown(String id, String name) {
         this.id = id;
         this.name = name;
     }

@@ -29,12 +29,11 @@ import java.util.Map;
 public class HibernateExtensionRepositoryImpl<V, ID> implements HibernateExtensionRepository<V, ID> {
 
     private SessionFactory sessionFactory;
-    private EntityManager entityManager;
     private static final String SPACE = " ";
 
     @Autowired
     public HibernateExtensionRepositoryImpl(final EntityManagerFactory entityManagerFactory) {
-        entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         sessionFactory = entityManager.unwrap(Session.class).getSessionFactory();
     }
 
@@ -160,7 +159,9 @@ public class HibernateExtensionRepositoryImpl<V, ID> implements HibernateExtensi
             }
             selectClause = selectClause.concat(")").concat(SPACE);
             hql = hql.concat(selectClause).concat(view.getAnnotation(SelectFrom.class).fromClause()).concat(SPACE)
-                    .concat(whereClause).concat(" AND ").concat(view.getAnnotation(SelectFrom.class).getById());
+                    .concat(whereClause).concat(" AND ").concat(view.getAnnotation(SelectFrom.class).getById())
+                    .concat(StringUtils.isEmpty(view.getAnnotation(SelectFrom.class).join()) ? StringUtils.EMPTY : " AND ")
+                    .concat(view.getAnnotation(SelectFrom.class).join());
             List<V> page = getByQuery(hql, parameters, view, 0, 0);
             if (!CollectionUtils.isEmpty(page)) {
                 return page.get(0);
