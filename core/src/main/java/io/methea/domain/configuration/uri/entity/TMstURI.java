@@ -1,4 +1,4 @@
-package io.methea.domain.configuration.uri;
+package io.methea.domain.configuration.uri.entity;
 
 import io.methea.domain.baseentity.BaseEntity;
 

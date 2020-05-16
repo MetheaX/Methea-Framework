@@ -14461,7 +14461,7 @@ html {
       width: 100%; } }
 
 .content-wrapper {
-  /*background: #f2f8f9;*/
+  background: #f2f8f9;
   padding: 1.5rem 1.7rem;
   width: 100%;
   -webkit-flex-grow: 1;

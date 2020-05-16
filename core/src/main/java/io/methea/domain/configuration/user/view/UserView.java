@@ -8,7 +8,8 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Author : DKSilverX
  * Date : 23/04/2020
  */
-@SelectFrom(fromClause = "FROM TUser o, TUserGroup p", orderBy = "ORDER BY o.updatedDateTime DESC")
+@SelectFrom(fromClause = "FROM TUser o, TUserGroup p", join = "o.groupId = p.id",
+        orderBy = "ORDER BY o.updatedDateTime DESC")
 public class UserView extends BaseView<UserView> {
     private static final long serialVersionUID = 1458249184346892136L;
 

@@ -38,6 +38,8 @@ public class MConstant {
     public static final String DROPDOWN = "mDropdown";
     public static final String ACCOUNT_DROPDOWN = "accountDropdown";
     public static final String GROUP_DROPDOWN = "groupDropdown";
+    public static final String ROLE_DROPDOWN = "roleDropdown";
+    public static final String URI_DROPDOWN = "uriDropdown";
 
     // security filter
     public static final String SLASH = "/";

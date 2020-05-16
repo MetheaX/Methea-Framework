@@ -1,4 +1,4 @@
-package io.methea.domain.configuration.uri;
+package io.methea.domain.configuration.uri.entity;
 
 import io.methea.domain.baseentity.BaseEntity;
 
@@ -14,8 +14,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tbl_core_role_uri")
 public class TRoleURI extends BaseEntity<TRoleURI> {
-
     private static final long serialVersionUID = -6211213996483237997L;
+
     @Id
     @Column(name = "role_uri_id")
     private String id;

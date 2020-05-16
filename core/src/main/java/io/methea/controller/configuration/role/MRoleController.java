@@ -42,12 +42,12 @@ public class MRoleController extends AbstractMetheaController<TRole, RoleBinder,
     }
 
     @Override
-    protected RoleFilter initFilter(){
+    protected RoleFilter initFilter() {
         return new RoleFilter();
     }
 
     @Override
-    protected Map<String, Object> getFilterColumns(RoleFilter filter){
+    protected Map<String, Object> getFilterColumns(RoleFilter filter) {
         Map<String, Object> param = new HashMap<>();
         param.put("name", "%".concat(filter.getName().toLowerCase()).concat("%"));
         param.put("status", "%".concat(StringUtils.isEmpty(filter.getStatus()) ? StringUtils.EMPTY :
@@ -56,14 +56,14 @@ public class MRoleController extends AbstractMetheaController<TRole, RoleBinder,
     }
 
     @Override
-    protected TRole getEntityFromBinder(RoleBinder binder){
+    protected TRole getEntityFromBinder(RoleBinder binder) {
         TRole role = new TRole();
         role.setId(UUID.randomUUID().toString());
         return role;
     }
 
     @Override
-    protected String getEntityId(RoleBinder binder){
+    protected String getEntityId(RoleBinder binder) {
         return binder.getId();
     }
 }
