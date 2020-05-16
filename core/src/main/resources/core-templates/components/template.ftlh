@@ -232,6 +232,9 @@
                                     <a class="nav-link" href="${contextPath}/app/uris">URLs</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="${contextPath}/app/roleURIs">Role URI Mapping</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="${contextPath}/app/granted-uris">User Granted URLs</a>
                                 </li>
                             </ul>
