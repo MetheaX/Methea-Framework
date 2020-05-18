@@ -22,6 +22,7 @@ public class SystemCertificate extends BaseEntity<SystemCertificate> {
     @Type(type = "text")
     @Column(name = "code", nullable = false, unique = true)
     private String code;
+    @Type(type = "text")
     @Column(name = "private_key", nullable =  false)
     private String privateKey;
     @Type(type = "text")

@@ -20,8 +20,11 @@ public class TUserGroup extends BaseEntity<TUserGroup> {
     @Id
     @Column(name = "group_id")
     private String id;
+    @Column(name = "account_id", nullable = false)
     private String accountId;
+    @Column(name = "group_name", nullable = false)
     private String groupName;
+    @Column(name = "remarks")
     private String remarks;
 
     public String getId() {

@@ -23,19 +23,19 @@ public class BaseEntity<E> extends AbstractMetheaEntity<E> {
 
     private static final long serialVersionUID = -8290479674879840950L;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private String status;
     @CreatedBy
-    @Column(name = "created_user")
+    @Column(name = "created_user", nullable = false)
     private String createdUser;
     @CreationTimestamp
-    @Column(name = "created_date_time")
+    @Column(name = "created_date_time", nullable = false)
     private LocalDateTime createdDateTime;
     @LastModifiedBy
-    @Column(name = "updated_user")
+    @Column(name = "updated_user", nullable = false)
     private String updatedUser;
     @UpdateTimestamp
-    @Column(name = "updated_date_time")
+    @Column(name = "updated_date_time", nullable = false)
     private LocalDateTime updatedDateTime;
 
     public BaseEntity() {

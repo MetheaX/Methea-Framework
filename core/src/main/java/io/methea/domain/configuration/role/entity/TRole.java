@@ -18,6 +18,7 @@ public class TRole extends BaseEntity<TRole> {
     @Id
     @Column(name = "role_id")
     private String id;
+    @Column(name = "name", nullable = false)
     private String name;
 
     public String getId() {

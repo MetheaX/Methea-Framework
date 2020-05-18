@@ -19,8 +19,11 @@ public class TRoleURI extends BaseEntity<TRoleURI> {
     @Id
     @Column(name = "role_uri_id")
     private String id;
+    @Column(name = "role_id", nullable = false)
     private String roleId;
+    @Column(name = "uri_id", nullable = false)
     private String uriId;
+    @Column(name = "uri_name", nullable = false)
     private String uriName;
 
     public String getId() {

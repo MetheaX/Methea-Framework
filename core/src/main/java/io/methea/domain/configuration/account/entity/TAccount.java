@@ -19,8 +19,11 @@ public class TAccount extends BaseEntity<TAccount> {
     @Id
     @Column(name = "account_id")
     private String id;
+    @Column(name = "account_name", nullable = false)
     private String accountName;
+    @Column(name = "account_email", nullable =  false)
     private String accountEmail;
+    @Column(name = "account_address")
     private String accountAddress;
 
     public String getId() {
