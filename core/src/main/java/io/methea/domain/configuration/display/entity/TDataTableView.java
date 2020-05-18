@@ -15,10 +15,15 @@ public class TDataTableView extends BaseEntity<TDataTableView> {
     private static final long serialVersionUID = 2479617149185927338L;
     @Id
     private String id;
+    @Column(name = "view_name", nullable = false)
     private String viewName;
+    @Column(name = "label_column_head", nullable = false)
     private String labelColumnHead;
+    @Column(name = "allow_filter", nullable = false)
     private String allowFilter;
+    @Column(name = "column_key", nullable = false)
     private String columnKey;
+    @Column(name = "sequence", nullable = false)
     private Integer sequence;
 
     public String getId() {

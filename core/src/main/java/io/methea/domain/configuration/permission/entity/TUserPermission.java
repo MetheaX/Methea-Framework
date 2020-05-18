@@ -21,8 +21,11 @@ public class TUserPermission extends BaseEntity<TUserPermission> {
     @Id
     @Column(name = "permission_id")
     private String id;
+    @Column(name = "user_id", nullable = false)
     private String userId;
+    @Column(name = "role_user_id", nullable = false)
     private String roleUserId;
+    @Column(name = "uri_name", nullable = false)
     private String uriName;
 
     public String getId() {

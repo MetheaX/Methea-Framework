@@ -19,6 +19,7 @@ public class TMstURI extends BaseEntity<TMstURI> {
     @Id
     @Column(name = "uri_id")
     private String id;
+    @Column(name = "uri_name", nullable = false)
     private String uriName;
 
     public String getId() {
