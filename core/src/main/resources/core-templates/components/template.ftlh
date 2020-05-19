@@ -210,7 +210,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#core-config" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="menu-icon mdi mdi-content-copy"></i>
+                            <i class="menu-icon mdi mdi-key-variant"></i>
                             <span class="menu-title">Configurations</span>
                             <i class="menu-arrow"></i>
                         </a>
@@ -235,14 +235,31 @@
                                     <a class="nav-link" href="${contextPath}/app/roleURIs">Role URI Mapping</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="${contextPath}/app/granted-uris">User Granted URLs</a>
+                                    <a class="nav-link" href="${contextPath}/app/permissions">Users Permissions</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#web-services-config" aria-expanded="false" aria-controls="ui-basic">
+                            <i class="menu-icon mdi mdi-server-security"></i>
+                            <span class="menu-title">Web-Services Configs</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="web-services-config">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">System Certificate</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Clients</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#additional-config" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="menu-icon mdi mdi-backup-restore"></i>
+                            <i class="menu-icon mdi mdi-settings"></i>
                             <span class="menu-title">Additional Settings</span>
                             <i class="menu-arrow"></i>
                         </a>
