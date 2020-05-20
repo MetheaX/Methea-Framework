@@ -1,5 +1,7 @@
 package io.methea.controller.configuration.permission;
 
+import io.methea.cache.MCache;
+import io.methea.constant.MConstant;
 import io.methea.controller.abs.AbstractMetheaController;
 import io.methea.domain.configuration.permission.dto.RMPermissionBinder;
 import io.methea.domain.configuration.permission.entity.TRMUserPermission;
@@ -7,11 +9,14 @@ import io.methea.domain.configuration.permission.filter.RMPermissionFilter;
 import io.methea.domain.configuration.permission.view.RMPermissionView;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.service.configuration.permission.MRMPermissionService;
+import io.methea.service.dropdown.MDropdownService;
 import io.methea.validator.configuration.permission.RMPermissionValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -31,16 +36,28 @@ public class MPermissionController extends AbstractMetheaController<TRMUserPermi
         RMPermissionView, RMPermissionFilter> {
     static final String ROOT_URL = "/app/permissions";
 
+    private final MDropdownService dropdownService;
+
     @Inject
-    public MPermissionController(DataTableUIService dataTableUIService, RMPermissionValidator validator,
+    public MPermissionController(DataTableUIService dataTableUIService, MDropdownService dropdownService, RMPermissionValidator validator,
                                  MRMPermissionService service) {
         super(dataTableUIService);
+        this.dropdownService = dropdownService;
         super.validator = validator;
         super.metheaService = service;
         entity = "permissions";
         super.dataTableId = "tbl-permissions";
         configViewName = "permissionList";
         templatePath = "configuration/permission/user-permission";
+    }
+
+    @Override
+    protected Model getExtraAttribute(Model model) {
+        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
+            dropdownService.getDropdownData();
+        }
+        model.addAttribute(MConstant.DROPDOWN, MCache.cacheMetaData.get(MConstant.DROPDOWN));
+        return model;
     }
 
     @Override
