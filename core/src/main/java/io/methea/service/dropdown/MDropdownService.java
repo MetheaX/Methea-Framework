@@ -6,6 +6,7 @@ import io.methea.domain.configuration.account.dropdown.AccountDropdown;
 import io.methea.domain.configuration.group.dropdown.GroupDropdown;
 import io.methea.domain.configuration.role.dropdown.RoleDropdown;
 import io.methea.domain.configuration.uri.dropdown.URIDropdown;
+import io.methea.domain.configuration.user.dropdown.UserDropdown;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,17 +30,19 @@ public class MDropdownService {
     private final HibernateExtensionRepository<GroupDropdown, String> groupRepository;
     private final HibernateExtensionRepository<RoleDropdown, String> roleRepository;
     private final HibernateExtensionRepository<URIDropdown, String> uriRepository;
+    private final HibernateExtensionRepository<UserDropdown, String> userRepository;
     private final Map<String, Object> param = new HashMap<>();
 
     @Inject
     public MDropdownService(HibernateExtensionRepository<AccountDropdown, String> repository,
                             HibernateExtensionRepository<GroupDropdown, String> groupRepository,
                             HibernateExtensionRepository<RoleDropdown, String> roleRepository,
-                            HibernateExtensionRepository<URIDropdown, String> uriRepository) {
+                            HibernateExtensionRepository<URIDropdown, String> uriRepository, HibernateExtensionRepository<UserDropdown, String> userRepository) {
         this.repository = repository;
         this.groupRepository = groupRepository;
         this.roleRepository = roleRepository;
         this.uriRepository = uriRepository;
+        this.userRepository = userRepository;
         param.put(MConstant.JSON_STATUS, MConstant.ACTIVE_STATUS);
     }
 
@@ -47,12 +50,13 @@ public class MDropdownService {
         Map<String, Object> map = new HashMap<>();
         try {
             map.put(MConstant.ACCOUNT_DROPDOWN, getAccountDropdown());
+            map.put(MConstant.USER_DROPDOWN, getUserDropdown());
             map.put(MConstant.GROUP_DROPDOWN, getGroupDropdown());
             map.put(MConstant.ROLE_DROPDOWN, getRoleDropdown());
             map.put(MConstant.URI_DROPDOWN, getURIDropdown());
             MCache.cacheMetaData.put(MConstant.DROPDOWN, map);
         } catch (Exception ex) {
-            log.error(">>>>> Get dropdown data error: ", ex);
+            log.error("=========> Get dropdown data error: ", ex);
         }
     }
 
@@ -61,7 +65,7 @@ public class MDropdownService {
         try {
             list = repository.getByQuery(param, AccountDropdown.class);
         } catch (Exception ex) {
-            log.error(">>>>> Get account dropdown error: ", ex);
+            log.error("=========> Get account dropdown error: ", ex);
         }
         return list;
     }
@@ -71,7 +75,7 @@ public class MDropdownService {
         try {
             list = groupRepository.getByQuery(param, GroupDropdown.class);
         } catch (Exception ex) {
-            log.error(">>>>> Get group dropdown error: ", ex);
+            log.error("=========> Get group dropdown error: ", ex);
         }
         return list;
     }
@@ -81,7 +85,7 @@ public class MDropdownService {
         try {
             list = roleRepository.getByQuery(param, RoleDropdown.class);
         } catch (Exception ex) {
-            log.error(">>>>> Get role dropdown error: ", ex);
+            log.error("=========> Get role dropdown error: ", ex);
         }
         return list;
     }
@@ -91,7 +95,17 @@ public class MDropdownService {
         try {
             list = uriRepository.getByQuery(param, URIDropdown.class);
         } catch (Exception ex) {
-            log.error(">>>>> Get URI dropdown error: ", ex);
+            log.error("=========> Get URI dropdown error: ", ex);
+        }
+        return list;
+    }
+
+    private List<UserDropdown> getUserDropdown() {
+        List<UserDropdown> list = new ArrayList<>();
+        try {
+            list = userRepository.getByQuery(param, UserDropdown.class);
+        } catch (Exception ex) {
+            log.error("=========> Get user dropdown error: ", ex);
         }
         return list;
     }

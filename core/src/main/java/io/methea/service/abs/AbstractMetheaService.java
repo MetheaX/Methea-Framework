@@ -18,6 +18,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -47,6 +48,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
     @Inject
     protected HttpServletRequest request;
 
+    @Transactional
     public E saveEntity(E entity, B binder) {
         try {
             BeanUtils.copyProperties(binder, entity, MBeanUtils.getNullProperties(binder));
@@ -60,6 +62,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
         return null;
     }
 
+    @Transactional
     public E modifyEntity(ID id, B binder) {
         try {
             Optional<E> optional = repository.findById(id);
@@ -68,6 +71,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
                 BeanUtils.copyProperties(binder, entity, MBeanUtils.getNullProperties(binder));
                 setModifiedAuditLog(entity);
                 repository.save(entity);
+                publisher.publishEvent(entity);
                 return entity;
             }
         } catch (Exception ex) {
@@ -76,6 +80,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
         return null;
     }
 
+    @Transactional
     public boolean activateEntity(ID id) {
         boolean isActivate = false;
         try {
@@ -84,6 +89,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
                 E entity = optional.get();
                 setStatusAuditLog(entity, MConstant.ACTIVE_STATUS);
                 repository.save(entity);
+                publisher.publishEvent(entity);
                 isActivate = true;
             }
         } catch (Exception ex) {
@@ -92,6 +98,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
         return isActivate;
     }
 
+    @Transactional
     public boolean deactivateEntity(ID id) {
         boolean isDeactivate = false;
         try {
@@ -100,6 +107,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
                 E entity = optional.get();
                 setStatusAuditLog(entity, "I");
                 repository.save(entity);
+                publisher.publishEvent(entity);
                 isDeactivate = true;
             }
         } catch (Exception ex) {

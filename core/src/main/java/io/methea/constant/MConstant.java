@@ -37,6 +37,7 @@ public class MConstant {
     // cache dropdown data
     public static final String DROPDOWN = "mDropdown";
     public static final String ACCOUNT_DROPDOWN = "accountDropdown";
+    public static final String USER_DROPDOWN = "userDropdown";
     public static final String GROUP_DROPDOWN = "groupDropdown";
     public static final String ROLE_DROPDOWN = "roleDropdown";
     public static final String URI_DROPDOWN = "uriDropdown";
