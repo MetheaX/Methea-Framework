@@ -18,6 +18,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -47,6 +48,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
     @Inject
     protected HttpServletRequest request;
 
+    @Transactional
     public E saveEntity(E entity, B binder) {
         try {
             BeanUtils.copyProperties(binder, entity, MBeanUtils.getNullProperties(binder));
@@ -60,6 +62,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
         return null;
     }
 
+    @Transactional
     public E modifyEntity(ID id, B binder) {
         try {
             Optional<E> optional = repository.findById(id);
@@ -77,6 +80,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
         return null;
     }
 
+    @Transactional
     public boolean activateEntity(ID id) {
         boolean isActivate = false;
         try {
@@ -94,6 +98,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
         return isActivate;
     }
 
+    @Transactional
     public boolean deactivateEntity(ID id) {
         boolean isDeactivate = false;
         try {

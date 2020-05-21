@@ -39,6 +39,7 @@ public class ConfigurationEventListener {
     }
 
     @Async
+    @Transactional
     @EventListener
     public void handleUserCreatedEvent(TUser entity) {
         TRole role = roleRepository.findTRoleByName(SYS_STARTER);
