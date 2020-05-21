@@ -16,7 +16,7 @@
 
         <@mmodal.modal className="modal-tbl-permissions-add" labelTitle="Apply Permission">
             <@mform.form actionUrl="${contextPath}/app/permissions/save" resetUrl="/app/permissions">
-                <@mselect.select labelName="Username" selectId="labelPermUsername" selectName="userId"
+                <@mselect.select labelName="Username" selectId="labelPermUsername" selectName="userLoginId"
                 values=mDropdown.userDropdown required="true" errors=errors></@mselect.select>
                 <@mselect.select labelName="Role name" selectId="labelPermRoleName" selectName="roleId"
                 values=mDropdown.roleDropdown required="true" errors=errors></@mselect.select>
@@ -27,7 +27,7 @@
             <@mform.form actionUrl="${contextPath}/app/permissions/modify" resetUrl="/app/permissions">
                 <@mhiddeninput.input inputType="text" inputId="labelEditPermissionId" inputName="id"
                 inputValue="${binder.id}" required="true"></@mhiddeninput.input>
-                <@mselect.select labelName="Username" selectId="labelEditPermUsername" selectName="userId"
+                <@mselect.select labelName="Username" selectId="labelEditPermUsername" selectName="userLoginId"
                 values=mDropdown.userDropdown required="true" errors=errors></@mselect.select>
                 <@mselect.select labelName="Role name" selectId="labelEditPermRoleName" selectName="roleId"
                 values=mDropdown.roleDropdown required="true" errors=errors></@mselect.select>

@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface RoleUIRRepository extends CrudRepository<TRoleURI, String>,
+public interface RoleURIRepository extends CrudRepository<TRoleURI, String>,
         HibernateExtensionRepository<RoleURIView, String> {
     List<TRoleURI> findAllByRoleId(String roleId);
 }

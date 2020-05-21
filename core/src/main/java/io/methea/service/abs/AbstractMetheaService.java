@@ -68,6 +68,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
                 BeanUtils.copyProperties(binder, entity, MBeanUtils.getNullProperties(binder));
                 setModifiedAuditLog(entity);
                 repository.save(entity);
+                publisher.publishEvent(entity);
                 return entity;
             }
         } catch (Exception ex) {
@@ -84,6 +85,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
                 E entity = optional.get();
                 setStatusAuditLog(entity, MConstant.ACTIVE_STATUS);
                 repository.save(entity);
+                publisher.publishEvent(entity);
                 isActivate = true;
             }
         } catch (Exception ex) {
@@ -100,6 +102,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
                 E entity = optional.get();
                 setStatusAuditLog(entity, "I");
                 repository.save(entity);
+                publisher.publishEvent(entity);
                 isDeactivate = true;
             }
         } catch (Exception ex) {
