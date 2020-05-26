@@ -6,7 +6,9 @@ import io.methea.domain.webservice.dto.CertificateBinder;
 import io.methea.repository.webservice.SystemCertificateRepository;
 import io.methea.utils.auth.RsaKeyGenerate;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.inject.Inject;
 import java.security.KeyPair;
@@ -23,13 +25,17 @@ public class CertificateService {
     private final SystemCertificateRepository certificateRepository;
 
     @Inject
-    public CertificateService(SystemCertificateRepository certificateRepository) throws Exception {
+    public CertificateService(SystemCertificateRepository certificateRepository) {
         this.certificateRepository = certificateRepository;
     }
 
-    public SystemCertificate createCertificate(CertificateBinder binder) {
-        SystemCertificate certificate = new SystemCertificate();
-        certificate.setId(UUID.randomUUID().toString());
+    public SystemCertificate createOrUpdateCertificate(CertificateBinder binder) {
+
+        SystemCertificate certificate = certificateRepository.findSystemCertificateByCode(binder.getCode());
+        if (ObjectUtils.isEmpty(certificate)) {
+            certificate = new SystemCertificate();
+            certificate.setId(UUID.randomUUID().toString());
+        }
         certificate.setCode(binder.getCode());
 
         KeyPair pair = new RsaKeyGenerate().createRsa(MConstant.FOUR_KEY_SIZE);
@@ -42,6 +48,29 @@ public class CertificateService {
 
         certificateRepository.save(certificate);
 
+        return certificate;
+    }
+
+    public CertificateBinder getSystemCertificate() {
+        CertificateBinder binder = new CertificateBinder();
+        SystemCertificate certificate = certificateRepository.findSystemCertificateByCode(MConstant.CERT_TYPE);
+        if (!ObjectUtils.isEmpty(certificate)) {
+            BeanUtils.copyProperties(certificate, binder);
+        }
+        return binder;
+    }
+
+    public SystemCertificate activateCertificate() {
+        SystemCertificate certificate = certificateRepository.findSystemCertificateByCode(MConstant.CERT_TYPE);
+        certificate.setStatus(MConstant.ACTIVE_STATUS);
+        certificateRepository.save(certificate);
+        return certificate;
+    }
+
+    public SystemCertificate deactivateCertificate() {
+        SystemCertificate certificate = certificateRepository.findSystemCertificateByCode(MConstant.CERT_TYPE);
+        certificate.setStatus(MConstant.INACTIVE_STATUS);
+        certificateRepository.save(certificate);
         return certificate;
     }
 }

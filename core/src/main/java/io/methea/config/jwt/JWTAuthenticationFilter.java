@@ -6,6 +6,7 @@ import io.methea.constant.MConstant;
 import io.methea.domain.configuration.user.dto.UserLogin;
 import io.methea.domain.webservice.SystemCertificate;
 import io.methea.domain.webservice.dto.ClientAuthentication;
+import io.methea.exception.CertificateNotFoundException;
 import io.methea.repository.webservice.SystemCertificateRepository;
 import io.methea.service.auth.CustomAuthenticationService;
 import io.methea.utils.SystemUtils;
@@ -83,7 +84,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             this.authentication = new ObjectMapper().readValue(request.getInputStream(), ClientAuthentication.class);
             if (!ObjectUtils.isEmpty(this.authentication)) {
                 PrincipalAuthentication authentication = customAuthenticationService.loadClientByClientId(this.authentication);
-                if(!ObjectUtils.isEmpty(authentication)){
+                if (!ObjectUtils.isEmpty(authentication)) {
                     return new UsernamePasswordAuthenticationToken(authentication, authentication.getPassword(), authentication.getAuthorities());
                 }
                 return null;
@@ -100,7 +101,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         SecurityContextHolder.getContext().setAuthentication(getAuthentication(((PrincipalAuthentication) auth.getPrincipal())));
         if (!ObjectUtils.isEmpty(authentication)) {
-            SystemCertificate certificate = certificateRepository.findSystemCertificateByCode(MConstant.CERT_TYPE);
+            SystemCertificate certificate = certificateRepository.findSystemCertificateByCodeAndStatus(MConstant.CERT_TYPE,
+                    MConstant.ACTIVE_STATUS);
+            if (ObjectUtils.isEmpty(certificate)) {
+                throw new CertificateNotFoundException("No active certificate could be found! Please check system certificate!");
+            }
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(cal.getTimeInMillis() + Long.parseLong(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))
                     ? JWTConstants.EXPIRATION_TIME : Objects.requireNonNull(env.getProperty(MConstant.CLIENT_TOKEN_EXPIRATION))));

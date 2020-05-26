@@ -23,7 +23,7 @@ public class CacheController {
     private static final String REDIRECT_URL = "redirect:/app";
 
     @RequestMapping(value = StringUtils.EMPTY, method = RequestMethod.GET)
-    public ModelAndView clearSystemCache(){
+    public ModelAndView clearSystemCache() {
         MCache.cacheMetaData.clear();
         return new ModelAndView(REDIRECT_URL);
     }

@@ -28,6 +28,7 @@ public class MConstant {
     public static final String COMMA = ",";
     public static final String SPACE = " ";
     public static final String ACTIVE_STATUS = "A";
+    public static final String INACTIVE_STATUS = "I";
 
     // cache datatable meta data
     public static final String COLUMNS_LABEL = "_COLUMNS_LABEL";

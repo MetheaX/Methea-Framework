@@ -14467,6 +14467,14 @@ html {
   -webkit-flex-grow: 1;
   flex-grow: 1; }
 
+.sub-content-wrapper {
+  background: #f2f8f9;
+  padding: 0.2rem 0.2rem;
+  width: 100%;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+}
+
 .container-scroller {
   overflow: hidden; }
 
@@ -16545,5 +16553,31 @@ ul {
 @media (min-width: 992px) {
   .error-page .error-page-divider {
     border-left: 3px solid rgba(255, 255, 255, 0.2); } }
+
+.info-msg,
+.success-msg,
+.warning-msg,
+.error-msg {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 3px 3px 3px 3px;
+}
+
+.info-msg {
+  color: #059;
+  background-color: #BEF;
+}
+.success-msg {
+  color: #270;
+  background-color: #DFF2BF;
+}
+.warning-msg {
+  color: #9F6000;
+  background-color: #FEEFB3;
+}
+.error-msg {
+  color: #D8000C;
+  background-color: #FFBABA;
+}
 
 /*# sourceMappingURL=maps/style.css.map */
