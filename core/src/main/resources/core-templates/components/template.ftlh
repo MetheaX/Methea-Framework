@@ -249,7 +249,7 @@
                         <div class="collapse" id="web-services-config">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">System Certificate</a>
+                                    <a class="nav-link" href="${contextPath}/app/system-certificate">System Certificate</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Clients</a>
