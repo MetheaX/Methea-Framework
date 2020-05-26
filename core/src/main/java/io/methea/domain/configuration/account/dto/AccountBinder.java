@@ -91,18 +91,4 @@ public class AccountBinder extends BaseBinder<AccountBinder> {
     public void setAccountUpdatedDate(String accountUpdatedDate) {
         this.accountUpdatedDate = accountUpdatedDate;
     }
-
-    @Override
-    public String toString() {
-        return "AccountBinder{" +
-                "accountName='" + accountName + '\'' +
-                ", accountEmail='" + accountEmail + '\'' +
-                ", accountAddress='" + accountAddress + '\'' +
-                ", accountCreatedUser='" + accountCreatedUser + '\'' +
-                ", accountCreatedDate='" + accountCreatedDate + '\'' +
-                ", accountUpdatedUser='" + accountUpdatedUser + '\'' +
-                ", accountUpdatedDate='" + accountUpdatedDate + '\'' +
-                ", status='" + status + '\'' +
-                '}';
-    }
 }

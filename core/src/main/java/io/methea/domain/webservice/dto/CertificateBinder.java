@@ -13,6 +13,7 @@ public class CertificateBinder extends BaseBinder<CertificateBinder> {
     private String code = StringUtils.EMPTY;
     private String privateKey = StringUtils.EMPTY;
     private String publicKey = StringUtils.EMPTY;
+    private String status = StringUtils.EMPTY;
 
     public String getCode() {
         return code;
@@ -36,5 +37,13 @@ public class CertificateBinder extends BaseBinder<CertificateBinder> {
 
     public void setPublicKey(String publicKey) {
         this.publicKey = publicKey;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

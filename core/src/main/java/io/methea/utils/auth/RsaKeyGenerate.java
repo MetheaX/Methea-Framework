@@ -19,7 +19,7 @@ public class RsaKeyGenerate {
             // Create the public and private keys
             KeyPairGenerator generator = KeyPairGenerator.getInstance(MConstant.RSA, "BC");
 
-            SecureRandom random = createFixedRandom();
+            SecureRandom random = new SecureRandom();
             generator.initialize(keySize, random);
 
             keyPair = generator.generateKeyPair();

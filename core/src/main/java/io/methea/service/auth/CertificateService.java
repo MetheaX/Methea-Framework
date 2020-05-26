@@ -59,4 +59,18 @@ public class CertificateService {
         }
         return binder;
     }
+
+    public SystemCertificate activateCertificate() {
+        SystemCertificate certificate = certificateRepository.findSystemCertificateByCode(MConstant.CERT_TYPE);
+        certificate.setStatus(MConstant.ACTIVE_STATUS);
+        certificateRepository.save(certificate);
+        return certificate;
+    }
+
+    public SystemCertificate deactivateCertificate() {
+        SystemCertificate certificate = certificateRepository.findSystemCertificateByCode(MConstant.CERT_TYPE);
+        certificate.setStatus(MConstant.INACTIVE_STATUS);
+        certificateRepository.save(certificate);
+        return certificate;
+    }
 }

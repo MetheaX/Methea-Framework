@@ -3,6 +3,7 @@ package io.methea.config.jwt;
 import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;
 import io.methea.domain.webservice.SystemCertificate;
+import io.methea.exception.CertificateNotFoundException;
 import io.methea.repository.webservice.SystemCertificateRepository;
 import io.methea.service.auth.CustomAuthenticationService;
 import io.methea.utils.auth.JwtUtil;
@@ -60,7 +61,11 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
         String token = req.getHeader(ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY))
                 ? JWTConstants.HEADER_STRING : env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY));
-        SystemCertificate certificate = certificateRepository.findSystemCertificateByCode(MConstant.CERT_TYPE);
+        SystemCertificate certificate = certificateRepository.findSystemCertificateByCodeAndStatus(MConstant.CERT_TYPE,
+                MConstant.ACTIVE_STATUS);
+        if (ObjectUtils.isEmpty(certificate)) {
+            throw new CertificateNotFoundException("No active certificate could be found! Please check system certificate!");
+        }
         if (!StringUtils.isEmpty(token)) {
             String user = JwtUtil.decodeToken(token.replace(JWTConstants.TOKEN_PREFIX, StringUtils.EMPTY), certificate.getPrivateKey());
             if (!StringUtils.isEmpty(user)) {
