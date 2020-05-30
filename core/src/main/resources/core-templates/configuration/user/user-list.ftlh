@@ -12,8 +12,8 @@
         <div class="table-responsive">
             <@mtable.table thead=tableHead tdata=users tcolumns=tableColumns filters=tableFilterColumns
             dataFilters=dataFilters urlFilter="/app/users" id="tbl-users">
-                <button class="btn badge badge-inverse-danger btn-reset-user-password" data-toggle="modal"
-                        data-target=".modal-tbl-users-reset-password">Reset Password</button>
+                <button class="dropdown-item btn-reset-user-password" data-toggle="modal"
+                        data-target=".modal-tbl-users-reset-password"><i class="fa fa-window-restore"></i>&nbsp;&nbsp;Reset Password</button>
             </@mtable.table>
         </div>
 

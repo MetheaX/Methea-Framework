@@ -14,7 +14,7 @@
 #-->
 <#import "../input/methea-filter-input.ftlh" as filter>
 <#macro table id thead tdata tcolumns filters dataFilters urlFilter>
-    <table class="table table-striped">
+    <table class="table table-responsive-sm table-striped">
         <#if thead?has_content>
             <thead>
             <tr>
@@ -29,11 +29,14 @@
                     </#if>
                 </#list>
                 <th>
-                    <button class="btn btn-facebook" onclick="onFilter()">Search</button>
-                    <button class="btn btn-google" onclick="onResetFilter()">Reset</button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target=".modal-${id}-add">Add
-                        New
-                        <i class="mdi mdi-plus"></i></button>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></button>
+                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <button class="dropdown-item" onclick="onFilter()"><i class="fa fa-filter"></i>&nbsp;&nbsp;Search</button>
+                            <button class="dropdown-item" onclick="onResetFilter()"><i class="fa fa-retweet"></i>&nbsp;&nbsp;Reset</button>
+                            <button class="dropdown-item" data-toggle="modal" data-target=".modal-${id}-add"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add new</button>
+                        </div>
+                    </div>
                 </th>
             </tr>
             <tr>
@@ -53,7 +56,8 @@
             <#assign statusClassName = "badge badge-success">
             <#assign statusLabel = "Active">
             <#assign buttonLabel = "Disable">
-            <#assign buttonClassName = "badge-danger btn-${id}-disable">
+            <#assign buttonClassName = "btn-danger btn-${id}-disable">
+            <#assign iconLabel = "fa-window-close-o">
             <tr>
                 <#list tcolumns as col>
                     <#if col == "status">
@@ -61,7 +65,8 @@
                             <#assign statusClassName = "badge badge-danger">
                             <#assign statusLabel = "Inactive">
                             <#assign buttonLabel = "Enable">
-                            <#assign buttonClassName = "badge-warning btn-${id}-enable">
+                            <#assign buttonClassName = "btn-warning btn-${id}-enable">
+                            <#assign iconLabel = "fa-check-square">
                         </#if>
                         <td>
                             <label class="${statusClassName}">${statusLabel}</label>
@@ -73,10 +78,15 @@
                     </#if>
                 </#list>
                 <td>
-                    <button class="btn badge ${buttonClassName}">${buttonLabel}</button>
-                    <button class="btn badge badge-success btn-${id}-data-edit" data-toggle="modal"
-                            data-target=".modal-${id}-edit">Edit</button>
-                    <#nested>
+                    <div class="btn-group">
+                        <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></button>
+                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <button class="dropdown-item ${buttonClassName}"><i class="fa ${iconLabel}"></i>&nbsp;&nbsp;${buttonLabel}</button>
+                            <button class="dropdown-item btn-success btn-${id}-data-edit" data-toggle="modal"
+                                    data-target=".modal-${id}-edit"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit</button>
+                            <#nested>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </#list>
