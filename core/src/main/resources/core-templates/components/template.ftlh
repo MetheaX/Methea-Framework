@@ -1,296 +1,123 @@
 <#macro main title>
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <!--
+    * CoreUI - Free Bootstrap Admin Template
+    * @version v3.2.0
+    * @link https://coreui.io
+    * Copyright (c) 2020 creativeLabs Łukasz Holeczek
+    * Licensed under MIT (https://coreui.io/license)
+    -->
+    <html lang="en">
     <head>
-        <#-- Required meta tags-->
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <meta name="description" content="Methea - Open Source Framework">
+        <meta name="author" content="DKSilverX">
+        <meta name="keyword"
+              content="Methea,Spring,Framework,Boot,Open,Source,Java,FreeMarker,Authentication,Server,Authorize">
         <title>Methea | ${title}</title>
-        <#-- plugins:css-->
-        <link rel="stylesheet" href="${contextPath}/resources/vendor/iconfonts/mdi/css/materialdesignicons.min.css">
-        <link rel="stylesheet" href="${contextPath}/resources/vendor/css/vendor.bundle.base.css">
-        <link rel="stylesheet" href="${contextPath}/resources/vendor/css/vendor.bundle.addons.css">
-        <link rel="stylesheet" href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css">
-        <#-- endinject -->
-        <#-- plugin css for this page -->
-        <#-- End plugin css for this page -->
-        <#-- inject:css -->
+
         <link rel="stylesheet" href="${contextPath}/resources/css/style.css">
         <link rel="stylesheet" href="${contextPath}/resources/vendor/select2/select2.min.css">
         <link rel="stylesheet" href="${contextPath}/resources/vendor/select2/select2-bootstrap.min.css">
-        <#-- endinject -->
+        <link rel="stylesheet" href="${contextPath}/resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     </head>
-    <body>
-        <#-- plugins:js -->
-        <script src="${contextPath}/resources/vendor/js/vendor.bundle.base.js"></script>
-        <script src="${contextPath}/resources/vendor/js/vendor.bundle.addons.js"></script>
-        <#-- endinject -->
-        <#-- Plugin js for this page-->
-        <#-- End plugin js for this page-->
-        <#-- inject:js -->
-        <script src="${contextPath}/resources/js/off-canvas.js"></script>
-        <script src="${contextPath}/resources/js/misc.js"></script>
-        <#-- endinject -->
-        <#-- Custom js for this page-->
-        <script src="${contextPath}/resources/js/dashboard.js"></script>
-        <script src="${contextPath}/resources/axios/axios.min.js"></script>
-        <script src="${contextPath}/resources/vendor/jquery/jquery-3.2.1.min.js"></script>
-        <script src="${contextPath}/resources/vendor/jquery/jquery.twbsPagination.min.js"></script>
-        <script src="${contextPath}/resources/vendor/sweetalert/sweetalert.min.js"></script>
-        <script src="${contextPath}/resources/vendor/select2/select2.min.js"></script>
-        <script src="${contextPath}/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $.fn.select2.defaults.set( "theme", "bootstrap" );
-            });
-        </script>
-        <#-- End custom js for this page-->
-        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-top" style="padding-left: 10px">
-                <a class="navbar-brand brand-logo" href="index.html">
-                    <img src="${contextPath}/resources/images/methea-logo-extent.svg" alt="logo" />
-                </a>
-            </div>
-            <div class="navbar-menu-wrapper d-flex align-items-center">
-                <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                            <i class="mdi mdi-file-document-box"></i>
-                            <span class="count">7</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                            <div class="dropdown-item">
-                                <p class="mb-0 font-weight-normal float-left">You have 7 unread mails
-                                </p>
-                                <span class="badge badge-info badge-pill float-right">View all</span>
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="${contextPath}/resources/images/faces/face4.jpg" alt="image" class="profile-pic">
-                                </div>
-                                <div class="preview-item-content flex-grow">
-                                    <h6 class="preview-subject ellipsis font-weight-medium text-dark">David Grey
-                                        <span class="float-right font-weight-light small-text">1 Minutes ago</span>
-                                    </h6>
-                                    <p class="font-weight-light small-text">
-                                        The meeting is cancelled
-                                    </p>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="${contextPath}/resources/images/faces/face2.jpg" alt="image" class="profile-pic">
-                                </div>
-                                <div class="preview-item-content flex-grow">
-                                    <h6 class="preview-subject ellipsis font-weight-medium text-dark">Tim Cook
-                                        <span class="float-right font-weight-light small-text">15 Minutes ago</span>
-                                    </h6>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="${contextPath}/resources/images/faces/face3.jpg" alt="image" class="profile-pic">
-                                </div>
-                                <div class="preview-item-content flex-grow">
-                                    <h6 class="preview-subject ellipsis font-weight-medium text-dark"> Johnson
-                                        <span class="float-right font-weight-light small-text">18 Minutes ago</span>
-                                    </h6>
-                                    <p class="font-weight-light small-text">
-                                        Upcoming board meeting
-                                    </p>
-                                </div>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-                            <i class="mdi mdi-bell"></i>
-                            <span class="count">4</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                            <a class="dropdown-item">
-                                <p class="mb-0 font-weight-normal float-left">You have 4 new notifications
-                                </p>
-                                <span class="badge badge-pill badge-warning float-right">View all</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-success">
-                                        <i class="mdi mdi-alert-circle-outline mx-0"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <h6 class="preview-subject font-weight-medium text-dark">Application Error</h6>
-                                    <p class="font-weight-light small-text">
-                                        Just now
-                                    </p>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-warning">
-                                        <i class="mdi mdi-comment-text-outline mx-0"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <h6 class="preview-subject font-weight-medium text-dark">Settings</h6>
-                                    <p class="font-weight-light small-text">
-                                        Private message
-                                    </p>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-info">
-                                        <i class="mdi mdi-email-outline mx-0"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <h6 class="preview-subject font-weight-medium text-dark">New user registration</h6>
-                                    <p class="font-weight-light small-text">
-                                        2 days ago
-                                    </p>
-                                </div>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown d-none d-xl-inline-block">
-                        <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                            <span class="profile-text">Hello, DKSilverX !</span>
-                            <img class="img-xs rounded-circle" src="${contextPath}/resources/images/faces/dk-profile.png" alt="Profile image">
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
-                            <a class="dropdown-item p-0">
-                                <div class="d-flex border-bottom">
-                                    <div class="py-3 px-4 d-flex align-items-center justify-content-center">
-                                        <i class="mdi mdi-bookmark-plus-outline mr-0 text-gray"></i>
-                                    </div>
-                                    <div class="py-3 px-4 d-flex align-items-center justify-content-center border-left border-right">
-                                        <i class="mdi mdi-account-outline mr-0 text-gray"></i>
-                                    </div>
-                                    <div class="py-3 px-4 d-flex align-items-center justify-content-center">
-                                        <i class="mdi mdi-alarm-check mr-0 text-gray"></i>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item mt-2">
-                                Manage Profile
-                            </a>
-                            <a class="dropdown-item">
-                                Change Password
-                            </a>
-                            <a class="dropdown-item">
-                                Check Inbox
-                            </a>
-                            <a class="dropdown-item" href="${contextPath}/logout">
-                                Sign Out
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-                    <span class="icon-menu"></span>
-                </button>
-            </div>
-        </nav>
-        <div class="container-fluid page-body-wrapper">
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="${contextPath}/app">
-                            <i class="menu-icon mdi mdi-television"></i>
-                            <span class="menu-title">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#core-config" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="menu-icon mdi mdi-key-variant"></i>
-                            <span class="menu-title">Configurations</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="core-config">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${contextPath}/app/accounts">Accounts</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${contextPath}/app/groups">Groups</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${contextPath}/app/users">Users</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${contextPath}/app/roles">Roles</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${contextPath}/app/uris">URLs</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${contextPath}/app/roleURIs">Role URI Mapping</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${contextPath}/app/permissions">Users Permissions</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#web-services-config" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="menu-icon mdi mdi-server-security"></i>
-                            <span class="menu-title">Web-Services Configs</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="web-services-config">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${contextPath}/app/system-certificate">System Certificate</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Clients</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#additional-config" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="menu-icon mdi mdi-settings"></i>
-                            <span class="menu-title">Additional Settings</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="additional-config">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Column Datatable</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${contextPath}/app/clear-caches">Clear System Caches</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-            <div class="main-panel">
-                <div class="content-wrapper">
-                    <#nested>
-                </div>
-                <footer class="footer">
-                    <div class="container-fluid clearfix">
-                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2020
-                          <a href="#" target="_blank">Custom By DKSilverX</a>. All rights reserved.</span>
-                                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with
-                          <i class="mdi mdi-heart text-danger"></i>
-                        </span>
-                    </div>
-                </footer>
-            </div>
+    <body class="c-app">
+    <script src="${contextPath}/resources/axios/axios.min.js"></script>
+    <script src="${contextPath}/resources/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="${contextPath}/resources/vendor/jquery/jquery.twbsPagination.min.js"></script>
+    <script src="${contextPath}/resources/vendor/sweetalert/sweetalert.min.js"></script>
+    <script src="${contextPath}/resources/vendor/select2/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.fn.select2.defaults.set( "theme", "bootstrap" );
+        });
+    </script>
+    <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
+        <div>
+            <h3 class="c-sidebar-brand-full"><a class="c-sidebar-nav-link" href="${contextPath}">Methea Framework</a>
+            </h3>
         </div>
+        <ul class="c-sidebar-nav">
+            <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a
+                        class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#"><i class="fa fa-cog fa-lg"></i>&nbsp;&nbsp;Configurations</a>
+                <ul class="c-sidebar-nav-dropdown-items">
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/accounts">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-building-o"></i>&nbsp;&nbsp;Accounts</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/groups">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-group"></i>&nbsp;&nbsp;Groups</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/users">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-user-o"></i>&nbsp;&nbsp;Users</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/roles">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-id-badge"></i>&nbsp;&nbsp;Roles</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/uris">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-server"></i>&nbsp;&nbsp;URLs</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/roleURIs">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-unlock"></i>&nbsp;&nbsp;Role URI Mapping</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/permissions">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-lock"></i>&nbsp;&nbsp;User Permissions</a></li>
+                </ul>
+            </li>
+            <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+                <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#"><i class="fa fa-cloud fa-lg"></i>&nbsp;&nbsp;Web-Services Configs</a>
+                <ul class="c-sidebar-nav-dropdown-items">
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/system-certificate">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-id-card"></i>&nbsp;&nbsp;System Certificate</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-user-secret" ></i>&nbsp;&nbsp;Clients</a></li>
+                </ul>
+            </li>
+            <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+                <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#"><i class="fa fa-plus-square fa-lg"></i>&nbsp;&nbsp;Addons</a>
+                <ul class="c-sidebar-nav-dropdown-items">
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-table fa-lg"></i>&nbsp;&nbsp;Datable Configuration</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/clear-caches">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-recycle"></i>&nbsp;&nbsp;Clear System Cache</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="c-wrapper c-fixed-components">
+        <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+            <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar"
+                    data-class="c-sidebar-lg-show" responsive="true">
+                <i class="fa fa-bars fa-2x"></i>
+            </button>
+            <ul class="c-header-nav ml-auto mr-4">
+                <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#"
+                                                          role="button" aria-haspopup="true" aria-expanded="false">
+                        <div class="c-avatar"><img class="c-avatar-img"
+                                                   src="${contextPath}/resources/images/faces/dk-profile.png"
+                                                   alt="Profile Image"></div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right pt-0">
+                        <div class="dropdown-header bg-light py-2"><strong>Settings</strong></div>
+                        <a class="dropdown-item" href="#"><i class="fa fa-user-circle"></i>&nbsp;&nbsp;Profile</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-cog"></i>&nbsp;&nbsp;Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </header>
+        <div class="c-body">
+            <main class="c-main">
+                <div class="container-fluid">
+                    <div class="fade-in">
+                        <#nested>
+                    </div>
+                </div>
+            </main>
+            <footer class="c-footer">
+                <div><a href="${contextPath}">Methea Framework</a> © 2020 Methea Labs.</div>
+                <div class="ml-auto">Powered by&nbsp;<a href="${contextPath}">Methea Framework</a></div>
+            </footer>
+        </div>
+    </div>
+    <script src="${contextPath}/resources/vendor/coreui/coreui.bundle.min.js"></script>
+    <script src="${contextPath}/resources/vendor/coreui/utils/coreui-utils.js"></script>
     </body>
-</html>
+    </html>
 </#macro>

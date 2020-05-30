@@ -10,7 +10,7 @@ Methea build on top of following frameworks:
 1. [Spring Boot](https://spring.io/projects/spring-boot)
 2. [JWT](https://jwt.io/)
 3. [FreeMarker](https://freemarker.apache.org/)
-4. [Star Admin Template](https://github.com/BootstrapDash/StarAdmin-Free-Bootstrap-Admin-Template/)
+4. [CoreUI](https://coreui.io/)
 
 # Building from sources
 
@@ -46,10 +46,7 @@ How to build
     - create file `environment.properties` with the configuration
     
     		methea.client.freemarker.templates=your-template-path
-            methea.client.security.secret=your-jwt-secret-key
-            methea.client.security.token.expiration_time=your-token-expiration
-            methea.client.security.token.prefix=Bearer
-            methea.client.security.request.header=Authorization
+    		
  4. Config datasource of your choice
     * Please note that currently, we testing only with [PostgreSQL](https://www.postgresql.org/)
  5. Sample project
