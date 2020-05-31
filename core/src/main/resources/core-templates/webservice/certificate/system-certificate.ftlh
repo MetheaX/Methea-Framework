@@ -9,17 +9,13 @@
     <@template.main title="System Certificate">
         <div class="sub-content-wrapper">
             <#if "A" == "${certificateStatus}">
-                <div class="success-msg">
-                    System certificate active.
-                </div>
+                <div class="alert alert-success" role="alert">System certificate active.</div>
             <#else>
-                <div class="error-msg">
-                    System certificate inactive.
-                </div>
+                <div class="alert alert-danger" role="alert">System certificate inactive.</div>
             </#if>
         </div>
         <div class="sub-content-wrapper">
-            <a class="btn btn-google btn-disable-certificate">Disable Certificate</a>
+            <a class="btn btn-ghost-danger btn-disable-certificate">Disable Certificate</a>
             <a class="btn btn-success btn-enable-certificate">Enable Certificate</a>
             <a class="btn btn-facebook" href="${contextPath}/app/system-certificate/re-generate">Re-Generate
                 Certificate</a>

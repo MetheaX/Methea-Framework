@@ -7,11 +7,9 @@
 <#import "../../components/pagination/methea-pagination.ftlh" as mpagination>
 <#compress>
     <@template.main title="URIs">
-        <div class="table-responsive">
-            <@mtable.table thead=tableHead tdata=uris tcolumns=tableColumns filters=tableFilterColumns
-            dataFilters=dataFilters urlFilter="/app/uris" id="tbl-uris">
-            </@mtable.table>
-        </div>
+        <@mtable.table thead=tableHead tdata=uris tcolumns=tableColumns filters=tableFilterColumns
+        dataFilters=dataFilters urlFilter="/app/uris" id="tbl-uris">
+        </@mtable.table>
 
         <@mmodal.modal className="modal-tbl-uris-add" labelTitle="Add New URIs">
             <@mform.form actionUrl="${contextPath}/app/uris/save" resetUrl="/app/uris">
