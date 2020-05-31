@@ -9,13 +9,13 @@
 <#import "../../components/pagination/methea-pagination.ftlh" as mpagination>
 <#compress>
     <@template.main title="Users">
-        <div class="table-responsive">
-            <@mtable.table thead=tableHead tdata=users tcolumns=tableColumns filters=tableFilterColumns
-            dataFilters=dataFilters urlFilter="/app/users" id="tbl-users">
-                <button class="dropdown-item btn-reset-user-password" data-toggle="modal"
-                        data-target=".modal-tbl-users-reset-password"><i class="fa fa-window-restore"></i>&nbsp;&nbsp;Reset Password</button>
-            </@mtable.table>
-        </div>
+        <@mtable.table thead=tableHead tdata=users tcolumns=tableColumns filters=tableFilterColumns
+        dataFilters=dataFilters urlFilter="/app/users" id="tbl-users">
+            <button class="dropdown-item btn-reset-user-password" data-toggle="modal"
+                    data-target=".modal-tbl-users-reset-password"><i class="fa fa-window-restore"></i>&nbsp;&nbsp;Reset
+                Password
+            </button>
+        </@mtable.table>
 
         <@mmodal.modal className="modal-tbl-users-add" labelTitle="Add New User">
             <@mform.form actionUrl="${contextPath}/app/users/save" resetUrl="/app/users">

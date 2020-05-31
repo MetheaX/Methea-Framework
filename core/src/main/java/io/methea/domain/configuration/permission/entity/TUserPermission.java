@@ -27,6 +27,8 @@ public class TUserPermission extends BaseEntity<TUserPermission> {
     private String roleUserId;
     @Column(name = "uri_name", nullable = false)
     private String uriName;
+    @Column(name = "view_id")
+    private String viewId;
 
     public String getId() {
         return id;
@@ -61,5 +63,13 @@ public class TUserPermission extends BaseEntity<TUserPermission> {
 
     public void setUriName(String uriName) {
         this.uriName = uriName;
+    }
+
+    public String getViewId() {
+        return viewId;
+    }
+
+    public void setViewId(String viewId) {
+        this.viewId = viewId;
     }
 }

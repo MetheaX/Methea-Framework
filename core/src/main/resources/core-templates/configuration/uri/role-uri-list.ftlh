@@ -8,11 +8,9 @@
 <#import "../../components/pagination/methea-pagination.ftlh" as mpagination>
 <#compress>
     <@template.main title="Map Role URIs">
-        <div class="table-responsive">
-            <@mtable.table thead=tableHead tdata=roleURIs tcolumns=tableColumns filters=tableFilterColumns
-            dataFilters=dataFilters urlFilter="/app/roleURIs" id="tbl-role-uris">
-            </@mtable.table>
-        </div>
+        <@mtable.table thead=tableHead tdata=roleURIs tcolumns=tableColumns filters=tableFilterColumns
+        dataFilters=dataFilters urlFilter="/app/roleURIs" id="tbl-role-uris">
+        </@mtable.table>
         <@mmodal.modal className="modal-tbl-role-uris-add" labelTitle="Add New Mapping">
             <@mform.form actionUrl="${contextPath}/app/roleURIs/save" resetUrl="/app/roleURIs">
                 <@mselect.select labelName="Role Name" selectId="labelRoleName" selectName="roleId"
@@ -35,22 +33,22 @@
 
         <@mpagination.pagination page=pagination url="/app/roleURIs"></@mpagination.pagination>
     </@template.main>
-<script>
-    $(document).ready(function () {
-        const $modalEdit = $('.modal-tbl-role-uris-edit');
-        $('.btn-tbl-role-uris-data-edit').click(function () {
-            const $row = $(this).closest("tr");
-            const $id = $row.find('td:eq(0)').text();
-            axios.get('${contextPath}' + '/app/roleURIs/rest?id=' + $id).then(function (response) {
-                if (response.data.status === 200) {
-                    $modalEdit.find('input[name="id"]').val(response.data.roleURIs.id);
-                    $modalEdit.find('select[name="roleId"]').val(response.data.roleURIs.roleId).trigger('change');
-                    $modalEdit.find('select[name="uriId"]').val(response.data.roleURIs.uriId).trigger('change');
-                }
-            }).catch(function (error) {
-                console.log(error);
+    <script>
+        $(document).ready(function () {
+            const $modalEdit = $('.modal-tbl-role-uris-edit');
+            $('.btn-tbl-role-uris-data-edit').click(function () {
+                const $row = $(this).closest("tr");
+                const $id = $row.find('td:eq(0)').text();
+                axios.get('${contextPath}' + '/app/roleURIs/rest?id=' + $id).then(function (response) {
+                    if (response.data.status === 200) {
+                        $modalEdit.find('input[name="id"]').val(response.data.roleURIs.id);
+                        $modalEdit.find('select[name="roleId"]').val(response.data.roleURIs.roleId).trigger('change');
+                        $modalEdit.find('select[name="uriId"]').val(response.data.roleURIs.uriId).trigger('change');
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
             });
         });
-    });
-</script>
+    </script>
 </#compress>

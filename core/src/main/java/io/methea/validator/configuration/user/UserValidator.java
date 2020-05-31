@@ -55,6 +55,19 @@ public class UserValidator extends AbstractMetheaValidator<UserBinder> {
                 }
                 errors.remove("validateType");
                 break;
+            case "EDIT":
+                rejectIfInvalidParent(errors, "label.user.group.invalid", binder.getGroupId(), "groupId", "Group Name");
+                rejectIfBlank(errors, "label.user.username.blank", binder.getUsername(), "username", "Username");
+                user = userRepository.findByUsername(binder.getUsername());
+                if (ObjectUtils.isEmpty(user)) {
+                    errors.put("username", "*Error: user not found!!!");
+                }
+                rejectIfBlank(errors, "label.user.firstName.blank", binder.getFirstName(), "firstName", "Firstname");
+                rejectIfBlank(errors, "label.user.lastName.blank", binder.getLastName(), "lastName", "Lastname");
+                rejectIfBlank(errors, "label.user.phone.blank", binder.getPhone(), "phone", "Phone");
+                rejectIfBlank(errors, "label.user.email.blank", binder.getEmail(), "email", "Email");
+                errors.remove("validateType");
+                break;
             default:
                 rejectIfInvalidParent(errors, "label.user.group.invalid", binder.getGroupId(), "groupId", "Group Name");
                 rejectIfBlank(errors, "label.user.username.blank", binder.getUsername(), "username", "Username");

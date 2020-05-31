@@ -14,7 +14,7 @@
 #-->
 <#import "../input/methea-filter-input.ftlh" as filter>
 <#macro table id thead tdata tcolumns filters dataFilters urlFilter>
-    <table class="table table-responsive-sm table-striped">
+    <table class="table table-responsive-md table-bordered table-striped table-sm">
         <#if thead?has_content>
             <thead>
             <tr>

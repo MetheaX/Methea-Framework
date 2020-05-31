@@ -2,6 +2,7 @@ package io.methea.service.auth;
 
 import io.methea.config.security.domain.MetheaPrincipal;
 import io.methea.config.security.domain.PrincipalAuthentication;
+import io.methea.constant.MConstant;
 import io.methea.domain.configuration.group.view.GroupAuthorityView;
 import io.methea.domain.configuration.permission.view.PermissionView;
 import io.methea.domain.configuration.user.entity.TUser;
@@ -46,7 +47,7 @@ public class CustomAuthenticationService implements UserDetailsService {
 
     @Override
     public PrincipalAuthentication loadUserByUsername(String s) throws UsernameNotFoundException {
-        TUser user = userRepository.findByUsername(s);
+        TUser user = userRepository.findByUsernameAndStatus(s, MConstant.ACTIVE_STATUS);
 
         if (ObjectUtils.isEmpty(user)) {
             return null;

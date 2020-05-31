@@ -7,11 +7,9 @@
 <#import "../../components/pagination/methea-pagination.ftlh" as mpagination>
 <#compress>
     <@template.main title="Roles">
-        <div class="table-responsive">
-            <@mtable.table thead=tableHead tdata=roles tcolumns=tableColumns filters=tableFilterColumns
-            dataFilters=dataFilters urlFilter="/app/roles" id="tbl-roles">
-            </@mtable.table>
-        </div>
+        <@mtable.table thead=tableHead tdata=roles tcolumns=tableColumns filters=tableFilterColumns
+        dataFilters=dataFilters urlFilter="/app/roles" id="tbl-roles">
+        </@mtable.table>
 
         <@mmodal.modal className="modal-tbl-roles-add" labelTitle="Add New Role">
             <@mform.form actionUrl="${contextPath}/app/roles/save" resetUrl="/app/roles">

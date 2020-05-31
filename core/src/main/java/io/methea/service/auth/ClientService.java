@@ -49,7 +49,6 @@ public class ClientService {
 
         String rawSecret = Encryption.generateRandomPassword(64, '0', 'z');
         String clientSecret = new BCryptPasswordEncoder().encode(rawSecret);
-        log.info(">>>>> " + rawSecret);
         client.setClientSecret(clientSecret);
         client.setOneTimeDisplaySecretKey(rawSecret);
         client.setStatus(MConstant.ACTIVE_STATUS);
@@ -73,7 +72,8 @@ public class ClientService {
     }
 
     Client verifyClient(ClientAuthentication authentication) {
-        Client client = clientRepository.findClientByClientId(Optional.ofNullable(authentication.getClientId()).orElse(StringUtils.EMPTY));
+        Client client = clientRepository.findClientByClientIdAndStatus(
+                Optional.ofNullable(authentication.getClientId()).orElse(StringUtils.EMPTY), MConstant.ACTIVE_STATUS);
         if (ObjectUtils.isEmpty(client)) {
             return null;
         }
@@ -99,6 +99,6 @@ public class ClientService {
     }
 
     Client getClientByClientId(String s){
-        return clientRepository.findClientByClientId(s);
+        return clientRepository.findClientByClientIdAndStatus(s, MConstant.ACTIVE_STATUS);
     }
 }

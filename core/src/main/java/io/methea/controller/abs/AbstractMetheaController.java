@@ -81,9 +81,11 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
     @RequestMapping(value = MODIFY_URL, method = RequestMethod.POST)
     public ModelAndView modify(B binder, Model model, F filter, Pagination pagination, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
+        errors.put("validateType", "EDIT");
         validator.validate(binder, errors);
         dataTableAttributes(model, binder, initFilter(), pagination, request);
         model.addAttribute("popup", dataTableId.concat("-edit"));
+        errors.remove("validateType");
         if (!CollectionUtils.isEmpty(errors)) {
             model.addAttribute("hasErrors", true);
             model.addAttribute("errors", errors);
