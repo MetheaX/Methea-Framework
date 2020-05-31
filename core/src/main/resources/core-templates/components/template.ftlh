@@ -97,7 +97,7 @@
                         <a class="dropdown-item" href="#"><i class="fa fa-user-circle"></i>&nbsp;&nbsp;Profile</a>
                         <a class="dropdown-item" href="#"><i class="fa fa-cog"></i>&nbsp;&nbsp;Settings</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a>
+                        <a class="dropdown-item" href="${contextPath}/logout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a>
                     </div>
                 </li>
             </ul>

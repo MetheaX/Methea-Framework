@@ -9,4 +9,5 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface ClientRepository extends CrudRepository<Client, String> {
     Client findClientByClientId(String clientId);
+    Client findClientByClientIdAndStatus(String clientId, String status);
 }

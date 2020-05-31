@@ -53,11 +53,12 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
         try {
             BeanUtils.copyProperties(binder, entity, MBeanUtils.getNullProperties(binder));
             setCreateAuditLog(entity);
+            entity.setCreate(true);
             repository.save(entity);
             publisher.publishEvent(entity);
             return entity;
         } catch (Exception ex) {
-            log.error(">>>>> Save entity error: ", ex);
+            log.error("=========> Save entity error: ", ex);
         }
         return null;
     }
@@ -70,12 +71,13 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
                 E entity = optional.get();
                 BeanUtils.copyProperties(binder, entity, MBeanUtils.getNullProperties(binder));
                 setModifiedAuditLog(entity);
+                entity.setUpdate(true);
                 repository.save(entity);
                 publisher.publishEvent(entity);
                 return entity;
             }
         } catch (Exception ex) {
-            log.error(">>>>> Modify entity error: ", ex);
+            log.error("=========> Modify entity error: ", ex);
         }
         return null;
     }
@@ -88,12 +90,13 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
             if (optional.isPresent()) {
                 E entity = optional.get();
                 setStatusAuditLog(entity, MConstant.ACTIVE_STATUS);
+                entity.setActivate(true);
                 repository.save(entity);
                 publisher.publishEvent(entity);
                 isActivate = true;
             }
         } catch (Exception ex) {
-            log.error(">>>>> Activate entity error: ", ex);
+            log.error("=========> Activate entity error: ", ex);
         }
         return isActivate;
     }
@@ -106,12 +109,13 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
             if (optional.isPresent()) {
                 E entity = optional.get();
                 setStatusAuditLog(entity, "I");
+                entity.setDeactivate(true);
                 repository.save(entity);
                 publisher.publishEvent(entity);
                 isDeactivate = true;
             }
         } catch (Exception ex) {
-            log.error(">>>>> Deactivate entity error: ", ex);
+            log.error("=========> Deactivate entity error: ", ex);
         }
         return isDeactivate;
     }
@@ -123,7 +127,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
             pagination.setTotalCounts(page.getTotalCount());
             return page.getContent();
         } catch (Exception ex) {
-            log.info(">>>>> getAllEntityViewByFilter error: ", ex);
+            log.info("=========> getAllEntityViewByFilter error: ", ex);
         }
         return null;
     }
@@ -133,7 +137,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
         try {
             return extensionRepository.getEntityById(view, id);
         } catch (Exception ex) {
-            log.info(">>>>> getEntityViewById error: ", ex);
+            log.info("=========> getEntityViewById error: ", ex);
         }
         return null;
     }

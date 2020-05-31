@@ -43,7 +43,7 @@
                 axios.get('${contextPath}' + '/app/permissions/rest?id=' + $id).then(function (response) {
                     if (response.data.status === 200) {
                         $modalEdit.find('input[name="id"]').val(response.data.permissions.id);
-                        $modalEdit.find('select[name="userId"]').val(response.data.permissions.userLoginId).trigger('change');
+                        $modalEdit.find('select[name="userLoginId"]').val(response.data.permissions.userLoginId).trigger('change');
                         $modalEdit.find('select[name="roleId"]').val(response.data.permissions.roleId).trigger('change');
                     }
                 }).catch(function (error) {
