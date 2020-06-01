@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
@@ -42,33 +43,41 @@ public class ClientService {
         this.certificateRepository = certificateRepository;
     }
 
-    public Client createClient(ClientBinder binder) throws Exception {
-        Client client = new Client();
-        client.setId(UUID.randomUUID().toString());
-        client.setClientId(binder.getClientId());
+    public Client createOrUpdateClient(ClientBinder binder) {
+        Client client = getClientByClientId(binder.getClientId());
+        if (ObjectUtils.isEmpty(client)) {
+            client = new Client();
+            client.setId(UUID.randomUUID().toString());
+            client.setClientId(binder.getClientId());
+        }
 
-        String rawSecret = Encryption.generateRandomPassword(64, '0', 'z');
-        String clientSecret = new BCryptPasswordEncoder().encode(rawSecret);
-        client.setClientSecret(clientSecret);
-        client.setOneTimeDisplaySecretKey(rawSecret);
-        client.setStatus(MConstant.ACTIVE_STATUS);
+        try {
+            String rawSecret = Encryption.generateRandomPassword(64, '0', 'z');
+            String clientSecret = new BCryptPasswordEncoder().encode(rawSecret);
+            client.setClientSecret(clientSecret);
+            client.setOneTimeDisplaySecretKey(rawSecret);
+            client.setStatus(MConstant.ACTIVE_STATUS);
 
-        KeyPair pair = new RsaKeyGenerate().createRsa(MConstant.THREE_KEY_SIZE);
-        RSAPublicKey pubKey = (RSAPublicKey) pair.getPublic();
-        RSAPrivateKey privateKey = (RSAPrivateKey) pair.getPrivate();
-        client.setVerifyCode(Encryption.encrypt(rawSecret, pubKey));
-        client.setStatus(MConstant.ACTIVE_STATUS);
+            KeyPair pair = new RsaKeyGenerate().createRsa(MConstant.THREE_KEY_SIZE);
+            RSAPublicKey pubKey = (RSAPublicKey) pair.getPublic();
+            RSAPrivateKey privateKey = (RSAPrivateKey) pair.getPrivate();
+            client.setVerifyCode(Encryption.encrypt(rawSecret, pubKey));
+            client.setStatus(MConstant.ACTIVE_STATUS);
 
-        ClientCertificate certificate = new ClientCertificate();
-        certificate.setId(UUID.randomUUID().toString());
-        certificate.setClientId(client.getClientId());
-        certificate.setVerifyKey(Base64.encodeBase64String(privateKey.getEncoded()));
-        certificate.setStatus(MConstant.ACTIVE_STATUS);
+            ClientCertificate certificate = new ClientCertificate();
+            certificate.setId(UUID.randomUUID().toString());
+            certificate.setClientId(client.getClientId());
+            certificate.setVerifyKey(Base64.encodeBase64String(privateKey.getEncoded()));
+            certificate.setStatus(MConstant.ACTIVE_STATUS);
 
-        clientRepository.save(client);
-        certificateRepository.save(certificate);
+            clientRepository.save(client);
+            certificateRepository.save(certificate);
 
-        return client;
+            return client;
+        } catch (Exception ex) {
+            log.error("=========> createOrUpdateClient error: ", ex);
+        }
+        return null;
     }
 
     Client verifyClient(ClientAuthentication authentication) {
@@ -94,11 +103,18 @@ public class ClientService {
             RSAPrivateKey priKey = (RSAPrivateKey) fact.generatePrivate(spec);
             return Encryption.decrypt(authentication.getVerifyCode(), priKey);
         } catch (Exception ex) {
+            log.error("=========> decode error: ", ex);
             return StringUtils.EMPTY;
         }
     }
 
-    Client getClientByClientId(String s){
+    public Client getClientByClientId(String s) {
         return clientRepository.findClientByClientIdAndStatus(s, MConstant.ACTIVE_STATUS);
+    }
+
+    @Transactional
+    public void revokeClient(String s) {
+        clientRepository.revokeClient(s);
+        certificateRepository.revokeClientCertificate(s);
     }
 }
