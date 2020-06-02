@@ -8,6 +8,7 @@ import io.methea.domain.webservice.dto.ClientBinder;
 import io.methea.domain.webservice.view.ClientView;
 import io.methea.repository.webservice.ClientCertificateRepository;
 import io.methea.repository.webservice.ClientRepository;
+import io.methea.service.eventlistener.helper.InternalPermissionHelperService;
 import io.methea.utils.auth.Encryption;
 import io.methea.utils.auth.RsaKeyGenerate;
 import org.apache.commons.codec.binary.Base64;
@@ -39,13 +40,17 @@ public class ClientService {
     private static Logger log = LoggerFactory.getLogger(ClientService.class);
     private final ClientRepository clientRepository;
     private final ClientCertificateRepository certificateRepository;
+    private final InternalPermissionHelperService helperService;
 
     @Inject
-    public ClientService(ClientRepository clientRepository, ClientCertificateRepository certificateRepository) {
+    public ClientService(ClientRepository clientRepository, ClientCertificateRepository certificateRepository,
+                         InternalPermissionHelperService helperService) {
         this.clientRepository = clientRepository;
         this.certificateRepository = certificateRepository;
+        this.helperService = helperService;
     }
 
+    @Transactional
     public Client createOrUpdateClient(ClientBinder binder) {
         Client client = getClientByClientId(binder.getClientId());
         if (ObjectUtils.isEmpty(client)) {
@@ -72,9 +77,11 @@ public class ClientService {
             certificate.setClientId(client.getClientId());
             certificate.setVerifyKey(Base64.encodeBase64String(privateKey.getEncoded()));
             certificate.setStatus(MConstant.ACTIVE_STATUS);
+            certificateRepository.revokeClientCertificate(client.getClientId());
 
             clientRepository.save(client);
             certificateRepository.save(certificate);
+            helperService.saveClientPermission(client.getClientId());
 
             return client;
         } catch (Exception ex) {
@@ -123,5 +130,6 @@ public class ClientService {
     public void revokeClient(String s) {
         clientRepository.revokeClient(s);
         certificateRepository.revokeClientCertificate(s);
+        helperService.revokePermissionBaseOnClientID(s);
     }
 }

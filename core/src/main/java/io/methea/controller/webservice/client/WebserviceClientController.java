@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -76,12 +77,19 @@ public class WebserviceClientController {
         return CLIENT_TEMPLATE_PATH;
     }
 
-    @RequestMapping(value = REVOKE_CLIENT_URL, method = RequestMethod.GET)
-    public String revokeClient(@RequestParam String id, Model model, HttpServletRequest request) {
-        clientService.revokeClient(id);
-        model.addAttribute(SECRET_KEY, StringUtils.EMPTY);
-        model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
-        return CLIENT_TEMPLATE_PATH;
+    @PostMapping(value = REVOKE_CLIENT_URL)
+    public ResponseEntity<Map<String, Object>> revokeClient(@RequestBody Map<String, String> payload) {
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            clientService.revokeClient(payload.get("id"));
+            map.put(MConstant.JSON_STATUS, 200);
+        } catch (Exception ex) {
+            map.put(MConstant.JSON_STATUS, 500);
+            map.put(MConstant.JSON_MESSAGE, String.format("Failed to get %s", payload.get("id")));
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @ResponseBody
