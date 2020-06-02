@@ -5,6 +5,7 @@ import io.methea.domain.webservice.Client;
 import io.methea.domain.webservice.ClientCertificate;
 import io.methea.domain.webservice.dto.ClientAuthentication;
 import io.methea.domain.webservice.dto.ClientBinder;
+import io.methea.domain.webservice.view.ClientView;
 import io.methea.repository.webservice.ClientCertificateRepository;
 import io.methea.repository.webservice.ClientRepository;
 import io.methea.utils.auth.Encryption;
@@ -24,6 +25,8 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -110,6 +113,10 @@ public class ClientService {
 
     public Client getClientByClientId(String s) {
         return clientRepository.findClientByClientIdAndStatus(s, MConstant.ACTIVE_STATUS);
+    }
+
+    public List<ClientView> getAllWebserviceClient() {
+        return clientRepository.getByQuery(new HashMap<>(), ClientView.class);
     }
 
     @Transactional
