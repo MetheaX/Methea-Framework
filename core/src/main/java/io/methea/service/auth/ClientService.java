@@ -5,8 +5,10 @@ import io.methea.domain.webservice.Client;
 import io.methea.domain.webservice.ClientCertificate;
 import io.methea.domain.webservice.dto.ClientAuthentication;
 import io.methea.domain.webservice.dto.ClientBinder;
+import io.methea.domain.webservice.view.ClientView;
 import io.methea.repository.webservice.ClientCertificateRepository;
 import io.methea.repository.webservice.ClientRepository;
+import io.methea.service.eventlistener.helper.InternalPermissionHelperService;
 import io.methea.utils.auth.Encryption;
 import io.methea.utils.auth.RsaKeyGenerate;
 import org.apache.commons.codec.binary.Base64;
@@ -18,11 +20,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,40 +40,54 @@ public class ClientService {
     private static Logger log = LoggerFactory.getLogger(ClientService.class);
     private final ClientRepository clientRepository;
     private final ClientCertificateRepository certificateRepository;
+    private final InternalPermissionHelperService helperService;
 
     @Inject
-    public ClientService(ClientRepository clientRepository, ClientCertificateRepository certificateRepository) {
+    public ClientService(ClientRepository clientRepository, ClientCertificateRepository certificateRepository,
+                         InternalPermissionHelperService helperService) {
         this.clientRepository = clientRepository;
         this.certificateRepository = certificateRepository;
+        this.helperService = helperService;
     }
 
-    public Client createClient(ClientBinder binder) throws Exception {
-        Client client = new Client();
-        client.setId(UUID.randomUUID().toString());
-        client.setClientId(binder.getClientId());
+    @Transactional
+    public Client createOrUpdateClient(ClientBinder binder) {
+        Client client = getClientByClientId(binder.getClientId());
+        if (ObjectUtils.isEmpty(client)) {
+            client = new Client();
+            client.setId(UUID.randomUUID().toString());
+            client.setClientId(binder.getClientId());
+        }
 
-        String rawSecret = Encryption.generateRandomPassword(64, '0', 'z');
-        String clientSecret = new BCryptPasswordEncoder().encode(rawSecret);
-        client.setClientSecret(clientSecret);
-        client.setOneTimeDisplaySecretKey(rawSecret);
-        client.setStatus(MConstant.ACTIVE_STATUS);
+        try {
+            String rawSecret = Encryption.generateRandomPassword(64, '0', 'z');
+            String clientSecret = new BCryptPasswordEncoder().encode(rawSecret);
+            client.setClientSecret(clientSecret);
+            client.setOneTimeDisplaySecretKey(rawSecret);
+            client.setStatus(MConstant.ACTIVE_STATUS);
 
-        KeyPair pair = new RsaKeyGenerate().createRsa(MConstant.THREE_KEY_SIZE);
-        RSAPublicKey pubKey = (RSAPublicKey) pair.getPublic();
-        RSAPrivateKey privateKey = (RSAPrivateKey) pair.getPrivate();
-        client.setVerifyCode(Encryption.encrypt(rawSecret, pubKey));
-        client.setStatus(MConstant.ACTIVE_STATUS);
+            KeyPair pair = new RsaKeyGenerate().createRsa(MConstant.THREE_KEY_SIZE);
+            RSAPublicKey pubKey = (RSAPublicKey) pair.getPublic();
+            RSAPrivateKey privateKey = (RSAPrivateKey) pair.getPrivate();
+            client.setVerifyCode(Encryption.encrypt(rawSecret, pubKey));
+            client.setStatus(MConstant.ACTIVE_STATUS);
 
-        ClientCertificate certificate = new ClientCertificate();
-        certificate.setId(UUID.randomUUID().toString());
-        certificate.setClientId(client.getClientId());
-        certificate.setVerifyKey(Base64.encodeBase64String(privateKey.getEncoded()));
-        certificate.setStatus(MConstant.ACTIVE_STATUS);
+            ClientCertificate certificate = new ClientCertificate();
+            certificate.setId(UUID.randomUUID().toString());
+            certificate.setClientId(client.getClientId());
+            certificate.setVerifyKey(Base64.encodeBase64String(privateKey.getEncoded()));
+            certificate.setStatus(MConstant.ACTIVE_STATUS);
+            certificateRepository.revokeClientCertificate(client.getClientId());
 
-        clientRepository.save(client);
-        certificateRepository.save(certificate);
+            clientRepository.save(client);
+            certificateRepository.save(certificate);
+            helperService.saveClientPermission(client.getClientId());
 
-        return client;
+            return client;
+        } catch (Exception ex) {
+            log.error("=========> createOrUpdateClient error: ", ex);
+        }
+        return null;
     }
 
     Client verifyClient(ClientAuthentication authentication) {
@@ -94,11 +113,23 @@ public class ClientService {
             RSAPrivateKey priKey = (RSAPrivateKey) fact.generatePrivate(spec);
             return Encryption.decrypt(authentication.getVerifyCode(), priKey);
         } catch (Exception ex) {
+            log.error("=========> decode error: ", ex);
             return StringUtils.EMPTY;
         }
     }
 
-    Client getClientByClientId(String s){
+    public Client getClientByClientId(String s) {
         return clientRepository.findClientByClientIdAndStatus(s, MConstant.ACTIVE_STATUS);
+    }
+
+    public List<ClientView> getAllWebserviceClient() {
+        return clientRepository.getByQuery(new HashMap<>(), ClientView.class);
+    }
+
+    @Transactional
+    public void revokeClient(String s) {
+        clientRepository.revokeClient(s);
+        certificateRepository.revokeClientCertificate(s);
+        helperService.revokePermissionBaseOnClientID(s);
     }
 }

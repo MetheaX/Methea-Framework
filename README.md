@@ -21,6 +21,8 @@ Pre-requires
 How to build
  * Simply by checkout source code from our repository and using maven command `mvn clean install` to build framework.
 
+Support with `Spring Boot 2.2.2.Release` and later version of Spring Boot.
+
 # Usages
 
 1. Adding dependency to your existing project or new project

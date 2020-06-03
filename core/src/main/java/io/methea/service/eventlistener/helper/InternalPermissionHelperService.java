@@ -1,13 +1,16 @@
 package io.methea.service.eventlistener.helper;
 
+import io.methea.constant.MConstant;
 import io.methea.domain.configuration.permission.entity.TRMUserPermission;
 import io.methea.domain.configuration.permission.entity.TUserPermission;
 import io.methea.domain.configuration.uri.entity.TRoleURI;
 import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
 import io.methea.repository.configuration.uri.RoleURIRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +45,22 @@ public class InternalPermissionHelperService {
         }
     }
 
-    public void saveInternalPermissionURIBase(TRoleURI roleURI){
+    public void saveInternalPermissionURIBase(TRoleURI roleURI) {
         userGrantedPermissionRepository.updateExistingPermURIBase(roleURI.getStatus(), roleURI.getId());
+    }
+
+    public void saveClientPermission(String clientId) {
+        TUserPermission permission = new TUserPermission();
+        permission.setId(UUID.randomUUID().toString());
+        permission.setRoleUserId(StringUtils.EMPTY);
+        permission.setUriName(MConstant.SLASH_STAR);
+        permission.setUserId(clientId);
+
+        permission.setStatus(MConstant.ACTIVE_STATUS);
+        userGrantedPermissionRepository.save(permission);
+    }
+
+    public void revokePermissionBaseOnClientID(String clientID) {
+        userGrantedPermissionRepository.deleteExistingPerm(clientID);
     }
 }
