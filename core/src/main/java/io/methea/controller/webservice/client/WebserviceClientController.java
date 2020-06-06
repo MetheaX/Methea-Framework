@@ -1,10 +1,12 @@
 package io.methea.controller.webservice.client;
 
+import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
 import io.methea.domain.webservice.client.entity.Client;
 import io.methea.domain.webservice.client.dto.ClientBinder;
 import io.methea.domain.webservice.client.view.ClientView;
 import io.methea.service.auth.ClientService;
+import io.methea.service.dropdown.MDropdownService;
 import io.methea.utils.SystemUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -45,34 +48,25 @@ public class WebserviceClientController {
     private static final String ENTITY = "clients";
 
     private final ClientService clientService;
+    private final MDropdownService dropdownService;
 
     @Inject
-    public WebserviceClientController(ClientService clientService) {
+    public WebserviceClientController(ClientService clientService, MDropdownService dropdownService) {
         this.clientService = clientService;
+        this.dropdownService = dropdownService;
     }
 
     @RequestMapping(value = StringUtils.EMPTY, method = RequestMethod.GET)
     public String viewClients(Model model, HttpServletRequest request) {
-        Map<String, List<ClientView>> map = new HashMap<>();
-        map.put(MConstant.JSON_DATA, clientService.getAllWebserviceClient());
-
-        model.addAttribute(ENTITY, map);
-        model.addAttribute("errors", new HashMap<>());
-        model.addAttribute(SECRET_KEY, StringUtils.EMPTY);
-        model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
+        setAttributes(model, request);
         return CLIENT_TEMPLATE_PATH;
     }
 
     @RequestMapping(value = CREATE_URL, method = RequestMethod.POST)
     public String create(ClientBinder binder, Model model, HttpServletRequest request) {
         Client client = clientService.createOrUpdateClient(binder);
-        Map<String, List<ClientView>> map = new HashMap<>();
-        map.put(MConstant.JSON_DATA, clientService.getAllWebserviceClient());
-
-        model.addAttribute(ENTITY, map);
-        model.addAttribute("errors", new HashMap<>());
+        setAttributes(model, request);
         model.addAttribute(SECRET_KEY, client.getOneTimeDisplaySecretKey());
-        model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
         return CLIENT_TEMPLATE_PATH;
     }
 
@@ -105,5 +99,20 @@ public class WebserviceClientController {
             map.put(MConstant.JSON_DATA, binder);
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    private void setAttributes(Model model, HttpServletRequest request) {
+        Map<String, List<ClientView>> map = new HashMap<>();
+        map.put(MConstant.JSON_DATA, clientService.getAllWebserviceClient());
+
+        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
+            dropdownService.getDropdownData();
+        }
+
+        model.addAttribute(ENTITY, map);
+        model.addAttribute("errors", new HashMap<>());
+        model.addAttribute(SECRET_KEY, StringUtils.EMPTY);
+        model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
+        model.addAttribute(MConstant.DROPDOWN, MCache.cacheMetaData.get(MConstant.DROPDOWN));
     }
 }

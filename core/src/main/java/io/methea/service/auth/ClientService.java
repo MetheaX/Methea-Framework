@@ -78,10 +78,11 @@ public class ClientService {
             certificate.setVerifyKey(Base64.encodeBase64String(privateKey.getEncoded()));
             certificate.setStatus(MConstant.ACTIVE_STATUS);
             certificateRepository.revokeClientCertificate(client.getClientId());
+            helperService.revokePermissionBaseOnClientID(client.getClientId());
 
             clientRepository.save(client);
             certificateRepository.save(certificate);
-            helperService.saveClientPermission(client.getClientId());
+            helperService.saveClientPermission(client.getClientId(), binder.getApiBases());
 
             return client;
         } catch (Exception ex) {
