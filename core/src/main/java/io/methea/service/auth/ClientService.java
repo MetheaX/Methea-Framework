@@ -1,13 +1,13 @@
 package io.methea.service.auth;
 
 import io.methea.constant.MConstant;
-import io.methea.domain.webservice.Client;
-import io.methea.domain.webservice.ClientCertificate;
-import io.methea.domain.webservice.dto.ClientAuthentication;
-import io.methea.domain.webservice.dto.ClientBinder;
-import io.methea.domain.webservice.view.ClientView;
-import io.methea.repository.webservice.ClientCertificateRepository;
-import io.methea.repository.webservice.ClientRepository;
+import io.methea.domain.webservice.client.entity.Client;
+import io.methea.domain.webservice.client.entity.ClientCertificate;
+import io.methea.domain.webservice.client.dto.ClientAuthentication;
+import io.methea.domain.webservice.client.dto.ClientBinder;
+import io.methea.domain.webservice.client.view.ClientView;
+import io.methea.repository.webservice.client.ClientCertificateRepository;
+import io.methea.repository.webservice.client.ClientRepository;
 import io.methea.service.eventlistener.helper.InternalPermissionHelperService;
 import io.methea.utils.auth.Encryption;
 import io.methea.utils.auth.RsaKeyGenerate;

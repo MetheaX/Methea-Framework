@@ -1,6 +1,6 @@
-package io.methea.repository.webservice;
+package io.methea.repository.webservice.system;
 
-import io.methea.domain.webservice.SystemCertificate;
+import io.methea.domain.webservice.system.entity.SystemCertificate;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SystemCertificateRepository extends CrudRepository<SystemCertificate, String> {

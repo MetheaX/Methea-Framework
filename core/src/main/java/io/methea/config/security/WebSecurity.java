@@ -4,7 +4,7 @@ import io.methea.config.jwt.JWTAuthenticationFilter;
 import io.methea.config.jwt.JWTAuthorizationFilter;
 import io.methea.config.jwt.JWTConstants;
 import io.methea.constant.MConstant;
-import io.methea.repository.webservice.SystemCertificateRepository;
+import io.methea.repository.webservice.system.SystemCertificateRepository;
 import io.methea.service.auth.CustomAuthenticationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;

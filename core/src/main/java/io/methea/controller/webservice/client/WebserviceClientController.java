@@ -1,9 +1,9 @@
 package io.methea.controller.webservice.client;
 
 import io.methea.constant.MConstant;
-import io.methea.domain.webservice.Client;
-import io.methea.domain.webservice.dto.ClientBinder;
-import io.methea.domain.webservice.view.ClientView;
+import io.methea.domain.webservice.client.entity.Client;
+import io.methea.domain.webservice.client.dto.ClientBinder;
+import io.methea.domain.webservice.client.view.ClientView;
 import io.methea.service.auth.ClientService;
 import io.methea.utils.SystemUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;

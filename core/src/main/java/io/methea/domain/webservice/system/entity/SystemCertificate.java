@@ -1,4 +1,4 @@
-package io.methea.domain.webservice;
+package io.methea.domain.webservice.system.entity;
 
 import io.methea.domain.baseentity.BaseEntity;
 import org.hibernate.annotations.Type;

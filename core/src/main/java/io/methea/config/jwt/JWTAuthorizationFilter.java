@@ -2,9 +2,9 @@ package io.methea.config.jwt;
 
 import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;
-import io.methea.domain.webservice.SystemCertificate;
+import io.methea.domain.webservice.system.entity.SystemCertificate;
 import io.methea.exception.CertificateNotFoundException;
-import io.methea.repository.webservice.SystemCertificateRepository;
+import io.methea.repository.webservice.system.SystemCertificateRepository;
 import io.methea.service.auth.CustomAuthenticationService;
 import io.methea.utils.auth.JwtUtil;
 import org.apache.commons.lang3.StringUtils;

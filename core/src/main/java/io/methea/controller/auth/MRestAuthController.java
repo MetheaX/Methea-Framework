@@ -2,8 +2,8 @@ package io.methea.controller.auth;
 
 import io.methea.config.jwt.JWTConstants;
 import io.methea.constant.MConstant;
-import io.methea.domain.webservice.dto.ClientAuthentication;
-import io.methea.domain.webservice.dto.TokenInfo;
+import io.methea.domain.webservice.client.dto.ClientAuthentication;
+import io.methea.domain.webservice.system.dto.TokenInfo;
 import io.methea.utils.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

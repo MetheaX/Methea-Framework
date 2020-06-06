@@ -1,6 +1,6 @@
-package io.methea.repository.webservice;
+package io.methea.repository.webservice.client;
 
-import io.methea.domain.webservice.ClientCertificate;
+import io.methea.domain.webservice.client.entity.ClientCertificate;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

@@ -1,4 +1,4 @@
-package io.methea.domain.webservice.dto;
+package io.methea.domain.webservice.system.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.methea.domain.basebinder.BaseBinder;
