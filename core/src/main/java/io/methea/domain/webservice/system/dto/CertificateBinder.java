@@ -1,4 +1,4 @@
-package io.methea.domain.webservice.dto;
+package io.methea.domain.webservice.system.dto;
 
 import io.methea.domain.basebinder.BaseBinder;
 import org.apache.commons.lang3.StringUtils;

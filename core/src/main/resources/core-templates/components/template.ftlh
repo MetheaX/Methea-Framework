@@ -64,6 +64,8 @@
                 <ul class="c-sidebar-nav-dropdown-items">
                     <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/system-certificate">
                             <span class="c-sidebar-nav-icon"></span><i class="fa fa-id-card"></i>&nbsp;&nbsp;System Certificate</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/apibases">
+                            <span class="c-sidebar-nav-icon"></span><i class="fa fa-paper-plane-o"></i>&nbsp;&nbsp;API Base URLs</a></li>
                     <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/webservice-clients">
                             <span class="c-sidebar-nav-icon"></span><i class="fa fa-user-secret" ></i>&nbsp;&nbsp;Clients</a></li>
                 </ul>

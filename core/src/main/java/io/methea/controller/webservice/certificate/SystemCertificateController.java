@@ -1,7 +1,7 @@
 package io.methea.controller.webservice.certificate;
 
 import io.methea.constant.MConstant;
-import io.methea.domain.webservice.dto.CertificateBinder;
+import io.methea.domain.webservice.system.dto.CertificateBinder;
 import io.methea.service.auth.CertificateService;
 import io.methea.utils.SystemUtils;
 import org.apache.commons.lang3.StringUtils;

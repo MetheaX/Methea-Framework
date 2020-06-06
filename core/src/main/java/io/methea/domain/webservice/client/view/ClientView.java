@@ -1,4 +1,4 @@
-package io.methea.domain.webservice.view;
+package io.methea.domain.webservice.client.view;
 
 import io.methea.domain.baseview.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;
@@ -10,6 +10,8 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  */
 @SelectFrom(fromClause = "FROM Client o", orderBy = "ORDER BY o.updatedDateTime DESC")
 public class ClientView extends BaseView<ClientView> {
+
+    private static final long serialVersionUID = 6403050680058656926L;
 
     @Column(name = "o.id")
     private String id;

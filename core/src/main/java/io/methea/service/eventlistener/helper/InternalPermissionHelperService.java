@@ -4,13 +4,16 @@ import io.methea.constant.MConstant;
 import io.methea.domain.configuration.permission.entity.TRMUserPermission;
 import io.methea.domain.configuration.permission.entity.TUserPermission;
 import io.methea.domain.configuration.uri.entity.TRoleURI;
+import io.methea.domain.webservice.baseapi.entity.APIBase;
+import io.methea.exception.APIBaseNotFoundException;
 import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
 import io.methea.repository.configuration.uri.RoleURIRepository;
+import io.methea.repository.webservice.baseapi.APIBaseRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,11 +26,15 @@ public class InternalPermissionHelperService {
 
     private final RoleURIRepository repository;
     private final UserGrantedPermissionRepository userGrantedPermissionRepository;
+    private final APIBaseRepository apiBaseRepository;
 
     @Inject
-    public InternalPermissionHelperService(RoleURIRepository repository, UserGrantedPermissionRepository userGrantedPermissionRepository) {
+    public InternalPermissionHelperService(RoleURIRepository repository,
+                                           UserGrantedPermissionRepository userGrantedPermissionRepository,
+                                           APIBaseRepository apiBaseRepository) {
         this.repository = repository;
         this.userGrantedPermissionRepository = userGrantedPermissionRepository;
+        this.apiBaseRepository = apiBaseRepository;
     }
 
     public void saveInternalPermissionRoleBase(TRMUserPermission entity) {
@@ -49,15 +56,21 @@ public class InternalPermissionHelperService {
         userGrantedPermissionRepository.updateExistingPermURIBase(roleURI.getStatus(), roleURI.getId());
     }
 
-    public void saveClientPermission(String clientId) {
-        TUserPermission permission = new TUserPermission();
-        permission.setId(UUID.randomUUID().toString());
-        permission.setRoleUserId(StringUtils.EMPTY);
-        permission.setUriName(MConstant.SLASH_STAR);
-        permission.setUserId(clientId);
+    public void saveClientPermission(String clientId, List<String> apiBases) {
+        List<APIBase> apiBaseList = apiBaseRepository.findAllByIdIn(apiBases);
+        if (CollectionUtils.isEmpty(apiBaseList)) {
+           throw new APIBaseNotFoundException("=========> Provided invalid base api.");
+        }
+        for (APIBase apiBase : apiBaseList) {
+            TUserPermission permission = new TUserPermission();
+            permission.setId(UUID.randomUUID().toString());
+            permission.setRoleUserId(StringUtils.EMPTY);
+            permission.setUriName(apiBase.getApiUrl());
+            permission.setUserId(clientId);
 
-        permission.setStatus(MConstant.ACTIVE_STATUS);
-        userGrantedPermissionRepository.save(permission);
+            permission.setStatus(MConstant.ACTIVE_STATUS);
+            userGrantedPermissionRepository.save(permission);
+        }
     }
 
     public void revokePermissionBaseOnClientID(String clientID) {

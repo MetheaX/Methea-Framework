@@ -1,7 +1,7 @@
-package io.methea.repository.webservice;
+package io.methea.repository.webservice.client;
 
-import io.methea.domain.webservice.Client;
-import io.methea.domain.webservice.view.ClientView;
+import io.methea.domain.webservice.client.entity.Client;
+import io.methea.domain.webservice.client.view.ClientView;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,9 +1,9 @@
 package io.methea.service.auth;
 
 import io.methea.constant.MConstant;
-import io.methea.domain.webservice.SystemCertificate;
-import io.methea.domain.webservice.dto.CertificateBinder;
-import io.methea.repository.webservice.SystemCertificateRepository;
+import io.methea.domain.webservice.system.entity.SystemCertificate;
+import io.methea.domain.webservice.system.dto.CertificateBinder;
+import io.methea.repository.webservice.system.SystemCertificateRepository;
 import io.methea.utils.auth.RsaKeyGenerate;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.BeanUtils;

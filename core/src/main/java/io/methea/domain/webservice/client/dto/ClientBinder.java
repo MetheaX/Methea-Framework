@@ -1,7 +1,10 @@
-package io.methea.domain.webservice.dto;
+package io.methea.domain.webservice.client.dto;
 
 import io.methea.domain.basebinder.BaseBinder;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author : DKSilverX
@@ -13,6 +16,7 @@ public class ClientBinder extends BaseBinder<ClientBinder> {
 
     private String clientId = StringUtils.EMPTY;
     private String verifyCode = StringUtils.EMPTY;
+    private List<String> apiBases = new ArrayList<>();
 
     public ClientBinder() {
     }
@@ -35,5 +39,13 @@ public class ClientBinder extends BaseBinder<ClientBinder> {
 
     public void setVerifyCode(String verifyCode) {
         this.verifyCode = verifyCode;
+    }
+
+    public List<String> getApiBases() {
+        return apiBases;
+    }
+
+    public void setApiBases(List<String> apiBases) {
+        this.apiBases = apiBases;
     }
 }

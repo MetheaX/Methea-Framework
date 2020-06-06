@@ -1,11 +1,12 @@
 <#import "../../components/template.ftlh" as template>
 <#import "../../components/form/methea-simple-form.ftlh" as mform>
 <#import "../../components/input/methea-standard-input.ftlh" as minput>
+<#import "../../components/select/methea-multiple-select.ftlh" as mmselect>
 <#import "../../components/modal/methea-standard-modal.ftlh" as mmodal>
 <#compress>
     <@template.main title="Webservices-Client">
         <#if clientSecret != "">
-            <div class="alert alert-success" role="alert">Please keep your client secret: ${clientSecret}</div>
+            <div class="alert alert-success" role="alert">Please keep your client secret, <span style="color: red">ONE TIME GENERATE ONLY</span>: ${clientSecret}</div>
         </#if>
         <div class="card">
             <div class="card-header">
@@ -15,6 +16,8 @@
                 <@mform.form actionUrl="${contextPath}/app/webservice-clients/create">
                     <@minput.input labelName="Client ID" inputType="text" inputId="lableClientId"
                     inputPlaceHolder="Client ID" inputName="clientId" inputValue="" required="true" errors=errors></@minput.input>
+                    <@mmselect.select labelName="Allow Base APIs" selectId="labelSelectBaseApi" selectName="apiBases"
+                    values=mDropdown.apiUrlDropdown required="true" errors=errors></@mmselect.select>
                 </@mform.form>
             </div>
         </div>
