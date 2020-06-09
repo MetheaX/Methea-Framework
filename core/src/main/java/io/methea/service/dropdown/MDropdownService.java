@@ -54,6 +54,7 @@ public class MDropdownService {
     public void getDropdownData() {
         Map<String, Object> map = new HashMap<>();
         try {
+            map.put(MConstant.YES_NO_DROPDOWN, getYesNoDropdown());
             map.put(MConstant.ACCOUNT_DROPDOWN, getAccountDropdown());
             map.put(MConstant.USER_DROPDOWN, getUserDropdown());
             map.put(MConstant.GROUP_DROPDOWN, getGroupDropdown());
@@ -124,5 +125,32 @@ public class MDropdownService {
             log.error("=========> Get api dropdown error: ", ex);
         }
         return list;
+    }
+
+    private List<GenericDropdown> getYesNoDropdown() {
+        return new ArrayList<>() {
+            {
+                add(new GenericDropdown(MConstant.YES, "Yes"));
+                add(new GenericDropdown(MConstant.NO, "No"));
+            }
+        };
+    }
+
+    public class GenericDropdown{
+        private String id;
+        private String name;
+
+        public GenericDropdown(String id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 }

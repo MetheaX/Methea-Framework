@@ -1,5 +1,7 @@
 package io.methea.controller.configuration.display;
 
+import io.methea.cache.MCache;
+import io.methea.constant.MConstant;
 import io.methea.controller.abs.AbstractMetheaController;
 import io.methea.domain.configuration.display.dto.DataTableBinder;
 import io.methea.domain.configuration.display.entity.TDataTableView;
@@ -7,11 +9,14 @@ import io.methea.domain.configuration.display.filter.DataTableFilter;
 import io.methea.domain.configuration.display.view.DataTableView;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.service.configuration.display.MDataTableService;
+import io.methea.service.dropdown.MDropdownService;
 import io.methea.validator.configuration.display.DataTableValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -29,16 +34,28 @@ import java.util.UUID;
 @RequestMapping(value = {MDataTableController.ROOT_URL})
 public class MDataTableController extends AbstractMetheaController<TDataTableView, DataTableBinder, DataTableView, DataTableFilter> {
     static final String ROOT_URL = "/app/datatable";
+    private final MDropdownService dropdownService;
 
     @Inject
-    public MDataTableController(DataTableUIService dataTableUIService, MDataTableService service, DataTableValidator validator) {
+    public MDataTableController(DataTableUIService dataTableUIService, MDropdownService dropdownService,
+                                MDataTableService service, DataTableValidator validator) {
         super(dataTableUIService);
+        this.dropdownService = dropdownService;
         super.validator = validator;
         super.metheaService = service;
         entity = "datatable";
         super.dataTableId = "tbl-datatable";
         configViewName = "dataTableList";
         templatePath = "configuration/display/datatable-list";
+    }
+
+    @Override
+    protected Model getExtraAttribute(Model model) {
+        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
+            dropdownService.getDropdownData();
+        }
+        model.addAttribute(MConstant.DROPDOWN, MCache.cacheMetaData.get(MConstant.DROPDOWN));
+        return model;
     }
 
     @Override
