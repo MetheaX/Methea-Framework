@@ -14,6 +14,10 @@ import java.util.Map;
 public class DataTableValidator extends AbstractMetheaValidator<DataTableBinder> {
     @Override
     public void validate(DataTableBinder binder, Map<String, String> errors) {
-
+        rejectIfBlank(errors, "label.datatable.name", binder.getViewName(), "viewName", "Datatable Name");
+        rejectIfBlank(errors, "label.datatable.column.name", binder.getLabelColumnHead(), "labelColumnHead", "Column Label");
+        rejectIfBlank(errors, "label.datatable.attribute.name", binder.getColumnKey(), "columnKey", "Attribute Name");
+        rejectIfBlank(errors, "label.datatable.allow.filter", binder.getAllowFilter(), "allowFilter", "Allow Filter");
+        rejectIfBlank(errors, "label.datatable.seq", String.valueOf(binder.getSequence()), "sequence", "Column Seq");
     }
 }
