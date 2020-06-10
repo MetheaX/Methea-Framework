@@ -1,6 +1,7 @@
 package io.methea.domain.configuration.display.dto;
 
 import io.methea.domain.basebinder.BaseBinder;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -10,22 +11,59 @@ import java.util.List;
  */
 public class DataTableBinder extends BaseBinder<DataTableBinder> {
     private static final long serialVersionUID = 913896882019600220L;
-    private List<String> labelColumnHead;
-    private List<String> columnKey;
 
-    public List<String> getLabelColumnHead() {
+    private String id = StringUtils.EMPTY;
+    private String viewName = StringUtils.EMPTY;
+    private String labelColumnHead = StringUtils.EMPTY;
+    private String allowFilter = StringUtils.EMPTY;
+    private String columnKey = StringUtils.EMPTY;
+    private Integer sequence = 0;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getViewName() {
+        return viewName;
+    }
+
+    public void setViewName(String viewName) {
+        this.viewName = viewName;
+    }
+
+    public String getLabelColumnHead() {
         return labelColumnHead;
     }
 
-    public void setLabelColumnHead(List<String> labelColumnHead) {
+    public void setLabelColumnHead(String labelColumnHead) {
         this.labelColumnHead = labelColumnHead;
     }
 
-    public List<String> getColumnKey() {
+    public String getAllowFilter() {
+        return allowFilter;
+    }
+
+    public void setAllowFilter(String allowFilter) {
+        this.allowFilter = allowFilter;
+    }
+
+    public String getColumnKey() {
         return columnKey;
     }
 
-    public void setColumnKey(List<String> columnKey) {
+    public void setColumnKey(String columnKey) {
         this.columnKey = columnKey;
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
     }
 }

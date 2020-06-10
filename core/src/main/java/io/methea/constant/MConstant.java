@@ -29,6 +29,8 @@ public class MConstant {
     public static final String SPACE = " ";
     public static final String ACTIVE_STATUS = "A";
     public static final String INACTIVE_STATUS = "I";
+    public static final String YES = "Y";
+    public static final String NO = "N";
 
     // cache datatable meta data
     public static final String COLUMNS_LABEL = "_COLUMNS_LABEL";
@@ -43,6 +45,7 @@ public class MConstant {
     public static final String ROLE_DROPDOWN = "roleDropdown";
     public static final String URI_DROPDOWN = "uriDropdown";
     public static final String API_URL_DROPDOWN = "apiUrlDropdown";
+    public static final String YES_NO_DROPDOWN = "yesNoDropdown";
 
     // security filter
     public static final String SLASH = "/";

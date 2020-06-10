@@ -73,7 +73,7 @@
             <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#"><i class="fa fa-plus-square fa-lg"></i>&nbsp;&nbsp;Addons</a>
                 <ul class="c-sidebar-nav-dropdown-items">
-                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/datatable">
                             <span class="c-sidebar-nav-icon"></span><i class="fa fa-table fa-lg"></i>&nbsp;&nbsp;Datable Configuration</a></li>
                     <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="${contextPath}/app/clear-caches">
                             <span class="c-sidebar-nav-icon"></span><i class="fa fa-recycle"></i>&nbsp;&nbsp;Clear System Cache</a></li>

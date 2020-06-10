@@ -39,12 +39,12 @@ public class DataTableUIService extends AbstractMetheaService<TDataTableView, Da
 
         try {
             List<TDataTableView> dataTableViews = displayRepository
-                    .findAllByViewNameAndStatusOrderBySequence(viewName, "A");
+                    .findAllByViewNameAndStatusOrderBySequence(viewName, MConstant.ACTIVE_STATUS);
             if (!CollectionUtils.isEmpty(dataTableViews)) {
                 for (TDataTableView t : dataTableViews) {
                     columnLabels.add(t.getLabelColumnHead());
                     columnKeys.add(t.getColumnKey());
-                    if ("Y".equalsIgnoreCase(t.getAllowFilter())) {
+                    if (MConstant.YES.equalsIgnoreCase(t.getAllowFilter())) {
                         columnFilter.put("filter_".concat(t.getColumnKey()), t.getLabelColumnHead());
                     }
                 }
@@ -53,7 +53,7 @@ public class DataTableUIService extends AbstractMetheaService<TDataTableView, Da
             MCache.cacheMetaData.put(viewName.concat(MConstant.COLUMNS_KEY), columnKeys);
             MCache.cacheMetaData.put(viewName.concat(MConstant.COLUMNS_FILTER), columnFilter);
         } catch (Exception ex) {
-            log.error(">>>>> Get datatable meta data error: ", ex);
+            log.error("=========> Get datatable meta data error: ", ex);
         }
     }
 }
