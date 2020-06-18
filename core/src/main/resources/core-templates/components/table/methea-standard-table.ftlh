@@ -108,8 +108,13 @@
                         axios.post('${contextPath}' + '/app/' + '${urlFilter}'.split('/')[2] + '/rest/deactivate', {
                             id: $id
                         }).then(function (response) {
-                            if (response.data.status === 200) {
-                                window.location.reload();
+                            switch (response.data.status) {
+                                case 200:
+                                    window.location.reload();
+                                    break;
+                                case 500:
+                                    swal(response.data.message);
+                                    break;
                             }
                         }).catch(function (error) {
                             console.log(error);
@@ -133,8 +138,13 @@
                         axios.post('${contextPath}' + '/app/' + '${urlFilter}'.split('/')[2] + '/rest/activate', {
                             id: $id
                         }).then(function (response) {
-                            if (response.data.status === 200) {
-                                window.location.reload();
+                            switch (response.data.status) {
+                                case 200:
+                                    window.location.reload();
+                                    break;
+                                case 500:
+                                    swal(response.data.message);
+                                    break;
                             }
                         }).catch(function (error) {
                             console.log(error);
