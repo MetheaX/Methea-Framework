@@ -97,6 +97,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
             }
         } catch (Exception ex) {
             log.error("=========> Activate entity error: ", ex);
+            throw new RuntimeException(ex);
         }
         return isActivate;
     }
@@ -108,7 +109,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
             Optional<E> optional = repository.findById(id);
             if (optional.isPresent()) {
                 E entity = optional.get();
-                setStatusAuditLog(entity, "I");
+                setStatusAuditLog(entity, MConstant.INACTIVE_STATUS);
                 entity.setDeactivate(true);
                 repository.save(entity);
                 publisher.publishEvent(entity);
@@ -116,6 +117,7 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
             }
         } catch (Exception ex) {
             log.error("=========> Deactivate entity error: ", ex);
+            throw new RuntimeException(ex);
         }
         return isDeactivate;
     }

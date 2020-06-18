@@ -6,6 +6,7 @@ import io.methea.domain.basebinder.abs.AbstractMetheaBinder;
 import io.methea.domain.baseentity.abs.AbstractMetheaEntity;
 import io.methea.domain.basefilter.AbstractMetheaFilter;
 import io.methea.domain.baseview.abs.AbstractMetheaView;
+import io.methea.exception.AccountInactiveException;
 import io.methea.service.abs.AbstractMetheaService;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.utils.Pagination;
@@ -104,6 +105,7 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
         Object view = metheaService.getEntityViewById(id);
         if (!ObjectUtils.isEmpty(view)) {
             map.put(MConstant.JSON_STATUS, 200);
+            map.put(MConstant.JSON_MESSAGE, String.format("Get %s success!", entity));
             map.put(entity, view);
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
@@ -115,10 +117,15 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
         Map<String, Object> map = new HashMap<>();
         map.put(MConstant.JSON_STATUS, 500);
         map.put(MConstant.JSON_MESSAGE, String.format("Failed to activate %s", entity));
-        if (metheaService.activateEntity(payload.get("id"))) {
-            map.put(MConstant.JSON_STATUS, 200);
-            map.put(MConstant.JSON_MESSAGE, String.format("Activate %s success!", entity));
+        try {
+            if (metheaService.activateEntity(payload.get("id"))) {
+                map.put(MConstant.JSON_STATUS, 200);
+                map.put(MConstant.JSON_MESSAGE, String.format("Activate %s success!", entity));
+            }
+        } catch (Exception ex) {
+            map.put(MConstant.JSON_MESSAGE, ex.getMessage());
         }
+
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
@@ -128,9 +135,13 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
         Map<String, Object> map = new HashMap<>();
         map.put(MConstant.JSON_STATUS, 500);
         map.put(MConstant.JSON_MESSAGE, String.format("Failed to deactivate %s", entity));
-        if (metheaService.deactivateEntity(payload.get("id"))) {
-            map.put(MConstant.JSON_STATUS, 200);
-            map.put(MConstant.JSON_MESSAGE, String.format("Deactivate %s success!", entity));
+        try {
+            if (metheaService.deactivateEntity(payload.get("id"))) {
+                map.put(MConstant.JSON_STATUS, 200);
+                map.put(MConstant.JSON_MESSAGE, String.format("Deactivate %s success!", entity));
+            }
+        } catch (Exception ex) {
+            map.put(MConstant.JSON_MESSAGE, ex.getMessage());
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
