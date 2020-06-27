@@ -1,4 +1,4 @@
-package io.methea.domain.baseview.abs;
+package io.methea.domain.common.view.abs;
 
 import java.io.Serializable;
 

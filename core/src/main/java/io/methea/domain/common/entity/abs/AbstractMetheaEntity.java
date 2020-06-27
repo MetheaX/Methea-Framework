@@ -1,4 +1,4 @@
-package io.methea.domain.baseentity.abs;
+package io.methea.domain.common.entity.abs;
 
 import javax.persistence.Transient;
 import java.io.Serializable;

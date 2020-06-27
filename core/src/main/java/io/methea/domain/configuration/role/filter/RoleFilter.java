@@ -1,13 +1,13 @@
 package io.methea.domain.configuration.role.filter;
 
-import io.methea.domain.basefilter.AbstractMetheaFilter;
+import io.methea.domain.common.filter.BaseFilter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * Author : DKSilverX
  * Date : 02/05/2020
  */
-public class RoleFilter extends AbstractMetheaFilter<RoleFilter> {
+public class RoleFilter extends BaseFilter<RoleFilter> {
     private static final long serialVersionUID = -6705953405867512856L;
 
     private String name;

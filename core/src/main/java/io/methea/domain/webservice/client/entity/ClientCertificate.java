@@ -1,6 +1,6 @@
 package io.methea.domain.webservice.client.entity;
 
-import io.methea.domain.baseentity.BaseEntity;
+import io.methea.domain.common.entity.BaseEntity;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;

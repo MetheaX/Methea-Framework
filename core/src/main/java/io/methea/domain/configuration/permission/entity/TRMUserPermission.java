@@ -1,6 +1,6 @@
 package io.methea.domain.configuration.permission.entity;
 
-import io.methea.domain.baseentity.BaseEntity;
+import io.methea.domain.common.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Column;

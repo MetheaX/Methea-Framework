@@ -1,6 +1,6 @@
-package io.methea.domain.basebinder;
+package io.methea.domain.common.binder;
 
-import io.methea.domain.basebinder.abs.AbstractMetheaBinder;
+import io.methea.domain.common.binder.abs.AbstractMetheaBinder;
 
 /**
  * Author : DKSilverX

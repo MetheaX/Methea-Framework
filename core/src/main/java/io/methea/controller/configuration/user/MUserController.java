@@ -2,7 +2,7 @@ package io.methea.controller.configuration.user;
 
 import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
-import io.methea.controller.abs.AbstractMetheaController;
+import io.methea.controller.abs.AbstractSimpleMetheaController;
 import io.methea.domain.configuration.user.dto.UserBinder;
 import io.methea.domain.configuration.user.entity.TUser;
 import io.methea.domain.configuration.user.filter.UserFilter;
@@ -36,7 +36,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = MUserController.ROOT_URL)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class MUserController extends AbstractMetheaController<TUser, UserBinder, UserView, UserFilter> {
+public class MUserController extends AbstractSimpleMetheaController<TUser, UserBinder, UserView, UserFilter> {
 
     static final String ROOT_URL = "/app/users";
     private static final String RESET_PASSWORD = "/reset-password";
@@ -113,6 +113,6 @@ public class MUserController extends AbstractMetheaController<TUser, UserBinder,
         }
         binder.setForceUserResetPassword("Y");
         service.resetUserPassword(binder.getId(), binder);
-        return new ModelAndView("redirect:" + AbstractMetheaController.ROOT_URL.concat(MConstant.SLASH).concat(entity));
+        return new ModelAndView("redirect:" + AbstractSimpleMetheaController.ROOT_URL.concat(MConstant.SLASH).concat(entity));
     }
 }

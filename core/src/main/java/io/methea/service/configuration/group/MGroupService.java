@@ -5,7 +5,7 @@ import io.methea.domain.configuration.group.entity.TUserGroup;
 import io.methea.domain.configuration.group.view.GroupView;
 import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
-import io.methea.service.abs.AbstractMetheaService;
+import io.methea.service.abs.AbstractSimpleMetheaService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -15,7 +15,7 @@ import javax.inject.Inject;
  * Date : 16/04/2020
  */
 @Service
-public class MGroupService extends AbstractMetheaService<TUserGroup, UserGroupBinder, String, GroupView> {
+public class MGroupService extends AbstractSimpleMetheaService<TUserGroup, UserGroupBinder, String, GroupView> {
 
     @Inject
     public MGroupService(UserGroupRepository repository,

@@ -5,7 +5,7 @@ import io.methea.domain.configuration.user.entity.TUser;
 import io.methea.domain.configuration.user.view.UserView;
 import io.methea.repository.configuration.user.UserRepository;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
-import io.methea.service.abs.AbstractMetheaService;
+import io.methea.service.abs.AbstractSimpleMetheaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.Optional;
  * Date : 23/04/2020
  */
 @Service
-public class MUserService extends AbstractMetheaService<TUser, UserBinder, String, UserView> {
+public class MUserService extends AbstractSimpleMetheaService<TUser, UserBinder, String, UserView> {
 
     private static Logger log = LoggerFactory.getLogger(MUserService.class);
     private final UserRepository repository;

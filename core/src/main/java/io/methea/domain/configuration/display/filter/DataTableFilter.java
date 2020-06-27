@@ -1,13 +1,13 @@
 package io.methea.domain.configuration.display.filter;
 
-import io.methea.domain.basefilter.AbstractMetheaFilter;
+import io.methea.domain.common.filter.BaseFilter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * Author : DKSilverX
  * Date : 08/06/2020
  */
-public class DataTableFilter extends AbstractMetheaFilter<DataTableFilter> {
+public class DataTableFilter extends BaseFilter<DataTableFilter> {
     private static final long serialVersionUID = -78396861930892083L;
 
     private String viewName;

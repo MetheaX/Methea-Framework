@@ -1,6 +1,6 @@
 package io.methea.controller.configuration.uri;
 
-import io.methea.controller.abs.AbstractMetheaController;
+import io.methea.controller.abs.AbstractSimpleMetheaController;
 import io.methea.domain.configuration.uri.dto.URIBinder;
 import io.methea.domain.configuration.uri.entity.TMstURI;
 import io.methea.domain.configuration.uri.filter.URIFilter;
@@ -27,7 +27,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = MURIController.ROOT_URL)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class MURIController extends AbstractMetheaController<TMstURI, URIBinder, URIView, URIFilter> {
+public class MURIController extends AbstractSimpleMetheaController<TMstURI, URIBinder, URIView, URIFilter> {
     static final String ROOT_URL = "/app/uris";
 
     @Inject

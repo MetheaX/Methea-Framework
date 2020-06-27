@@ -1,7 +1,7 @@
 package io.methea.domain.webservice.client.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.methea.domain.basebinder.BaseBinder;
+import io.methea.domain.common.binder.BaseBinder;
 
 /**
  * Author : DKSilverX
