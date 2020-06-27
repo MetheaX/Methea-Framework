@@ -5,7 +5,7 @@ package io.methea.domain.configuration.account.view;
  * Date : 14/04/2020
  */
 
-import io.methea.domain.baseview.BaseView;
+import io.methea.domain.common.view.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;
 import io.methea.repository.hibernateextension.annotation.SelectFrom;
 

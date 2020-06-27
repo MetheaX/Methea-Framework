@@ -1,13 +1,13 @@
 package io.methea.domain.configuration.user.filter;
 
-import io.methea.domain.basefilter.AbstractMetheaFilter;
+import io.methea.domain.common.filter.BaseFilter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * Author : DKSilverX
  * Date : 23/04/2020
  */
-public class UserFilter extends AbstractMetheaFilter<UserFilter> {
+public class UserFilter extends BaseFilter<UserFilter> {
     private static final long serialVersionUID = 3824325380005821866L;
 
     private String groupName;

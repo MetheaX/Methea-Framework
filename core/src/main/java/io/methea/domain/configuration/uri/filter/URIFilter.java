@@ -1,13 +1,13 @@
 package io.methea.domain.configuration.uri.filter;
 
-import io.methea.domain.basefilter.AbstractMetheaFilter;
+import io.methea.domain.common.filter.BaseFilter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * Author : DKSilverX
  * Date : 06/05/2020
  */
-public class URIFilter extends AbstractMetheaFilter<URIFilter> {
+public class URIFilter extends BaseFilter<URIFilter> {
     private static final long serialVersionUID = 3303572474729221553L;
 
     private String uriName;

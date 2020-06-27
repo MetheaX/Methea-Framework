@@ -1,6 +1,6 @@
 package io.methea.controller.configuration.role;
 
-import io.methea.controller.abs.AbstractMetheaController;
+import io.methea.controller.abs.AbstractSimpleMetheaController;
 import io.methea.domain.configuration.role.dto.RoleBinder;
 import io.methea.domain.configuration.role.entity.TRole;
 import io.methea.domain.configuration.role.filter.RoleFilter;
@@ -27,7 +27,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = MRoleController.ROOT_URL)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class MRoleController extends AbstractMetheaController<TRole, RoleBinder, RoleView, RoleFilter> {
+public class MRoleController extends AbstractSimpleMetheaController<TRole, RoleBinder, RoleView, RoleFilter> {
     static final String ROOT_URL = "/app/roles";
 
     @Inject

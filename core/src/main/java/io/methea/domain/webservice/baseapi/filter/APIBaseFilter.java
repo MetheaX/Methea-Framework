@@ -1,13 +1,13 @@
 package io.methea.domain.webservice.baseapi.filter;
 
-import io.methea.domain.basefilter.AbstractMetheaFilter;
+import io.methea.domain.common.filter.BaseFilter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * Author : DKSilverX
  * Date : 06/06/2020
  */
-public class APIBaseFilter extends AbstractMetheaFilter<APIBaseFilter> {
+public class APIBaseFilter extends BaseFilter<APIBaseFilter> {
     private static final long serialVersionUID = 2719604740121239721L;
 
     private String apiUrl;

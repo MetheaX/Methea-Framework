@@ -4,7 +4,7 @@ import io.methea.domain.configuration.uri.dto.URIBinder;
 import io.methea.domain.configuration.uri.entity.TMstURI;
 import io.methea.domain.configuration.uri.view.URIView;
 import io.methea.repository.configuration.uri.URIRepository;
-import io.methea.service.abs.AbstractMetheaService;
+import io.methea.service.abs.AbstractSimpleMetheaService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * Date : 06/05/2020
  */
 @Service
-public class URIService extends AbstractMetheaService<TMstURI, URIBinder, String, URIView> {
+public class URIService extends AbstractSimpleMetheaService<TMstURI, URIBinder, String, URIView> {
     public URIService(URIRepository repository) {
         super(URIView.class, repository, repository);
     }

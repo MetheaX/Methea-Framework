@@ -2,7 +2,7 @@ package io.methea.controller.configuration.group;
 
 import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
-import io.methea.controller.abs.AbstractMetheaController;
+import io.methea.controller.abs.AbstractSimpleMetheaController;
 import io.methea.domain.configuration.group.dto.UserGroupBinder;
 import io.methea.domain.configuration.group.entity.TUserGroup;
 import io.methea.domain.configuration.group.filter.GroupFilter;
@@ -32,7 +32,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = MGroupController.ROOT_URL)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class MGroupController extends AbstractMetheaController<TUserGroup, UserGroupBinder, GroupView, GroupFilter> {
+public class MGroupController extends AbstractSimpleMetheaController<TUserGroup, UserGroupBinder, GroupView, GroupFilter> {
 
     static final String ROOT_URL = "/app/groups";
     private final MDropdownService dropdownService;

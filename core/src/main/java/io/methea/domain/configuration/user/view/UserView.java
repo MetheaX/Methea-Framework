@@ -1,6 +1,6 @@
 package io.methea.domain.configuration.user.view;
 
-import io.methea.domain.baseview.BaseView;
+import io.methea.domain.common.view.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;
 import io.methea.repository.hibernateextension.annotation.SelectFrom;
 

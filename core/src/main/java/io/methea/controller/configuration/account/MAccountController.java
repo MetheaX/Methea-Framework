@@ -1,6 +1,6 @@
 package io.methea.controller.configuration.account;
 
-import io.methea.controller.abs.AbstractMetheaController;
+import io.methea.controller.abs.AbstractSimpleMetheaController;
 import io.methea.domain.configuration.account.dto.AccountBinder;
 import io.methea.domain.configuration.account.entity.TAccount;
 import io.methea.domain.configuration.account.filter.AccountFilter;
@@ -25,7 +25,7 @@ import java.util.*;
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @RequestMapping(value = {MAccountController.ROOT_URL})
-public class MAccountController extends AbstractMetheaController<TAccount, AccountBinder, AccountView, AccountFilter> {
+public class MAccountController extends AbstractSimpleMetheaController<TAccount, AccountBinder, AccountView, AccountFilter> {
 
     static final String ROOT_URL = "/app/accounts";
 

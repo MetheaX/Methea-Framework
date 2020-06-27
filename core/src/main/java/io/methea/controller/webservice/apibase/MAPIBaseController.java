@@ -1,6 +1,6 @@
 package io.methea.controller.webservice.apibase;
 
-import io.methea.controller.abs.AbstractMetheaController;
+import io.methea.controller.abs.AbstractSimpleMetheaController;
 import io.methea.domain.webservice.baseapi.dto.APIBaseBinder;
 import io.methea.domain.webservice.baseapi.entity.APIBase;
 import io.methea.domain.webservice.baseapi.filter.APIBaseFilter;
@@ -26,7 +26,7 @@ import java.util.UUID;
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @RequestMapping(value = {MAPIBaseController.ROOT_URL})
-public class MAPIBaseController extends AbstractMetheaController<APIBase, APIBaseBinder, APIBaseView, APIBaseFilter> {
+public class MAPIBaseController extends AbstractSimpleMetheaController<APIBase, APIBaseBinder, APIBaseView, APIBaseFilter> {
 
     static final String ROOT_URL = "/app/apibases";
 

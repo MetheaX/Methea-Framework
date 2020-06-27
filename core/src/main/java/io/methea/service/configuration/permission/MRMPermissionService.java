@@ -4,7 +4,7 @@ import io.methea.domain.configuration.permission.dto.RMPermissionBinder;
 import io.methea.domain.configuration.permission.entity.TRMUserPermission;
 import io.methea.domain.configuration.permission.view.RMPermissionView;
 import io.methea.repository.configuration.permission.RMUserGrantedPermissionRepository;
-import io.methea.service.abs.AbstractMetheaService;
+import io.methea.service.abs.AbstractSimpleMetheaService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * Date : 19/05/2020
  */
 @Service
-public class MRMPermissionService extends AbstractMetheaService<TRMUserPermission, RMPermissionBinder, String,
+public class MRMPermissionService extends AbstractSimpleMetheaService<TRMUserPermission, RMPermissionBinder, String,
         RMPermissionView> {
     public MRMPermissionService(RMUserGrantedPermissionRepository repository) {
         super(RMPermissionView.class, repository, repository);

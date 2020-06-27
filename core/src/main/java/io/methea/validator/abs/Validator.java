@@ -1,6 +1,6 @@
 package io.methea.validator.abs;
 
-import io.methea.domain.basebinder.abs.AbstractMetheaBinder;
+import io.methea.domain.common.binder.abs.AbstractMetheaBinder;
 
 import java.util.Map;
 

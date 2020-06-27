@@ -2,7 +2,7 @@ package io.methea.controller.configuration.permission;
 
 import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
-import io.methea.controller.abs.AbstractMetheaController;
+import io.methea.controller.abs.AbstractSimpleMetheaController;
 import io.methea.domain.configuration.permission.dto.RMPermissionBinder;
 import io.methea.domain.configuration.permission.entity.TRMUserPermission;
 import io.methea.domain.configuration.permission.filter.RMPermissionFilter;
@@ -32,7 +32,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = MPermissionController.ROOT_URL)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class MPermissionController extends AbstractMetheaController<TRMUserPermission, RMPermissionBinder,
+public class MPermissionController extends AbstractSimpleMetheaController<TRMUserPermission, RMPermissionBinder,
         RMPermissionView, RMPermissionFilter> {
     static final String ROOT_URL = "/app/permissions";
 

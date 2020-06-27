@@ -1,4 +1,4 @@
-package io.methea.domain.basebinder.abs;
+package io.methea.domain.common.binder.abs;
 
 import java.io.Serializable;
 

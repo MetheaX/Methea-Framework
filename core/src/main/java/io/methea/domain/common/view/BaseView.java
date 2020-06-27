@@ -1,6 +1,6 @@
-package io.methea.domain.baseview;
+package io.methea.domain.common.view;
 
-import io.methea.domain.baseview.abs.AbstractMetheaView;
+import io.methea.domain.common.view.abs.AbstractMetheaView;
 
 /**
  * Author : DKSilverX

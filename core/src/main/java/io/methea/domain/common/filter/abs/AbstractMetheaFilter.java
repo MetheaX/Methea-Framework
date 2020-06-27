@@ -1,4 +1,4 @@
-package io.methea.domain.basefilter;
+package io.methea.domain.common.filter.abs;
 
 import java.io.Serializable;
 

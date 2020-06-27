@@ -1,10 +1,10 @@
 package io.methea.service.abs;
 
 import io.methea.constant.MConstant;
-import io.methea.domain.basebinder.abs.AbstractMetheaBinder;
-import io.methea.domain.baseentity.BaseEntity;
-import io.methea.domain.baseentity.abs.AbstractMetheaEntity;
-import io.methea.domain.baseview.abs.AbstractMetheaView;
+import io.methea.domain.common.binder.abs.AbstractMetheaBinder;
+import io.methea.domain.common.entity.BaseEntity;
+import io.methea.domain.common.entity.abs.AbstractMetheaEntity;
+import io.methea.domain.common.view.abs.AbstractMetheaView;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
 import io.methea.repository.hibernateextension.domain.HibernatePage;
 import io.methea.utils.MBeanUtils;
@@ -27,10 +27,10 @@ import java.util.*;
  * Author : DKSilverX
  * Date : 17/04/2020
  */
-public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>, ID,
-        V extends AbstractMetheaView<V>> {
+public abstract class AbstractSimpleMetheaService<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>, ID,
+        V extends AbstractMetheaView<V>> implements SimpleMetheaService<E, B, ID, V> {
 
-    private static Logger log = LoggerFactory.getLogger(AbstractMetheaService.class);
+    private static Logger log = LoggerFactory.getLogger(AbstractSimpleMetheaService.class);
     private static final String STATUS = "status";
     private final Class<V> view;
     private final CrudRepository repository;
@@ -38,8 +38,8 @@ public abstract class AbstractMetheaService<E extends AbstractMetheaEntity<E>, B
     @Inject
     private ApplicationEventPublisher publisher;
 
-    public AbstractMetheaService(Class<V> view, CrudRepository repository,
-                                 HibernateExtensionRepository<V, ID> extensionRepository) {
+    public AbstractSimpleMetheaService(Class<V> view, CrudRepository repository,
+                                       HibernateExtensionRepository<V, ID> extensionRepository) {
         this.view = view;
         this.repository = repository;
         this.extensionRepository = extensionRepository;

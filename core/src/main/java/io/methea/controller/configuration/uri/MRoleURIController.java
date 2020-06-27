@@ -2,7 +2,7 @@ package io.methea.controller.configuration.uri;
 
 import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
-import io.methea.controller.abs.AbstractMetheaController;
+import io.methea.controller.abs.AbstractSimpleMetheaController;
 import io.methea.domain.configuration.uri.dto.RoleURIBinder;
 import io.methea.domain.configuration.uri.entity.TRoleURI;
 import io.methea.domain.configuration.uri.filter.RoleURIFilter;
@@ -32,7 +32,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = MRoleURIController.ROOT_URL)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class MRoleURIController extends AbstractMetheaController<TRoleURI, RoleURIBinder, RoleURIView, RoleURIFilter> {
+public class MRoleURIController extends AbstractSimpleMetheaController<TRoleURI, RoleURIBinder, RoleURIView, RoleURIFilter> {
 
     static final String ROOT_URL = "/app/roleURIs";
     private final MDropdownService dropdownService;

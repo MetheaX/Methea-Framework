@@ -1,7 +1,7 @@
-package io.methea.domain.baseentity;
+package io.methea.domain.common.entity;
 
 
-import io.methea.domain.baseentity.abs.AbstractMetheaEntity;
+import io.methea.domain.common.entity.abs.AbstractMetheaEntity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;

@@ -2,7 +2,7 @@ package io.methea.controller.configuration.display;
 
 import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
-import io.methea.controller.abs.AbstractMetheaController;
+import io.methea.controller.abs.AbstractSimpleMetheaController;
 import io.methea.domain.configuration.display.dto.DataTableBinder;
 import io.methea.domain.configuration.display.entity.TDataTableView;
 import io.methea.domain.configuration.display.filter.DataTableFilter;
@@ -32,7 +32,7 @@ import java.util.UUID;
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @RequestMapping(value = {MDataTableController.ROOT_URL})
-public class MDataTableController extends AbstractMetheaController<TDataTableView, DataTableBinder, DataTableView, DataTableFilter> {
+public class MDataTableController extends AbstractSimpleMetheaController<TDataTableView, DataTableBinder, DataTableView, DataTableFilter> {
     static final String ROOT_URL = "/app/datatable";
     private final MDropdownService dropdownService;
 

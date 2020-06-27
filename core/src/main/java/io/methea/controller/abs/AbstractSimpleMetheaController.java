@@ -2,12 +2,11 @@ package io.methea.controller.abs;
 
 import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
-import io.methea.domain.basebinder.abs.AbstractMetheaBinder;
-import io.methea.domain.baseentity.abs.AbstractMetheaEntity;
-import io.methea.domain.basefilter.AbstractMetheaFilter;
-import io.methea.domain.baseview.abs.AbstractMetheaView;
-import io.methea.exception.AccountInactiveException;
-import io.methea.service.abs.AbstractMetheaService;
+import io.methea.domain.common.binder.abs.AbstractMetheaBinder;
+import io.methea.domain.common.entity.abs.AbstractMetheaEntity;
+import io.methea.domain.common.filter.abs.AbstractMetheaFilter;
+import io.methea.domain.common.view.abs.AbstractMetheaView;
+import io.methea.service.abs.AbstractSimpleMetheaService;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.utils.Pagination;
 import io.methea.utils.SystemUtils;
@@ -36,7 +35,7 @@ import java.util.Map;
  */
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>,
+public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>,
         V extends AbstractMetheaView<V>, F extends AbstractMetheaFilter<F>> {
     protected static final String ROOT_URL = "/app";
     private static final String SAVE_URL = "/save";
@@ -51,10 +50,10 @@ public abstract class AbstractMetheaController<E extends AbstractMetheaEntity<E>
     protected String configViewName;
 
     private final DataTableUIService dataTableUIService;
-    protected AbstractMetheaService metheaService;
+    protected AbstractSimpleMetheaService metheaService;
     protected AbstractMetheaValidator validator;
 
-    public AbstractMetheaController(DataTableUIService dataTableUIService) {
+    public AbstractSimpleMetheaController(DataTableUIService dataTableUIService) {
         this.dataTableUIService = dataTableUIService;
     }
 

@@ -1,13 +1,13 @@
 package io.methea.domain.configuration.account.filter;
 
-import io.methea.domain.basefilter.AbstractMetheaFilter;
+import io.methea.domain.common.filter.BaseFilter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * Author : DKSilverX
  * Date : 14/04/2020
  */
-public class AccountFilter extends AbstractMetheaFilter<AccountFilter> {
+public class AccountFilter extends BaseFilter<AccountFilter> {
 
     private static final long serialVersionUID = 6594832273463421285L;
     private String accountName;

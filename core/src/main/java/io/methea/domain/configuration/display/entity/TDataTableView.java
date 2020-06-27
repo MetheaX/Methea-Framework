@@ -1,6 +1,6 @@
 package io.methea.domain.configuration.display.entity;
 
-import io.methea.domain.baseentity.BaseEntity;
+import io.methea.domain.common.entity.BaseEntity;
 
 import javax.persistence.*;
 

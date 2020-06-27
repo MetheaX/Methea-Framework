@@ -1,13 +1,13 @@
 package io.methea.domain.configuration.permission.filter;
 
-import io.methea.domain.basefilter.AbstractMetheaFilter;
+import io.methea.domain.common.filter.BaseFilter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * Author : DKSilverX
  * Date : 19/05/2020
  */
-public class RMPermissionFilter extends AbstractMetheaFilter<RMPermissionFilter> {
+public class RMPermissionFilter extends BaseFilter<RMPermissionFilter> {
     private static final long serialVersionUID = 1984470620365909355L;
 
     private String userLoginId;

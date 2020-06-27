@@ -1,6 +1,6 @@
 package io.methea.domain.configuration.group.entity;
 
-import io.methea.domain.baseentity.BaseEntity;
+import io.methea.domain.common.entity.BaseEntity;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
