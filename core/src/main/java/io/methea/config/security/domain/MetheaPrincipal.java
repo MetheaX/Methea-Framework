@@ -7,6 +7,7 @@ package io.methea.config.security.domain;
 public class MetheaPrincipal {
 
     private String username;
+    private String groupId;
     private String phone;
     private String email;
     private String forceUserResetPassword;
@@ -27,6 +28,14 @@ public class MetheaPrincipal {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public String getPhone() {

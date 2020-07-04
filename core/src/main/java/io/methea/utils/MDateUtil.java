@@ -25,7 +25,7 @@ public class MDateUtil {
             DateTimeFormatter df = DateTimeFormatter.ofPattern(PATTERN);
             dateAsString = date.format(df);
         }catch (Exception ex){
-            log.error(">>>>> Convert datetime to string error: ", ex);
+            log.error("=========> Convert datetime to string error: ", ex);
         }
         return dateAsString;
     }

@@ -7,9 +7,10 @@ import javax.servlet.http.HttpServletRequest;
  * Date : 9/8/2019
  */
 public class SystemUtils {
-    private SystemUtils(){}
+    private SystemUtils() {
+    }
 
-    public static String getBaseUrl(HttpServletRequest request){
+    public static String getBaseUrl(HttpServletRequest request) {
         return request.getRequestURL().substring(0, request.getRequestURL().length() - request.getRequestURI().length()) + request.getContextPath();
     }
 }

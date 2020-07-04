@@ -31,6 +31,8 @@ public class MConstant {
     public static final String INACTIVE_STATUS = "I";
     public static final String YES = "Y";
     public static final String NO = "N";
+    public static final String PARENT = "P";
+    public static final String CORE_MENU = "coreMenu";
 
     // cache datatable meta data
     public static final String COLUMNS_LABEL = "_COLUMNS_LABEL";

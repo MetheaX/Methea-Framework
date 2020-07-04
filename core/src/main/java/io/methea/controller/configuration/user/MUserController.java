@@ -64,10 +64,10 @@ public class MUserController extends AbstractSimpleMetheaController<TUser, UserB
 
     @Override
     protected Model getExtraAttribute(Model model) {
-        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
+        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.CACHE_META_DATA.get(MConstant.DROPDOWN))) {
             dropdownService.getDropdownData();
         }
-        model.addAttribute(MConstant.DROPDOWN, MCache.cacheMetaData.get(MConstant.DROPDOWN));
+        model.addAttribute(MConstant.DROPDOWN, MCache.CACHE_META_DATA.get(MConstant.DROPDOWN));
         return model;
     }
 

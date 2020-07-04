@@ -3,6 +3,7 @@ package io.methea.controller.home;
 import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
 import io.methea.service.dropdown.MDropdownService;
+import io.methea.utils.PrincipalUtils;
 import io.methea.utils.SystemUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -31,11 +32,12 @@ public class MHomeController {
 
     @RequestMapping(value = {"/", "/app"}, method = RequestMethod.GET)
     public String home(Model model, HttpServletRequest request) {
-        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
+        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.CACHE_META_DATA.get(MConstant.DROPDOWN))) {
             dropdownService.getDropdownData();
         }
-        model.addAttribute(MConstant.DROPDOWN, MCache.cacheMetaData.get(MConstant.DROPDOWN));
+        model.addAttribute(MConstant.DROPDOWN, MCache.CACHE_META_DATA.get(MConstant.DROPDOWN));
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
+        model.addAttribute(MConstant.CORE_MENU, MCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
         return HOME_TEMPLATE_PATH;
     }
 }

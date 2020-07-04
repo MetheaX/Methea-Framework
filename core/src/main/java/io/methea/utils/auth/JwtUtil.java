@@ -46,7 +46,7 @@ public class JwtUtil {
             jwtDecrypt.decrypt(decrypter);
             username = jwtDecrypt.getJWTClaimsSet().getSubject();
         } catch (Exception ex) {
-            log.error(">>>>> decodeToken error: ", ex);
+            log.error("=========> decodeToken error: ", ex);
         }
 
         return username;
@@ -80,7 +80,7 @@ public class JwtUtil {
 
             map.put(MConstant.JWT_TOKEN, Base64.encodeBase64String(jwtToken.getBytes()));
         } catch (Exception e) {
-            log.error(">>>>> encodeToken error: " + e);
+            log.error("=========> encodeToken error: " + e);
         }
         return map;
     }
