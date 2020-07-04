@@ -105,7 +105,7 @@ public class WebserviceClientController {
         Map<String, List<ClientView>> map = new HashMap<>();
         map.put(MConstant.JSON_DATA, clientService.getAllWebserviceClient());
 
-        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.cacheMetaData.get(MConstant.DROPDOWN))) {
+        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.CACHE_META_DATA.get(MConstant.DROPDOWN))) {
             dropdownService.getDropdownData();
         }
 
@@ -113,6 +113,6 @@ public class WebserviceClientController {
         model.addAttribute("errors", new HashMap<>());
         model.addAttribute(SECRET_KEY, StringUtils.EMPTY);
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
-        model.addAttribute(MConstant.DROPDOWN, MCache.cacheMetaData.get(MConstant.DROPDOWN));
+        model.addAttribute(MConstant.DROPDOWN, MCache.CACHE_META_DATA.get(MConstant.DROPDOWN));
     }
 }

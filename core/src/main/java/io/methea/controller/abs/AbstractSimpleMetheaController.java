@@ -9,6 +9,7 @@ import io.methea.domain.common.view.abs.AbstractMetheaView;
 import io.methea.service.abs.AbstractSimpleMetheaService;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.utils.Pagination;
+import io.methea.utils.PrincipalUtils;
 import io.methea.utils.SystemUtils;
 import io.methea.validator.abs.AbstractMetheaValidator;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,17 +148,17 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
     }
 
     protected void dataTableAttributes(Model model, B binder, F filter, Pagination pagination, HttpServletRequest request) {
-        if (CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_KEY)))
-                || CollectionUtils.isEmpty((List<?>) MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_LABEL)))) {
+        if (CollectionUtils.isEmpty((List<?>) MCache.CACHE_META_DATA.get(configViewName.concat(MConstant.COLUMNS_KEY)))
+                || CollectionUtils.isEmpty((List<?>) MCache.CACHE_META_DATA.get(configViewName.concat(MConstant.COLUMNS_LABEL)))) {
             dataTableUIService.getMetaTableConfiguration(configViewName);
         }
 
         Map<String, List<?>> map = new HashMap<>();
         map.put(MConstant.JSON_DATA, metheaService.getAllEntityViewByFilter(getFilterColumns(filter), pagination));
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
-        model.addAttribute("tableHead", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_LABEL)));
-        model.addAttribute("tableColumns", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_KEY)));
-        model.addAttribute("tableFilterColumns", MCache.cacheMetaData.get(configViewName.concat(MConstant.COLUMNS_FILTER)));
+        model.addAttribute("tableHead", MCache.CACHE_META_DATA.get(configViewName.concat(MConstant.COLUMNS_LABEL)));
+        model.addAttribute("tableColumns", MCache.CACHE_META_DATA.get(configViewName.concat(MConstant.COLUMNS_KEY)));
+        model.addAttribute("tableFilterColumns", MCache.CACHE_META_DATA.get(configViewName.concat(MConstant.COLUMNS_FILTER)));
         model.addAttribute(entity, map);
         model.addAttribute("dataFilters", filter);
         model.addAttribute("pagination", pagination);
@@ -164,6 +166,7 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
         model.addAttribute("errors", new HashMap<>());
         model.addAttribute("hasErrors", false);
         model.addAttribute("popup", dataTableId);
+        model.addAttribute(MConstant.CORE_MENU, MCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
         getExtraAttribute(model);
     }
 

@@ -201,6 +201,26 @@ create table if not exists tbl_api_base
 	api_url_name varchar(255) not null
 );
 
+create table if not exists tbl_core_menu
+(
+	menu_id varchar(255) not null
+		constraint tbl_core_menu_pkey
+			primary key,
+	created_date_time timestamp not null,
+	created_user varchar(255) not null,
+	status varchar(255) not null,
+	updated_date_time timestamp not null,
+	updated_user varchar(255) not null,
+	group_id varchar(255) not null,
+	menu_icon varchar(255) not null,
+	menu_label varchar(255) not null,
+	parent_menu varchar(255),
+	uri_id varchar(255) not null,
+	uri_name varchar(255) not null,
+	group_name varchar(255) not null,
+	index integer
+);
+
 -- Create account
 INSERT INTO tbl_core_account (account_id, created_date_time, created_user, status, updated_date_time, updated_user, account_address, account_email, account_name) VALUES ('b5911381-e595-4c67-ad6b-080abe000ed6', '2020-04-14 20:55:44.797000', 'admin', 'A', '2020-04-16 11:15:23.155000', 'admin', 'Phnom Penh, Cambodia', 'methea@methea-mail.io', 'Methea LLC.');
 INSERT INTO tbl_core_account (account_id, created_date_time, created_user, status, updated_date_time, updated_user, account_address, account_email, account_name) VALUES ('85ec05cc-f6fa-40d7-a05d-c9ca760faee3', '2020-04-21 21:38:55.864000', 'admin', 'A', '2020-05-06 10:18:42.804374', 'admin', 'Phnom Penh, Cambodia', 'actiniumllc@gmail.com', 'Actinium LLC.');
@@ -315,6 +335,21 @@ INSERT INTO tbl_core_client_certificate (id, created_date_time, created_user, st
 -- API Base URLs
 INSERT INTO tbl_api_base (api_id, created_date_time, created_user, status, updated_date_time, updated_user, api_url_name) VALUES ('04dfabc0-f665-4373-afa1-f6e738e4a671', '2020-06-06 17:21:43.295544', 'admin', 'A', '2020-06-06 17:23:46.561184', 'admin', '/api/v1/**');
 
-
+-- Load Menu
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('93742b9e-6758-48bc-9736-ae39650f888f', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-id-badge', 'Roles', 'dbf68434-77b9-46b2-9811-38c52f9d521d', 'b91aa537-64c2-4eba-b954-694a5c02f504', '/app/roles', 'M_SYS_ADMIN', 5);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('4e905158-86ee-483f-bb9d-1664105d1584', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-user-o', 'Users', 'dbf68434-77b9-46b2-9811-38c52f9d521d', '59dd27f1-9e52-4a39-91b2-f0602e1f3bf7', '/app/users', 'M_SYS_ADMIN', 4);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('dbf68434-77b9-46b2-9811-38c52f9d521d', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-cog fa-lg', 'Configurations', 'P', '', '', 'M_SYS_ADMIN', 1);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('efaf8c11-679f-4d5d-8392-1af5fb7415de', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-recycle', 'Clear System Cache', '4eec4eb1-b952-4fd8-9f3a-ca9808355c94', 'f72d0592-b65d-4168-aeff-0b7d09f1a92c', '/app/clear-caches', 'M_SYS_ADMIN', 15);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('103725a3-1d6c-44b2-bd92-2f7104bb98c2', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-server', 'URLs', 'dbf68434-77b9-46b2-9811-38c52f9d521d', 'f232b85d-a675-4cac-914a-52e8c6c94c0a', '/app/uris', 'M_SYS_ADMIN', 6);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('19338af3-447c-4337-832a-445d4799102f', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-building-o', 'Accounts', 'dbf68434-77b9-46b2-9811-38c52f9d521d', '2404ee87-d57b-4eb2-ac16-003dd9b93c46', '/app/accounts', 'M_SYS_ADMIN', 2);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('b1918c27-38b7-4d3a-bb6e-0267a98ef723', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-group', 'Groups', 'dbf68434-77b9-46b2-9811-38c52f9d521d', 'ea7a70f1-bbf0-433c-a4fe-7c165896550b', '/app/groups', 'M_SYS_ADMIN', 3);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('082666ab-9584-4d3a-9506-e941a6728e3e', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-unlock', 'Role URI Mapping', 'dbf68434-77b9-46b2-9811-38c52f9d521d', '68af8c6a-a1d0-408d-a075-901cf462dbfc', '/app/roleURIs', 'M_SYS_ADMIN', 7);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('cc4b9d8d-425b-4b94-9aa9-9a76ea1a3eb3', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-id-card', 'System Certificate', '251525ad-2c29-4c4f-8ab1-f594ad53a9ae', '9ad0ab0d-ee63-4b3b-8db0-a711682ec702', '/app/system-certificate', 'M_SYS_ADMIN', 10);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('251525ad-2c29-4c4f-8ab1-f594ad53a9ae', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-cloud fa-lg', 'Web-Services Configs', 'P', '', '', 'M_SYS_ADMIN', 9);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('4c0895dc-8621-4dc6-8e0e-9a17efdeee1e', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-table fa-lg', 'Datable Configuration', '4eec4eb1-b952-4fd8-9f3a-ca9808355c94', '0405b76c-7b97-4e5d-8272-7675afb12b25', '/app/datatable', 'M_SYS_ADMIN', 14);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('14a182e2-eb26-4749-ae32-3ff88291dc31', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-paper-plane-o', 'API Base URLs', '251525ad-2c29-4c4f-8ab1-f594ad53a9ae', 'ea1b5b8d-4364-47eb-9e8c-b2306f580cf2', '/app/apibases', 'M_SYS_ADMIN', 11);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('d802cebc-88ba-4084-bbe3-c0864c20c49b', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-user-secret', 'Clients', '251525ad-2c29-4c4f-8ab1-f594ad53a9ae', '68154b9a-b88b-4b79-8f4c-e48c39e64ee8', '/app/webservice-clients', 'M_SYS_ADMIN', 12);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('43824009-9d49-42ee-bcd9-f8b2d5edfc65', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-lock', 'User Permissions', 'dbf68434-77b9-46b2-9811-38c52f9d521d', 'ebb7533c-1999-4b79-889d-55d805fe7a4c', '/app/permissions', 'M_SYS_ADMIN', 8);
+INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('4eec4eb1-b952-4fd8-9f3a-ca9808355c94', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-plus-square fa-lg', 'Addons', 'P', '', '', 'M_SYS_ADMIN', 13);
 
 

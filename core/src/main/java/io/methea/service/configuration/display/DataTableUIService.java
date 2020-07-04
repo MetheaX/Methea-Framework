@@ -49,9 +49,9 @@ public class DataTableUIService extends AbstractSimpleMetheaService<TDataTableVi
                     }
                 }
             }
-            MCache.cacheMetaData.put(viewName.concat(MConstant.COLUMNS_LABEL), columnLabels);
-            MCache.cacheMetaData.put(viewName.concat(MConstant.COLUMNS_KEY), columnKeys);
-            MCache.cacheMetaData.put(viewName.concat(MConstant.COLUMNS_FILTER), columnFilter);
+            MCache.CACHE_META_DATA.put(viewName.concat(MConstant.COLUMNS_LABEL), columnLabels);
+            MCache.CACHE_META_DATA.put(viewName.concat(MConstant.COLUMNS_KEY), columnKeys);
+            MCache.CACHE_META_DATA.put(viewName.concat(MConstant.COLUMNS_FILTER), columnFilter);
         } catch (Exception ex) {
             log.error("=========> Get datatable meta data error: ", ex);
         }

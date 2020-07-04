@@ -19,13 +19,22 @@ public class PrincipalUtils {
     }
 
     public static String getUserLoginId(HttpServletRequest request) {
-        String userLoginId = "SYS";
+        Authentication user = getAuthentication(request);
+        return ((PrincipalAuthentication) user.getPrincipal()).getUsername();
+    }
+
+    public static String getLoginGroupId(HttpServletRequest request) {
+        Authentication user = getAuthentication(request);
+        return ((PrincipalAuthentication) user.getPrincipal()).getMetheaPrincipal().getGroupId();
+    }
+
+    private static Authentication getAuthentication(HttpServletRequest request) {
+        Authentication user = null;
         HttpSession session = request.getSession(true);
         SecurityContextImpl securityContext = (SecurityContextImpl) session.getAttribute(MConstant.SPRING_SECURITY_CONTEXT);
         if (!ObjectUtils.isEmpty(securityContext)) {
-            Authentication user = securityContext.getAuthentication();
-            userLoginId = ((PrincipalAuthentication) user.getPrincipal()).getUsername();
+            user = securityContext.getAuthentication();
         }
-        return userLoginId;
+        return user;
     }
 }

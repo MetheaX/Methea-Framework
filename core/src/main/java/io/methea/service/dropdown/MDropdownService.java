@@ -61,7 +61,7 @@ public class MDropdownService {
             map.put(MConstant.ROLE_DROPDOWN, getRoleDropdown());
             map.put(MConstant.URI_DROPDOWN, getURIDropdown());
             map.put(MConstant.API_URL_DROPDOWN, getApiBaseDropdown());
-            MCache.cacheMetaData.put(MConstant.DROPDOWN, map);
+            MCache.CACHE_META_DATA.put(MConstant.DROPDOWN, map);
         } catch (Exception ex) {
             log.error("=========> Get dropdown data error: ", ex);
         }
