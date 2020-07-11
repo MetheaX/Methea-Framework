@@ -13,17 +13,20 @@ public class MenuFilter extends BaseFilter<MenuFilter> {
     private String menuLabel;
     private String uriName;
     private String groupName;
+    private String status;
 
     public MenuFilter() {
         this.menuLabel = StringUtils.EMPTY;
         this.uriName = StringUtils.EMPTY;
         this.groupName = StringUtils.EMPTY;
+        this.status = StringUtils.EMPTY;
     }
 
-    public MenuFilter(String menuLabel, String uriName, String groupName) {
+    public MenuFilter(String menuLabel, String uriName, String groupName, String status) {
         this.menuLabel = menuLabel;
         this.uriName = uriName;
         this.groupName = groupName;
+        this.status = status;
     }
 
     public String getMenuLabel() {
@@ -48,5 +51,13 @@ public class MenuFilter extends BaseFilter<MenuFilter> {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
