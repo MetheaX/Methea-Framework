@@ -7,6 +7,7 @@ import io.methea.domain.webservice.client.dto.ClientBinder;
 import io.methea.domain.webservice.client.view.ClientView;
 import io.methea.service.auth.ClientService;
 import io.methea.service.dropdown.MDropdownService;
+import io.methea.utils.PrincipalUtils;
 import io.methea.utils.SystemUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -114,5 +115,6 @@ public class WebserviceClientController {
         model.addAttribute(SECRET_KEY, StringUtils.EMPTY);
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
         model.addAttribute(MConstant.DROPDOWN, MCache.CACHE_META_DATA.get(MConstant.DROPDOWN));
+        model.addAttribute(MConstant.CORE_MENU, MCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
     }
 }

@@ -14,20 +14,33 @@ public class MenuView extends BaseView<MenuView> {
 
     @Column(name = "o.id")
     private String id;
+    @Column(name = "o.parentId")
+    private String parentId;
     @Column(name = "o.menuLabel", key = "menuLabel", where = "AND LOWER(o.menuLabel) LIKE :menuLabel")
     private String menuLabel;
+    @Column(name = "o.menuIcon", key = "menuIcon", where = "AND LOWER(o.menuIcon) LIKE :menuIcon")
+    private String menuIcon;
     @Column(name = "o.uriName", key = "uriName", where = "AND LOWER(o.uriName) LIKE :uriName")
     private String uriName;
+    @Column(name = "o.groupId")
+    private String groupId;
     @Column(name = "o.groupName", key = "groupName", where = "AND LOWER(o.groupName) LIKE :groupName")
     private String groupName;
+    @Column(name = "o.index", key = "index", where = "AND o.index = :index")
+    private Integer index;
     @Column(name = "o.status", key = "status", where = "AND LOWER(o.status) LIKE :status", isLastColumn = true)
     private String status;
 
-    public MenuView(String id, String menuLabel, String uriName, String groupName, String status) {
+    public MenuView(String id, String parentId, String menuLabel, String menuIcon, String uriName,
+                    String groupId, String groupName, Integer index, String status) {
         this.id = id;
+        this.parentId = parentId;
         this.menuLabel = menuLabel;
+        this.menuIcon = menuIcon;
         this.uriName = uriName;
+        this.groupId = groupId;
         this.groupName = groupName;
+        this.index = index;
         this.status = status;
     }
 
@@ -39,12 +52,28 @@ public class MenuView extends BaseView<MenuView> {
         this.id = id;
     }
 
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
     public String getMenuLabel() {
         return menuLabel;
     }
 
     public void setMenuLabel(String menuLabel) {
         this.menuLabel = menuLabel;
+    }
+
+    public String getMenuIcon() {
+        return menuIcon;
+    }
+
+    public void setMenuIcon(String menuIcon) {
+        this.menuIcon = menuIcon;
     }
 
     public String getUriName() {
@@ -55,12 +84,28 @@ public class MenuView extends BaseView<MenuView> {
         this.uriName = uriName;
     }
 
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
     public String getGroupName() {
         return groupName;
     }
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 
     public String getStatus() {

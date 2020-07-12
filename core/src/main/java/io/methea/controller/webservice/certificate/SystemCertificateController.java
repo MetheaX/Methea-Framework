@@ -1,8 +1,10 @@
 package io.methea.controller.webservice.certificate;
 
+import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
 import io.methea.domain.webservice.system.dto.CertificateBinder;
 import io.methea.service.auth.CertificateService;
+import io.methea.utils.PrincipalUtils;
 import io.methea.utils.SystemUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
@@ -43,6 +45,7 @@ public class SystemCertificateController {
     public String viewSystemCertificate(Model model, HttpServletRequest request) {
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
         model.addAttribute("certificateStatus", certificateService.getSystemCertificate().getStatus());
+        model.addAttribute(MConstant.CORE_MENU, MCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
         return CERTIFICATE_TEMPLATE_PATH;
     }
 
@@ -52,6 +55,7 @@ public class SystemCertificateController {
         binder.setCode(MConstant.CERT_TYPE);
         certificateService.createOrUpdateCertificate(binder);
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
+        model.addAttribute(MConstant.CORE_MENU, MCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
         return new ModelAndView("redirect:".concat(ROOT_URL));
     }
 

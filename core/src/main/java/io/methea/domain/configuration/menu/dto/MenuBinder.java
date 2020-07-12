@@ -18,6 +18,7 @@ public class MenuBinder extends BaseBinder<MenuBinder> {
     private String uriName = StringUtils.EMPTY;
     private String groupId = StringUtils.EMPTY;
     private String groupName = StringUtils.EMPTY;
+    private Integer index = 0;
 
     public String getId() {
         return id;
@@ -81,5 +82,13 @@ public class MenuBinder extends BaseBinder<MenuBinder> {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 }
