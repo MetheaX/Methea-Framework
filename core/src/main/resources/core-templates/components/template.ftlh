@@ -46,12 +46,14 @@
                         <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#"><i
                                     class="${m.menuIcon}"></i>&nbsp;&nbsp;${m.menuLabel}</a>
                         <ul class="c-sidebar-nav-dropdown-items">
-                            <#list m.subMenu as s>
-                                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link"
-                                                                  href="${contextPath}${s.uriName}">
-                                        <span class="c-sidebar-nav-icon"></span><i class="${s.menuIcon}"></i>&nbsp;&nbsp;${s.menuLabel}
-                                    </a></li>
-                            </#list>
+                            <#if m.subMenu?has_content>
+                                <#list m.subMenu as s>
+                                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link"
+                                                                      href="${contextPath}${s.uriName}">
+                                            <span class="c-sidebar-nav-icon"></span><i class="${s.menuIcon}"></i>&nbsp;&nbsp;${s.menuLabel}
+                                        </a></li>
+                                </#list>
+                            </#if>
                         </ul>
                     </li>
                 </#list>

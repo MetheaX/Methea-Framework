@@ -48,6 +48,7 @@ public class MConstant {
     public static final String URI_DROPDOWN = "uriDropdown";
     public static final String API_URL_DROPDOWN = "apiUrlDropdown";
     public static final String YES_NO_DROPDOWN = "yesNoDropdown";
+    public static final String MENU_DROPDOWN = "menuDropdown";
 
     // security filter
     public static final String SLASH = "/";

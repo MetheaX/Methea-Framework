@@ -4,6 +4,7 @@ import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
 import io.methea.domain.configuration.account.dropdown.AccountDropdown;
 import io.methea.domain.configuration.group.dropdown.GroupDropdown;
+import io.methea.domain.configuration.menu.dropdown.MenuDropdown;
 import io.methea.domain.configuration.role.dropdown.RoleDropdown;
 import io.methea.domain.configuration.uri.dropdown.URIDropdown;
 import io.methea.domain.configuration.user.dropdown.UserDropdown;
@@ -33,6 +34,7 @@ public class MDropdownService {
     private final HibernateExtensionRepository<URIDropdown, String> uriRepository;
     private final HibernateExtensionRepository<UserDropdown, String> userRepository;
     private final HibernateExtensionRepository<APIBaseDropdown, String> apiBaseRepository;
+    private final HibernateExtensionRepository<MenuDropdown, String> menuRepository;
     private final Map<String, Object> param = new HashMap<>();
 
     @Inject
@@ -41,13 +43,15 @@ public class MDropdownService {
                             HibernateExtensionRepository<RoleDropdown, String> roleRepository,
                             HibernateExtensionRepository<URIDropdown, String> uriRepository,
                             HibernateExtensionRepository<UserDropdown, String> userRepository,
-                            HibernateExtensionRepository<APIBaseDropdown, String> apiBaseRepository) {
+                            HibernateExtensionRepository<APIBaseDropdown, String> apiBaseRepository,
+                            HibernateExtensionRepository<MenuDropdown, String> menuRepository) {
         this.repository = repository;
         this.groupRepository = groupRepository;
         this.roleRepository = roleRepository;
         this.uriRepository = uriRepository;
         this.userRepository = userRepository;
         this.apiBaseRepository = apiBaseRepository;
+        this.menuRepository = menuRepository;
         param.put(MConstant.JSON_STATUS, MConstant.ACTIVE_STATUS);
     }
 
@@ -61,6 +65,7 @@ public class MDropdownService {
             map.put(MConstant.ROLE_DROPDOWN, getRoleDropdown());
             map.put(MConstant.URI_DROPDOWN, getURIDropdown());
             map.put(MConstant.API_URL_DROPDOWN, getApiBaseDropdown());
+            map.put(MConstant.MENU_DROPDOWN, getMenuDropdown());
             MCache.CACHE_META_DATA.put(MConstant.DROPDOWN, map);
         } catch (Exception ex) {
             log.error("=========> Get dropdown data error: ", ex);
@@ -127,6 +132,18 @@ public class MDropdownService {
         return list;
     }
 
+    private List<MenuDropdown> getMenuDropdown() {
+        List<MenuDropdown> list = new ArrayList<>();
+        MenuDropdown defaultMenu = new MenuDropdown("P", "None");
+        try {
+            list.add(defaultMenu);
+            list.addAll(menuRepository.getByQuery(param, MenuDropdown.class));
+        } catch (Exception ex) {
+            log.error("=========> Get menu dropdown error: ", ex);
+        }
+        return list;
+    }
+
     private List<GenericDropdown> getYesNoDropdown() {
         return new ArrayList<>() {
             {
@@ -136,7 +153,7 @@ public class MDropdownService {
         };
     }
 
-    public class GenericDropdown{
+    public class GenericDropdown {
         private String id;
         private String name;
 
