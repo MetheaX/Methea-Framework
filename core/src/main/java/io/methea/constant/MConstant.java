@@ -21,10 +21,6 @@ public class MConstant {
     public static final String CORE_TEMPLATE_KEY = "methea.core.freemarker.templates";
     public static final String CLIENT_TEMPLATE_KEY = "methea.client.freemarker.templates";
 
-    // security config
-    public static final String CLIENT_TOKEN_EXPIRATION = "methea.client.security.token.expiration_time";
-    public static final String CLIENT_REQUEST_HEADER_KEY = "methea.client.security.request.header";
-
     public static final String COMMA = ",";
     public static final String SPACE = " ";
     public static final String ACTIVE_STATUS = "A";
@@ -53,6 +49,7 @@ public class MConstant {
     // security filter
     public static final String SLASH = "/";
     public static final String SLASH_STAR = "/**";
+    public static final String DOUBLE_STAR = "**";
     public static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
     // webservice
