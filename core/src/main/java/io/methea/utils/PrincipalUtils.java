@@ -2,7 +2,6 @@ package io.methea.utils;
 
 import io.methea.config.security.domain.PrincipalAuthentication;
 import io.methea.constant.MConstant;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.util.ObjectUtils;

@@ -4,8 +4,6 @@ with minimum configuration. No need to deal with users and permission stuffs.
 
 Methea also provide UI components which is build on top of [FreeMarker](https://freemarker.apache.org/) to increase your development speed.
 
-Methea provide dual intent authentication, which mean you can access from `UI` and `Client Webservice`.
-
 Methea build on top of following frameworks:
 1. [Spring Boot](https://spring.io/projects/spring-boot)
 2. [JWT](https://jwt.io/)
