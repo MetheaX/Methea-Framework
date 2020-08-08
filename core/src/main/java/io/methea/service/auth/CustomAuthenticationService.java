@@ -1,7 +1,7 @@
 package io.methea.service.auth;
 
-import io.methea.config.security.domain.MetheaPrincipal;
-import io.methea.config.security.domain.PrincipalAuthentication;
+import io.methea.config.security.MetheaPrincipal;
+import io.methea.config.security.PrincipalAuthentication;
 import io.methea.constant.MConstant;
 import io.methea.domain.configuration.group.view.GroupAuthorityView;
 import io.methea.domain.configuration.permission.view.PermissionView;
@@ -31,15 +31,13 @@ public class CustomAuthenticationService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserGrantedPermissionRepository userGrantedPermissionRepository;
     private final UserGroupRepository userGroupRepository;
-    private final ClientService clientService;
 
     @Inject
     public CustomAuthenticationService(UserRepository userRepository, UserGrantedPermissionRepository userGrantedPermissionRepository,
-                                       UserGroupRepository userGroupRepository, ClientService clientService) {
+                                       UserGroupRepository userGroupRepository) {
         this.userRepository = userRepository;
         this.userGrantedPermissionRepository = userGrantedPermissionRepository;
         this.userGroupRepository = userGroupRepository;
-        this.clientService = clientService;
     }
 
     @Override

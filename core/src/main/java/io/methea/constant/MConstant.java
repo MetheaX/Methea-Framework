@@ -10,12 +10,17 @@ public class MConstant {
 
     public static final String RSA = "RSA";
     public static final String CERT_TYPE = "CERT_1";
+    public static final String CERT_TYPE_2 = "CERT_2";
     public static final int MIN_KEY_SIZE = 2048;
     public static final int THREE_KEY_SIZE = 3072;
     public static final int FOUR_KEY_SIZE = 4096;
     public static final String SEPARATOR = "\\.";
 
     public static final String CONTEXT_PATH_KEY = "contextPath";
+
+    // security config
+    public static final String CLIENT_TOKEN_EXPIRATION = "methea.client.security.token.expiration_time";
+    public static final String CLIENT_REQUEST_HEADER_KEY = "methea.client.security.request.header";
 
     // freemarker template
     public static final String CORE_TEMPLATE_KEY = "methea.core.freemarker.templates";
