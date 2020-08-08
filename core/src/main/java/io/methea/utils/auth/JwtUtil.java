@@ -44,6 +44,9 @@ public class JwtUtil {
             EncryptedJWT jwtDecrypt = EncryptedJWT.parse(new String(Base64.decodeBase64(token)));
             RSADecrypter decrypter = new RSADecrypter(priKey);
             jwtDecrypt.decrypt(decrypter);
+            if (System.currentTimeMillis() > jwtDecrypt.getJWTClaimsSet().getExpirationTime().getTime()) {
+                return username;
+            }
             username = jwtDecrypt.getJWTClaimsSet().getSubject();
         } catch (Exception ex) {
             log.error("=========> decodeToken error: ", ex);

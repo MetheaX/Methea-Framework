@@ -1,6 +1,6 @@
 package io.methea.domain.configuration.permission.view;
 
-import io.methea.config.security.domain.GrantedPermission;
+import io.methea.config.security.GrantedPermission;
 import io.methea.domain.common.view.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;
 import io.methea.repository.hibernateextension.annotation.SelectFrom;
