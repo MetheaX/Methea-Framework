@@ -23,20 +23,21 @@ Support with `Spring Boot 2.2.2.Release` and later version of Spring Boot.
 
 # Usages
 
-1. Adding dependency to your existing project or new project
+### I. Integration as web application
+
+1. Adding dependency to spring boot application
 
 	    <dependency>
             <groupId>io.methea</groupId>
-            <artifactId>methea-core</artifactId>
+            <artifactId>web-ui</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
 2. Adding spring-boot components scan
 
-    	 @SpringBootApplication(scanBasePackages = {"io.methea"})
-         @EnableJpaRepositories(basePackages = {"io.methea"})
-         @EntityScan(basePackages = {"io.methea"})
-         @ComponentScan(basePackages = {"io.methea"})
+    	 @SpringBootApplication(scanBasePackages = {"io.methea", "your-reverse-domain"})
+         @EnableJpaRepositories(basePackages = {"io.methea", "your-reverse-domain"})
+         @EntityScan(basePackages = {"io.methea", "your-reverse-domain"})
          public class MetheaHostApplication {
             public static void main(String[] args) {
                 SpringApplication.run(MetheaHostApplication.class, args);
@@ -51,3 +52,25 @@ Support with `Spring Boot 2.2.2.Release` and later version of Spring Boot.
     * Please note that currently, we testing only with [PostgreSQL](https://www.postgresql.org/)
  5. Sample project
     * Still have doubt here is our [sample project](https://github.com/MetheaX/Methea-Sample-Project)
+### II. Integration as webservice application
+1.  Adding dependency to your spring boot application
+
+	    <dependency>
+            <groupId>io.methea</groupId>
+            <artifactId>api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        
+2. Adding spring-boot components scan
+
+    	 @SpringBootApplication(scanBasePackages = {"io.methea", "your-reverse-domain"})
+         @EnableJpaRepositories(basePackages = {"io.methea", "your-reverse-domain"})
+         @EntityScan(basePackages = {"io.methea", "your-reverse-domain"})
+         public class MetheaHostApplication {
+            public static void main(String[] args) {
+                SpringApplication.run(WebServiceApplication.class, args);
+            }
+         }
+3. Deployment methea web management (Optional)
+   
+   Methea web management allow you to manage users, permission, roles, groups, URI... in webservice application.
