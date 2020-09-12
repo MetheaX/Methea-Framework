@@ -9,6 +9,8 @@ import io.methea.domain.common.binder.BaseBinder;
  */
 public class RefreshTokenPayload extends BaseBinder<RefreshTokenPayload> {
 
+    private static final long serialVersionUID = -8937218850725025841L;
+
     private String refreshToken;
 
     @JsonProperty("refresh_token")
