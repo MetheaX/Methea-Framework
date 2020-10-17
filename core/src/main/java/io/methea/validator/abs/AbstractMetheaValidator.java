@@ -44,7 +44,7 @@ public abstract class AbstractMetheaValidator<B extends AbstractMetheaBinder<B>>
 
     protected void rejectIfInvalidParent(Map<String, String> errors, String code, String fieldValue, String field, String fieldName) {
         Optional baseEntity = repository.findById(fieldValue);
-        if (baseEntity.isEmpty()) {
+        if (!baseEntity.isPresent()) {
             String msg = messageSource.getMessage(code, new Object[]{},
                     LocaleContextHolder.getLocale());
             errors.put(field, msg);

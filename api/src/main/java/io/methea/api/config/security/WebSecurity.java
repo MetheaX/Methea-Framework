@@ -2,6 +2,7 @@ package io.methea.api.config.security;
 
 import io.methea.api.service.MetheaAuthenticationService;
 import io.methea.constant.MConstant;
+import io.methea.repository.configuration.permission.WhiteURIPermissionRepository;
 import io.methea.repository.webservice.system.SystemCertificateRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
@@ -30,14 +31,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final MetheaAuthenticationService metheaAuthenticationService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final SystemCertificateRepository certificateRepository;
+    private final WhiteURIPermissionRepository whiteURIPermissionRepository;
     private final Environment env;
 
     @Inject
     public WebSecurity(MetheaAuthenticationService service, BCryptPasswordEncoder bCryptPasswordEncoder,
-                       SystemCertificateRepository certificateRepository, Environment env) {
+                       SystemCertificateRepository certificateRepository,
+                       WhiteURIPermissionRepository whiteURIPermissionRepository, Environment env) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.certificateRepository = certificateRepository;
         this.metheaAuthenticationService = service;
+        this.whiteURIPermissionRepository = whiteURIPermissionRepository;
         this.env = env;
     }
 
@@ -51,7 +55,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/auth/**", "/unauthorized-access").permitAll()
                 .antMatchers("/**").authenticated().and()
-                .addFilter(new WebServiceAuthorizationFilter(metheaAuthenticationService, authenticationManager(), certificateRepository))
+                .addFilter(new WebServiceAuthorizationFilter(metheaAuthenticationService, authenticationManager(),
+                        certificateRepository, whiteURIPermissionRepository))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.headers().frameOptions().sameOrigin();
     }

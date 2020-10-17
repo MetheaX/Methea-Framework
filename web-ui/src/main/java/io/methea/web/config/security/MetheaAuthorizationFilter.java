@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,17 @@ public class MetheaAuthorizationFilter extends BasicAuthenticationFilter {
     private static final String IS_FRC_CHN_PWD = "Y";
 
     // etc
-    private static final List<String> WHITE_URLS = List.of("resources", "login", "logout", "access-denied", "profile");
+    private static final List<String> WHITE_URLS = new ArrayList<String>() {
+
+        private static final long serialVersionUID = 6092477020089934726L;
+
+        {
+        add("resources");
+        add("login");
+        add("logout");
+        add("access-denied");
+        add("profile");
+    }};
 
     @Inject
     public MetheaAuthorizationFilter(AuthenticationManager authenticationManager) {

@@ -34,7 +34,7 @@ public class MenuValidator extends AbstractMetheaValidator<MenuBinder> {
     @Override
     public void validate(MenuBinder binder, Map<String, String> errors) {
         Optional<TUserGroup> opt = groupRepository.findById(binder.getGroupId());
-        if (opt.isEmpty()) {
+        if (!opt.isPresent()) {
             errors.put("groupId", "Error: Provided group invalid!!!");
         } else {
             binder.setGroupName(opt.get().getGroupName());
@@ -44,7 +44,7 @@ public class MenuValidator extends AbstractMetheaValidator<MenuBinder> {
             binder.setUriName(StringUtils.EMPTY);
         } else {
             Optional<TMstURI> optional = uriRepository.findById(binder.getUriId());
-            if (optional.isEmpty()) {
+            if (!optional.isPresent()) {
                 errors.put("uriId", "Error: Provided URL invalid!!!");
             } else {
                 binder.setUriName(optional.get().getUriName());

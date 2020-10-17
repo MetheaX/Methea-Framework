@@ -29,11 +29,11 @@ public class RoleURIValidator extends AbstractMetheaValidator<RoleURIBinder> {
     @Override
     public void validate(RoleURIBinder binder, Map<String, String> errors) {
         Optional<TRole> role = roleRepository.findById(binder.getRoleId());
-        if (role.isEmpty()) {
+        if (!role.isPresent()) {
             errors.put("roleId", "Error: Provided role invalid!!!");
         }
         Optional<TMstURI> uri = uriRepository.findById(binder.getUriId());
-        if (uri.isEmpty()) {
+        if (!uri.isPresent()) {
             errors.put("uriId", "Error: Provided URI invalid!!!");
         } else {
             binder.setUriName(uri.get().getUriName());

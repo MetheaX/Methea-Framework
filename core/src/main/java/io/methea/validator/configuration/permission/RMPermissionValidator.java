@@ -37,7 +37,7 @@ public class RMPermissionValidator extends AbstractMetheaValidator<RMPermissionB
             binder.setLastName(user.getLastName());
         }
         Optional<TRole> role = userRoleRepository.findById(binder.getRoleId());
-        if (role.isEmpty()) {
+        if (!role.isPresent()) {
             errors.put("roleId", "Error: Provided role invalid!!!");
         } else {
             binder.setRoleName(role.get().getName());

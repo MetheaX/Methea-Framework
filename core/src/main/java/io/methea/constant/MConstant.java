@@ -18,6 +18,8 @@ public class MConstant {
 
     public static final String CONTEXT_PATH_KEY = "contextPath";
 
+    public static final String PUBLIC_USER = "PUBLIC_USER";
+
     // security config
     public static final String CLIENT_TOKEN_EXPIRATION = "methea.client.security.token.expiration_time";
     public static final String CLIENT_REQUEST_HEADER_KEY = "methea.client.security.request.header";

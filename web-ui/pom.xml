@@ -13,7 +13,7 @@
     <artifactId>web-ui</artifactId>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
         <postgres.version>42.2.1</postgres.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
