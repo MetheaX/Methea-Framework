@@ -13,7 +13,7 @@ Methea build on top of following frameworks:
 # Building from sources
 
 Pre-requires
- * Java 11 JDK as JAVA_HOME
+ * Java 8 or above JDK as JAVA_HOME
  * Maven as its build tool.
 
 How to build

@@ -2,10 +2,7 @@ package io.methea.domain.configuration.uri.entity;
 
 import io.methea.domain.common.entity.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Author : DKSilverX

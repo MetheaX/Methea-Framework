@@ -221,11 +221,40 @@ create table if not exists tbl_core_menu
 	index integer
 );
 
+create table tbl_core_white_uri
+(
+	white_uri_id varchar(255) not null
+		constraint tbl_core_white_uri_pkey
+			primary key,
+	created_date_time timestamp not null,
+	created_user varchar(255) not null,
+	status varchar(255) not null,
+	updated_date_time timestamp not null,
+	updated_user varchar(255) not null,
+	uri_id varchar(255) not null,
+	uri_name varchar(255) not null
+);
+
+create unique index tbl_core_white_uri_uri_name_uindex
+	on tbl_core_white_uri (uri_name);
+
+create unique index tbl_core_white_uri_uri_id_uindex
+	on tbl_core_white_uri (uri_id);
+
+create table tbl_core_allowed_method
+(
+	white_uri_id varchar(255) not null
+		constraint fklq52pom7lg030iwu75hoojjhv
+			references tbl_core_white_uri,
+	http_method varchar(255)
+);
+
 -- Create account
 INSERT INTO tbl_core_account (account_id, created_date_time, created_user, status, updated_date_time, updated_user, account_address, account_email, account_name) VALUES ('b5911381-e595-4c67-ad6b-080abe000ed6', '2020-04-14 20:55:44.797000', 'admin', 'A', '2020-04-16 11:15:23.155000', 'admin', 'Phnom Penh, Cambodia', 'methea@methea-mail.io', 'Methea LLC.');
 INSERT INTO tbl_core_account (account_id, created_date_time, created_user, status, updated_date_time, updated_user, account_address, account_email, account_name) VALUES ('85ec05cc-f6fa-40d7-a05d-c9ca760faee3', '2020-04-21 21:38:55.864000', 'admin', 'A', '2020-05-06 10:18:42.804374', 'admin', 'Phnom Penh, Cambodia', 'actiniumllc@gmail.com', 'Actinium LLC.');
 
 -- Create group
+INSERT INTO public.tbl_core_group (group_id, created_date_time, created_user, status, updated_date_time, updated_user, account_id, group_name, remarks) VALUES ('51eaa764-1807-4f4b-bec2-13471ad8a72f', '2020-10-17 15:11:01.314000', 'admin', 'A', '2020-10-17 15:11:01.314000', 'admin', 'b5911381-e595-4c67-ad6b-080abe000ed6', 'M_PUBLIC', 'Public User');
 INSERT INTO tbl_core_group (group_id, created_date_time, created_user, status, updated_date_time, updated_user, account_id, group_name, remarks) VALUES ('7cfb627c-064e-4885-92cf-9659af7ee072', '2020-02-01 16:44:59.000000', 'SYS', 'A', '2020-04-18 12:33:11.192000', 'admin', 'b5911381-e595-4c67-ad6b-080abe000ed6', 'M_SYS_ADMIN', 'Methea system admin');
 INSERT INTO tbl_core_group (group_id, created_date_time, created_user, status, updated_date_time, updated_user, account_id, group_name, remarks) VALUES ('c096552f-0b4f-4209-b5e4-64d3ff5b1a9e', '2020-04-26 18:56:01.252000', 'admin', 'A', '2020-04-26 18:56:01.254000', 'admin', '85ec05cc-f6fa-40d7-a05d-c9ca760faee3', 'M_SYS_SUPPORT', 'system support group');
 INSERT INTO tbl_core_group (group_id, created_date_time, created_user, status, updated_date_time, updated_user, account_id, group_name, remarks) VALUES ('8a9e41e3-6bae-4ab5-bdd3-54dc6530b2f4', '2020-04-26 19:45:43.781000', 'admin', 'A', '2020-04-27 21:02:17.691000', 'admin', '85ec05cc-f6fa-40d7-a05d-c9ca760faee3', 'M_DEV_OPS', ' ');
@@ -233,14 +262,18 @@ INSERT INTO tbl_core_group (group_id, created_date_time, created_user, status, u
 INSERT INTO tbl_core_group (group_id, created_date_time, created_user, status, updated_date_time, updated_user, account_id, group_name, remarks) VALUES ('9ad7537a-dbce-4e9b-b3a4-3da224432628', '2020-04-26 19:37:44.879000', 'admin', 'A', '2020-04-27 21:37:02.274000', 'admin', '85ec05cc-f6fa-40d7-a05d-c9ca760faee3', 'M_ACCOUNTING', ' ');
 
 -- Create role
+INSERT INTO public.tbl_core_role (role_id, created_date_time, created_user, status, updated_date_time, updated_user, name) VALUES ('354ce17a-2c55-4b62-bd2c-12afdc8050be', '2020-10-17 15:12:34.671000', 'admin', 'A', '2020-10-17 15:12:34.671000', 'admin', 'ROLE_PUBLIC');
 INSERT INTO tbl_core_role (role_id, created_date_time, created_user, status, updated_date_time, updated_user, name) VALUES ('2d601157-6bb9-4117-8178-603d6551993c', '2020-02-01 16:43:21.000000', 'SYS', 'A', '2020-02-01 16:43:27.000000', 'SYS', 'ROLE_ADMIN');
 INSERT INTO tbl_core_role (role_id, created_date_time, created_user, status, updated_date_time, updated_user, name) VALUES ('4dd72ac4-eae9-40dc-9048-01e392103649', '2020-05-02 11:54:51.267000', 'admin', 'A', '2020-05-02 13:50:05.269000', 'admin', 'ROLE_SYS_STARTER');
 
 -- Create user
+INSERT INTO tbl_core_user (user_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, password, username, email, first_name, last_name, phone, frc_usr_rst_pwd) VALUES ('d0b152a2-35c0-4120-ab66-635563b706ae', '2020-10-17 15:12:14.948000', 'admin', 'A', '2020-10-17 15:12:14.948000', 'admin', '51eaa764-1807-4f4b-bec2-13471ad8a72f', '$2a$10$MTXMIPYHJfhrLCOvsuME5e0r6uZVZ1NX.vPe0PglxfyQmwd236Qtq', 'PUBLIC_USER', 'public.user@methea.io', 'Public', 'User', '+85500000001', 'Y');
 INSERT INTO tbl_core_user (user_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, password, username, email, first_name, last_name, phone, frc_usr_rst_pwd) VALUES ('a212eb79-592f-4af9-ab82-94d8b260edce', '2020-04-25 22:05:44.841000', 'admin', 'A', '2020-04-29 21:46:18.508000', 'admin', '7cfb627c-064e-4885-92cf-9659af7ee072', '$2a$10$8n9kU6aiagp016XeXUKNUOZPiz6x6Lv3z8YXhUvrv.hK.0Rc1lYMS', 'system_support', 'emily@gmail.coom', 'Emily', 'Victor', '+8559243445', 'N');
 INSERT INTO tbl_core_user (user_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, password, username, email, first_name, last_name, phone, frc_usr_rst_pwd) VALUES ('afd72031-f13c-4384-90c7-930bca202974', '2020-02-01 16:35:01.000000', 'SYS', 'A', '2020-05-01 12:32:36.523000', 'admin', '7cfb627c-064e-4885-92cf-9659af7ee072', '$2a$10$17.6ysiFAWXV6UILkqVLCu2KEWLGxeHsA/Ffu7qxIbi8HEoX973ji', 'admin', 'methea.info@mail.io', 'Admin', 'Admin', '+855 92386749', 'N');
 
 -- Create URI
+INSERT INTO public.tbl_core_uri (uri_id, created_date_time, created_user, status, updated_date_time, updated_user, uri_name) VALUES ('73507c5d-dbbf-431e-aaa4-7a37c87f209b', '2020-10-17 13:42:53.070000', 'admin', 'A', '2020-10-17 13:42:53.070000', 'admin', '/api/v1/register');
+INSERT INTO public.tbl_core_uri (uri_id, created_date_time, created_user, status, updated_date_time, updated_user, uri_name) VALUES ('d192e432-db2f-4cf3-a72f-4f0185f4a296', '2020-10-17 13:44:21.898000', 'admin', 'A', '2020-10-17 13:44:21.898000', 'admin', '/api/v3/**');
 INSERT INTO tbl_core_uri (uri_id, created_date_time, created_user, status, updated_date_time, updated_user, uri_name) VALUES ('84aa1832-5c58-4568-ae54-738659e6aaa1', '2020-02-01 16:46:09.000000', 'SYS', 'A', '2020-02-01 16:46:21.000000', 'SYS', '/login/**');
 INSERT INTO tbl_core_uri (uri_id, created_date_time, created_user, status, updated_date_time, updated_user, uri_name) VALUES ('fd7978dc-2c7c-4321-8b77-635501d6f4b5', '2020-02-01 16:46:05.000000', 'SYS', 'A', '2020-02-01 16:46:18.000000', 'SYS', '/resources/**');
 INSERT INTO tbl_core_uri (uri_id, created_date_time, created_user, status, updated_date_time, updated_user, uri_name) VALUES ('c26ecceb-acdf-484c-99ae-1a2748b3a746', '2020-02-01 16:46:07.000000', 'SYS', 'A', '2020-02-01 16:46:20.000000', 'SYS', '/access-denied/**');
@@ -250,6 +283,8 @@ INSERT INTO tbl_core_uri (uri_id, created_date_time, created_user, status, updat
 INSERT INTO tbl_core_uri (uri_id, created_date_time, created_user, status, updated_date_time, updated_user, uri_name) VALUES ('57fa54d8-27d3-4246-bcdc-f87a6a4a5584', '2020-04-30 21:49:29.000000', 'SYS', 'A', '2020-05-16 16:04:09.116507', 'admin', '/profile/change-password/**');
 
 -- Map role with URI
+INSERT INTO public.tbl_core_role_uri (role_uri_id, created_date_time, created_user, status, updated_date_time, updated_user, role_id, uri_id, uri_name) VALUES ('f23279a4-76b2-4754-9681-015f6517317c', '2020-10-17 15:12:47.612000', 'admin', 'A', '2020-10-17 15:12:47.612000', 'admin', '354ce17a-2c55-4b62-bd2c-12afdc8050be', '73507c5d-dbbf-431e-aaa4-7a37c87f209b', '/api/v1/register');
+INSERT INTO public.tbl_core_role_uri (role_uri_id, created_date_time, created_user, status, updated_date_time, updated_user, role_id, uri_id, uri_name) VALUES ('a2972c71-3c80-479b-92a0-2e7c403d7862', '2020-10-17 15:12:55.111000', 'admin', 'A', '2020-10-17 15:12:55.111000', 'admin', '354ce17a-2c55-4b62-bd2c-12afdc8050be', 'd192e432-db2f-4cf3-a72f-4f0185f4a296', '/api/v3/**');
 INSERT INTO tbl_core_role_uri (role_uri_id, created_date_time, created_user, status, updated_date_time, updated_user, role_id, uri_id, uri_name) VALUES ('664d6f54-7b0b-465b-9396-f268929f23de', '2020-02-01 16:49:19.000000', 'SYS', 'A', '2020-02-01 16:49:07.000000', 'SYS', '2d601157-6bb9-4117-8178-603d6551993c', 'fd7978dc-2c7c-4321-8b77-635501d6f4b5', '/resources/**');
 INSERT INTO tbl_core_role_uri (role_uri_id, created_date_time, created_user, status, updated_date_time, updated_user, role_id, uri_id, uri_name) VALUES ('910b886f-cf7d-4bcc-8c3a-f42a88db07c6', '2020-02-01 16:49:18.000000', 'SYS', 'A', '2020-02-01 16:49:06.000000', 'SYS', '2d601157-6bb9-4117-8178-603d6551993c', '66ab5499-bdba-4569-a850-b713bd1afbe9', '/logout/**');
 INSERT INTO tbl_core_role_uri (role_uri_id, created_date_time, created_user, status, updated_date_time, updated_user, role_id, uri_id, uri_name) VALUES ('fa384b19-1479-4222-bee3-3ac52c7e6f03', '2020-02-01 16:49:16.000000', 'SYS', 'A', '2020-02-01 16:49:04.000000', 'SYS', '2d601157-6bb9-4117-8178-603d6551993c', 'c26ecceb-acdf-484c-99ae-1a2748b3a746', '/access-denied/**');
@@ -351,5 +386,14 @@ INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, upd
 INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('d802cebc-88ba-4084-bbe3-c0864c20c49b', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-user-secret', 'Clients', '251525ad-2c29-4c4f-8ab1-f594ad53a9ae', '68154b9a-b88b-4b79-8f4c-e48c39e64ee8', '/app/webservice-clients', 'M_SYS_ADMIN', 12);
 INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('43824009-9d49-42ee-bcd9-f8b2d5edfc65', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-lock', 'User Permissions', 'dbf68434-77b9-46b2-9811-38c52f9d521d', 'ebb7533c-1999-4b79-889d-55d805fe7a4c', '/app/permissions', 'M_SYS_ADMIN', 8);
 INSERT INTO tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('4eec4eb1-b952-4fd8-9f3a-ca9808355c94', '2020-07-04 16:11:34.000000', 'SYS', 'A', '2020-07-04 16:11:22.000000', 'SYS', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-plus-square fa-lg', 'Addons', 'P', '', '', 'M_SYS_ADMIN', 13);
+INSERT INTO public.tbl_core_menu (menu_id, created_date_time, created_user, status, updated_date_time, updated_user, group_id, menu_icon, menu_label, parent_menu, uri_id, uri_name, group_name, index) VALUES ('1cdb2253-b75c-4808-bbd5-098868b2a51d', '2020-10-17 13:15:03.487000', 'admin', 'A', '2020-10-17 15:24:03.517000', 'admin', '7cfb627c-064e-4885-92cf-9659af7ee072', 'fa fa-link', 'White URLs', 'dbf68434-77b9-46b2-9811-38c52f9d521d', 'b3c17b2e-fe79-43f6-b9e3-6dcb38236bdc', '/app/menu', 'M_SYS_ADMIN', 17);
 
+-- White List URI
+INSERT INTO public.tbl_core_white_uri (white_uri_id, created_date_time, created_user, status, updated_date_time, updated_user, uri_id, uri_name) VALUES ('05d367d6-b29f-478e-ad4e-3a273296daed', '2020-10-17 13:46:27.000000', 'SYS', 'A', '2020-10-17 13:46:45.000000', 'SYS', '73507c5d-dbbf-431e-aaa4-7a37c87f209b', '/api/v1/register');
+INSERT INTO public.tbl_core_white_uri (white_uri_id, created_date_time, created_user, status, updated_date_time, updated_user, uri_id, uri_name) VALUES ('10036a6c-80bd-4ff7-877f-d8f6ada64635', '2020-10-17 13:46:28.000000', 'SYS', 'A', '2020-10-17 13:46:47.000000', 'SYS', 'd192e432-db2f-4cf3-a72f-4f0185f4a296', '/api/v3/**');
+
+-- Allow Methods
+INSERT INTO public.tbl_core_allowed_method (white_uri_id, http_method) VALUES ('05d367d6-b29f-478e-ad4e-3a273296daed', 'POST');
+INSERT INTO public.tbl_core_allowed_method (white_uri_id, http_method) VALUES ('10036a6c-80bd-4ff7-877f-d8f6ada64635', 'POST');
+INSERT INTO public.tbl_core_allowed_method (white_uri_id, http_method) VALUES ('10036a6c-80bd-4ff7-877f-d8f6ada64635', 'GET');
 

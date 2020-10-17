@@ -145,12 +145,10 @@ public class MDropdownService {
     }
 
     private List<GenericDropdown> getYesNoDropdown() {
-        return new ArrayList<>() {
-            {
+        return new ArrayList<GenericDropdown>() {{
                 add(new GenericDropdown(MConstant.YES, "Yes"));
                 add(new GenericDropdown(MConstant.NO, "No"));
-            }
-        };
+            }};
     }
 
     public class GenericDropdown {
