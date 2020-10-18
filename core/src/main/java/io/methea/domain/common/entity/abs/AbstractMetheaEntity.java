@@ -1,5 +1,7 @@
 package io.methea.domain.common.entity.abs;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Transient;
 import java.io.Serializable;
 
@@ -11,12 +13,16 @@ public abstract class AbstractMetheaEntity<E> implements Serializable {
     private static final long serialVersionUID = -7630748772877363263L;
 
     @Transient
+    @JsonIgnore
     private boolean isCreate;
     @Transient
+    @JsonIgnore
     private boolean isUpdate;
     @Transient
+    @JsonIgnore
     private boolean isActivate;
     @Transient
+    @JsonIgnore
     private boolean isDeactivate;
 
     public boolean isCreate() {

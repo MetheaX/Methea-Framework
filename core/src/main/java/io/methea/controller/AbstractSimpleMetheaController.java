@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Author : DKSilverX
@@ -42,6 +43,7 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
     private static final String SAVE_URL = "/save";
     private static final String MODIFY_URL = "/modify";
     private static final String API_GET_BY_ID = "/rest";
+    private static final String API_GET_ENTITY_BY_ID = "/rest/entity";
     private static final String API_ACTIVATE_URL = "/rest/activate";
     private static final String API_DEACTIVATE_URL = "/rest/deactivate";
 
@@ -107,6 +109,21 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
             map.put(MConstant.JSON_STATUS, 200);
             map.put(MConstant.JSON_MESSAGE, String.format("Get %s success!", entity));
             map.put(entity, view);
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @GetMapping(value = API_GET_ENTITY_BY_ID)
+    public ResponseEntity<Map<String, Object>> getEntityById(@RequestParam String id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(MConstant.JSON_STATUS, 500);
+        map.put(MConstant.JSON_MESSAGE, String.format("Failed to get %s", entity));
+        Optional<E> o = metheaService.getEntityById(id);
+        if (o.isPresent()) {
+            map.put(MConstant.JSON_STATUS, 200);
+            map.put(MConstant.JSON_MESSAGE, String.format("Get %s success!", entity));
+            map.put(entity, o.get());
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }

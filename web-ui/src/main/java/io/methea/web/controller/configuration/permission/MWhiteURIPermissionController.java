@@ -34,7 +34,7 @@ import java.util.UUID;
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MWhiteURIPermissionController extends AbstractSimpleMetheaController<TWhiteURIPermission, WhiteURIPermissionBinder,
         WhiteURIPermissionView, WhiteURIPermissionFilter> {
-    static final String ROOT_URL = "/app/white-urls";
+    static final String ROOT_URL = "/app/whiteurls";
 
     private final MDropdownService dropdownService;
 
@@ -68,7 +68,7 @@ public class MWhiteURIPermissionController extends AbstractSimpleMetheaControlle
     @Override
     protected Map<String, Object> getFilterColumns(WhiteURIPermissionFilter filter) {
         Map<String, Object> param = new HashMap<>();
-        param.put("username", "%".concat(filter.getUriName().toLowerCase()).concat("%"));
+        param.put("uriName", "%".concat(filter.getUriName().toLowerCase()).concat("%"));
         param.put("status", "%".concat(StringUtils.isEmpty(filter.getStatus()) ? StringUtils.EMPTY :
                 (filter.getStatus().substring(0, 1).toLowerCase())).concat("%"));
         return param;

@@ -66,6 +66,7 @@ public class MDropdownService {
             map.put(MConstant.URI_DROPDOWN, getURIDropdown());
             map.put(MConstant.API_URL_DROPDOWN, getApiBaseDropdown());
             map.put(MConstant.MENU_DROPDOWN, getMenuDropdown());
+            map.put(MConstant.HTTP_METHOD_DROPDOWN, getHttpMethodDropdown());
             MCache.CACHE_META_DATA.put(MConstant.DROPDOWN, map);
         } catch (Exception ex) {
             log.error("=========> Get dropdown data error: ", ex);
@@ -145,10 +146,26 @@ public class MDropdownService {
     }
 
     private List<GenericDropdown> getYesNoDropdown() {
-        return new ArrayList<GenericDropdown>() {{
+        return new ArrayList<GenericDropdown>() {
+            private static final long serialVersionUID = -5416522703079609273L;
+
+            {
                 add(new GenericDropdown(MConstant.YES, "Yes"));
                 add(new GenericDropdown(MConstant.NO, "No"));
             }};
+    }
+
+    private List<GenericDropdown> getHttpMethodDropdown() {
+        return new ArrayList<GenericDropdown>(){
+            private static final long serialVersionUID = -1763502692588341568L;
+
+            {
+                add(new GenericDropdown(MConstant.POST, MConstant.POST));
+                add(new GenericDropdown(MConstant.GET, MConstant.GET));
+                add(new GenericDropdown(MConstant.PUT, MConstant.PUT));
+                add(new GenericDropdown(MConstant.PATCH, MConstant.PATCH));
+                add(new GenericDropdown(MConstant.DELETE, MConstant.DELETE));
+        }};
     }
 
     public class GenericDropdown {
