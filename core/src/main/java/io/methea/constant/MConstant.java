@@ -52,6 +52,7 @@ public class MConstant {
     public static final String API_URL_DROPDOWN = "apiUrlDropdown";
     public static final String YES_NO_DROPDOWN = "yesNoDropdown";
     public static final String MENU_DROPDOWN = "menuDropdown";
+    public static final String HTTP_METHOD_DROPDOWN = "httpMethodDropdown";
 
     // security filter
     public static final String SLASH = "/";
@@ -66,4 +67,11 @@ public class MConstant {
     public static final String JSON_STATUS = "status";
     public static final String JSON_MESSAGE = "message";
     public static final String JSON_DATA = "data";
+
+    // http methods
+    public static final String POST = "POST";
+    public static final String GET = "GET";
+    public static final String PUT = "PUT";
+    public static final String PATCH = "PATCH";
+    public static final String DELETE = "DELETE";
 }

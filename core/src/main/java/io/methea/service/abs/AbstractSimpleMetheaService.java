@@ -135,11 +135,19 @@ public abstract class AbstractSimpleMetheaService<E extends AbstractMetheaEntity
     }
 
     public V getEntityViewById(ID id) {
-        Map<String, Object> param = new HashMap<>();
         try {
             return extensionRepository.getEntityById(view, id);
         } catch (Exception ex) {
             log.info("=========> getEntityViewById error: ", ex);
+        }
+        return null;
+    }
+
+    public Optional<E> getEntityById(ID id) {
+        try {
+            return repository.findById(id);
+        } catch (Exception ex) {
+            log.info("=========> getEntityById error: ", ex);
         }
         return null;
     }

@@ -1,6 +1,7 @@
 package io.methea.domain.common.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.methea.domain.common.entity.abs.AbstractMetheaEntity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -26,15 +27,19 @@ public class BaseEntity<E> extends AbstractMetheaEntity<E> {
     @Column(name = "status", nullable = false)
     private String status;
     @CreatedBy
+    @JsonIgnore
     @Column(name = "created_user", nullable = false)
     private String createdUser;
     @CreationTimestamp
+    @JsonIgnore
     @Column(name = "created_date_time", nullable = false)
     private LocalDateTime createdDateTime;
     @LastModifiedBy
+    @JsonIgnore
     @Column(name = "updated_user", nullable = false)
     private String updatedUser;
     @UpdateTimestamp
+    @JsonIgnore
     @Column(name = "updated_date_time", nullable = false)
     private LocalDateTime updatedDateTime;
 
