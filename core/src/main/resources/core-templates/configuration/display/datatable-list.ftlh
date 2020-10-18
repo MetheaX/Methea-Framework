@@ -21,7 +21,7 @@
                 <@minput.input labelName="Attribute Name" inputType="text" inputId="labelAttributeName"
                 inputPlaceHolder="Attribute Name" inputName="columnKey" inputValue="${binder.columnKey}" required="true" errors=errors></@minput.input>
                 <@mselect.select labelName="Allow Filter" selectId="labelAllowFilter" selectName="allowFilter"
-                values=mDropdown.yesNoDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.yesNoDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Column Seq" inputType="number" inputId="labelColumnSeq"
                 inputPlaceHolder="Column Seq" inputName="sequence" inputValue="${binder.sequence}" required="true" errors=errors></@minput.input>
             </@mform.form>
@@ -38,7 +38,7 @@
                 <@minput.input labelName="Attribute Name" inputType="text" inputId="labelEditAttributeName"
                 inputPlaceHolder="Attribute Name" inputName="columnKey" inputValue="${binder.columnKey}" required="true" errors=errors></@minput.input>
                 <@mselect.select labelName="Allow Filter" selectId="labelEditAllowFilter" selectName="allowFilter"
-                values=mDropdown.yesNoDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.yesNoDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Column Seq" inputType="number" inputId="labelEditColumnSeq"
                 inputPlaceHolder="Column Seq" inputName="sequence" inputValue="${binder.sequence}" required="true" errors=errors></@minput.input>
             </@mform.form>

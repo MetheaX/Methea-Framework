@@ -20,7 +20,7 @@
         <@mmodal.modal className="modal-tbl-users-add" labelTitle="Add New User">
             <@mform.form actionUrl="${contextPath}/app/users/save" resetUrl="/app/users">
                 <@mselect.select labelName="Group Name" selectId="labelDropDownGroupName" selectName="groupId"
-                values=mDropdown.groupDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.groupDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Username" inputType="text" inputId="labelUsername"
                 inputPlaceHolder="Username" inputName="username" inputValue="${binder.username}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Firstname" inputType="text" inputId="labelFirstname"
@@ -43,7 +43,7 @@
                 <@mhiddeninput.input inputType="text" inputId="labelEditUserId" inputName="id"
                 inputValue="${binder.id}" required="true"></@mhiddeninput.input>
                 <@mselect.select labelName="Group Name" selectId="labelEditDropDownGroupName" selectName="groupId"
-                values=mDropdown.groupDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.groupDropdown required="true" errors=errors></@mselect.select>
                 <@mreadonlyinput.input labelName="Username" inputType="text" inputId="labelEditUsername"
                 inputPlaceHolder="Username" inputName="username" inputValue="${binder.username}" required="true"></@mreadonlyinput.input>
                 <@minput.input labelName="Firstname" inputType="text" inputId="labelEditFirstname"

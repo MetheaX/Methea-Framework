@@ -15,15 +15,15 @@
         <@mmodal.modal className="modal-tbl-menu-add" labelTitle="Add New Menu">
             <@mform.form actionUrl="${contextPath}/app/menu/save" resetUrl="/app/menu">
                 <@mselect.select labelName="Parent Menu" selectId="labelParentMenu" selectName="parentId"
-                values=mDropdown.menuDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.menuDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Menu Label" inputType="text" inputId="labelMenuLabel"
                 inputPlaceHolder="Menu Label" inputName="menuLabel" inputValue="${binder.menuLabel}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Menu Icon" inputType="text" inputId="labelMenuIcon"
                 inputPlaceHolder="Menu Icon" inputName="menuIcon" inputValue="${binder.menuIcon}" required="true" errors=errors></@minput.input>
                 <@mselect.select labelName="URL" selectId="labelURIName" selectName="uriId"
-                values=mDropdown.uriDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.uriDropdown required="true" errors=errors></@mselect.select>
                 <@mselect.select labelName="Group Name" selectId="labelDropDownGroupName" selectName="groupId"
-                values=mDropdown.groupDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.groupDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Index" inputType="number" inputId="labelMenuIndex"
                 inputPlaceHolder="Index" inputName="index" inputValue="${binder.index}" required="true" errors=errors></@minput.input>
             </@mform.form>
@@ -34,15 +34,15 @@
                 <@mhiddeninput.input inputType="text" inputId="labelEditMenuId" inputName="id"
                 inputValue="${binder.id}" required="true"></@mhiddeninput.input>
                 <@mselect.select labelName="Parent Menu" selectId="labelEditParentMenu" selectName="parentId"
-                values=mDropdown.menuDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.menuDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Menu Label" inputType="text" inputId="labelEditMenuLabel"
                 inputPlaceHolder="Menu Label" inputName="menuLabel" inputValue="${binder.menuLabel}" required="true" errors=errors></@minput.input>
                 <@minput.input labelName="Menu Icon" inputType="text" inputId="labelEditMenuIcon"
                 inputPlaceHolder="Menu Icon" inputName="menuIcon" inputValue="${binder.menuIcon}" required="true" errors=errors></@minput.input>
                 <@mselect.select labelName="URL" selectId="labelEditURIName" selectName="uriId"
-                values=mDropdown.uriDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.uriDropdown required="true" errors=errors></@mselect.select>
                 <@mselect.select labelName="Group Name" selectId="labelEditDropDownGroupName" selectName="groupId"
-                values=mDropdown.groupDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.groupDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Index" inputType="number" inputId="labelEditMenuIndex"
                 inputPlaceHolder="Index" inputName="index" inputValue="${binder.index}" required="true" errors=errors></@minput.input>
             </@mform.form>

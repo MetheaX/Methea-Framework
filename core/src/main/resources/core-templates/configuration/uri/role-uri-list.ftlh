@@ -14,9 +14,9 @@
         <@mmodal.modal className="modal-tbl-role-uris-add" labelTitle="Add New Mapping">
             <@mform.form actionUrl="${contextPath}/app/roleURIs/save" resetUrl="/app/roleURIs">
                 <@mselect.select labelName="Role Name" selectId="labelRoleName" selectName="roleId"
-                values=mDropdown.roleDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.roleDropdown required="true" errors=errors></@mselect.select>
                 <@mselect.select labelName="URI Name" selectId="labelURIName" selectName="uriId"
-                values=mDropdown.uriDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.uriDropdown required="true" errors=errors></@mselect.select>
             </@mform.form>
         </@mmodal.modal>
 
@@ -25,9 +25,9 @@
                 <@mhiddeninput.input inputType="text" inputId="labelEditGroupId" inputName="id"
                 inputValue="${binder.id}" required="true"></@mhiddeninput.input>
                 <@mselect.select labelName="Role Name" selectId="labelEditRoleId" selectName="roleId"
-                values=mDropdown.roleDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.roleDropdown required="true" errors=errors></@mselect.select>
                 <@mselect.select labelName="URI Name" selectId="labelEditURIId" selectName="uriId"
-                values=mDropdown.uriDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.uriDropdown required="true" errors=errors></@mselect.select>
             </@mform.form>
         </@mmodal.modal>
 

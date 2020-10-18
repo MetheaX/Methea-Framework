@@ -17,7 +17,7 @@
                 <@minput.input labelName="Group Name" inputType="text" inputId="labelGroupName"
                 inputPlaceHolder="Group Name" inputName="groupName" inputValue="${binder.groupName}" required="true" errors=errors></@minput.input>
                 <@mselect.select labelName="Account Name" selectId="labelUserAccountName" selectName="accountId"
-                values=mDropdown.accountDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.accountDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Remarks" inputType="text" inputId="labelRemarks"
                 inputPlaceHolder="Remarks" inputName="remarks" inputValue="${binder.remarks}" required="true" errors=errors></@minput.input>
             </@mform.form>
@@ -30,7 +30,7 @@
                 <@minput.input labelName="Group Name" inputType="text" inputId="labelEditGroupName"
                 inputPlaceHolder="Group Name" inputName="groupName" inputValue="${binder.groupName}" required="true" errors=errors></@minput.input>
                 <@mselect.select labelName="Account Name" selectId="labelEditUserAccountName" selectName="accountId"
-                values=mDropdown.accountDropdown required="true" errors=errors multiple=""></@mselect.select>
+                values=mDropdown.accountDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Remarks" inputType="text" inputId="labelEditRemarks"
                 inputPlaceHolder="Remarks" inputName="remarks" inputValue="${binder.remarks}" required="true" errors=errors></@minput.input>
             </@mform.form>
