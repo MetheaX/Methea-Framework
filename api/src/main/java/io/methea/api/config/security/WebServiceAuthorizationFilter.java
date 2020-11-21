@@ -61,6 +61,7 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
         String token = req.getHeader(SecurityConstants.HEADER_STRING);
         List<TWhiteURIPermission> whiteURIs = whiteURLRepository.findAllByStatus(MConstant.ACTIVE_STATUS);
         TWhiteURIPermission tmp = null;
+        String user = StringUtils.EMPTY;
         // Initial white list
         if (CollectionUtils.isNotEmpty(whiteURIs)) {
             Map<String, TWhiteURIPermission> map = whiteURIs.stream().collect(Collectors.toMap(TWhiteURIPermission::getUriName, o -> o));
@@ -102,7 +103,7 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
             if (ObjectUtils.isEmpty(certificate)) {
                 throw new CertificateNotFoundException("No active certificate could be found! Please check system certificate!");
             }
-            String user = JwtUtil.decodeToken(token.replace(SecurityConstants.TOKEN_PREFIX, StringUtils.EMPTY), certificate.getPrivateKey());
+            user = JwtUtil.decodeToken(token.replace(SecurityConstants.TOKEN_PREFIX, StringUtils.EMPTY), certificate.getPrivateKey());
             if (!StringUtils.isEmpty(user)) {
                 authentication = metheaAuthenticationService.loadUserByUsername(user);
             }
@@ -129,10 +130,11 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
                     || grantedURIs.contains(requestURI + MConstant.DOUBLE_STAR)) {
                 isNotAuthorize = false;
             }
-            if (isNotAuthorize) {
+            if (isNotAuthorize || metheaAuthenticationService.validateUserRevokedToken(user)) {
                 res.sendRedirect(SystemUtils.getBaseUrl(req).concat(UNAUTHORIZED_ACCESS_URL));
                 return;
             }
+            // TODO Bind session ID in token
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(authentication, null, authentication.getAuthorities()));
         }

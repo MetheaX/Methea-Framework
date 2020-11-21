@@ -2,6 +2,7 @@ package io.methea.api.auth;
 
 import io.methea.api.domain.RefreshTokenPayload;
 import io.methea.api.domain.RequestTokenPayload;
+import io.methea.api.domain.RevokeTokenPayload;
 import io.methea.api.domain.Token;
 import io.methea.api.service.MetheaAuthenticationService;
 import io.methea.constant.MConstant;
@@ -35,6 +36,7 @@ public class AuthenticationController {
     private static final String UNAUTHORIZED_ACCESS_URL = "/unauthorized-access";
     private static final String GET_ACCESS_TOKEN_URL = "/auth/token";
     private static final String VERIFY_REFRESH_TOKEN = "/auth/refresh/token";
+    private static final String REVOKE_ACCESS_TOKEN_URL = "/auth/token/revoke";
 
     private final MetheaAuthenticationService authenticationService;
 
@@ -90,6 +92,25 @@ public class AuthenticationController {
         } catch (Exception ex) {
             log.error("=========> Generate access token from refresh token error: ", ex);
         }
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @PostMapping(value = REVOKE_ACCESS_TOKEN_URL, produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> revokeAccessToken(@RequestBody RevokeTokenPayload payload,
+                                                                 HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            authenticationService.revokeAccessToken(payload, request);
+            map.put(MConstant.JSON_MESSAGE, "Access token revoked!!!");
+            map.put(MConstant.JSON_STATUS, 200);
+        } catch (Exception ex) {
+            log.error("=========> revokeAccessToken error: ", ex);
+            map.put(MConstant.JSON_MESSAGE, "Failed to revoke access token!!");
+            map.put(MConstant.JSON_STATUS, 400);
+        }
+
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

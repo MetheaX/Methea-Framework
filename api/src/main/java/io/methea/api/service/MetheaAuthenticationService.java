@@ -3,16 +3,21 @@ package io.methea.api.service;
 import io.methea.api.config.security.SecurityConstants;
 import io.methea.api.domain.RefreshTokenPayload;
 import io.methea.api.domain.RequestTokenPayload;
+import io.methea.api.domain.RevokeTokenPayload;
 import io.methea.api.domain.Token;
 import io.methea.config.security.MetheaPrincipal;
 import io.methea.config.security.PrincipalAuthentication;
 import io.methea.constant.MConstant;
 import io.methea.domain.configuration.group.view.GroupAuthorityView;
+import io.methea.domain.configuration.jwt.entity.TSessionManagement;
 import io.methea.domain.configuration.permission.view.PermissionView;
 import io.methea.domain.configuration.user.entity.TUser;
 import io.methea.domain.webservice.system.entity.SystemCertificate;
 import io.methea.exception.CertificateNotFoundException;
+import io.methea.exception.InvalidClientSecretException;
+import io.methea.exception.UserNoActiveSessionException;
 import io.methea.repository.configuration.group.UserGroupRepository;
+import io.methea.repository.configuration.jwt.SessionManagementRepository;
 import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
 import io.methea.repository.configuration.user.UserRepository;
 import io.methea.repository.webservice.system.SystemCertificateRepository;
@@ -26,15 +31,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Author : DKSilverX
@@ -49,16 +54,20 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
     private final UserGrantedPermissionRepository userGrantedPermissionRepository;
     private final UserGroupRepository userGroupRepository;
     private final SystemCertificateRepository certificateRepository;
+    private final SessionManagementRepository sessionManagementRepository;
+
+    private static final String NO_CERTIFICATE_MSG = "No active certificate could be found! Please check system certificate!";
 
     @Inject
     public MetheaAuthenticationService(UserRepository userRepository,
                                        UserGrantedPermissionRepository userGrantedPermissionRepository,
                                        UserGroupRepository userGroupRepository,
-                                       SystemCertificateRepository certificateRepository) {
+                                       SystemCertificateRepository certificateRepository, SessionManagementRepository sessionManagementRepository) {
         this.userRepository = userRepository;
         this.userGrantedPermissionRepository = userGrantedPermissionRepository;
         this.userGroupRepository = userGroupRepository;
         this.certificateRepository = certificateRepository;
+        this.sessionManagementRepository = sessionManagementRepository;
     }
 
     @Override
@@ -75,7 +84,7 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
         SystemCertificate certificate = certificateRepository.findSystemCertificateByCodeAndStatus(MConstant.CERT_TYPE_2,
                 MConstant.ACTIVE_STATUS);
         if (ObjectUtils.isEmpty(certificate)) {
-            throw new CertificateNotFoundException("No active certificate could be found! Please check system certificate!");
+            throw new CertificateNotFoundException(NO_CERTIFICATE_MSG);
         }
         String username = JwtUtil.decodeToken(payload.getRefreshToken(), certificate.getPrivateKey());
         if (StringUtils.isEmpty(username)) {
@@ -86,6 +95,34 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
             return null;
         }
         return generateToken(buildPrincipal(user), request, true);
+    }
+
+    @Override
+    public void revokeAccessToken(RevokeTokenPayload payload, HttpServletRequest request) {
+        SystemCertificate certificate = certificateRepository.findSystemCertificateByCodeAndStatus(MConstant.CERT_TYPE,
+                MConstant.ACTIVE_STATUS);
+        if (ObjectUtils.isEmpty(certificate)) {
+            throw new CertificateNotFoundException(NO_CERTIFICATE_MSG);
+        }
+        String username = JwtUtil.decodeToken(payload.getClientToken(), certificate.getPrivateKey());
+        if (StringUtils.isNotEmpty(payload.getClientSecret()) && !payload.getClientSecret().equals(username)) {
+            throw new InvalidClientSecretException("Provided client secret invalid!");
+        }
+
+        List<TSessionManagement> sessionManagements = sessionManagementRepository.findAllByUserLoginIdAndIsLogout(username, false);
+
+        if (!CollectionUtils.isEmpty(sessionManagements)) {
+            for (TSessionManagement o : sessionManagements) {
+                o.setLogout(true);
+                sessionManagementRepository.save(o);
+            }
+        }
+    }
+
+    @Override
+    public boolean validateUserRevokedToken(String username) {
+        List<TSessionManagement> sessionManagements = sessionManagementRepository.findAllByUserLoginIdAndIsLogout(username, false);
+        return CollectionUtils.isEmpty(sessionManagements);
     }
 
     @Override
@@ -103,7 +140,7 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
         SystemCertificate certificate = certificateRepository.findSystemCertificateByCodeAndStatus(MConstant.CERT_TYPE,
                 MConstant.ACTIVE_STATUS);
         if (ObjectUtils.isEmpty(certificate)) {
-            throw new CertificateNotFoundException("No active certificate could be found! Please check system certificate!");
+            throw new CertificateNotFoundException(NO_CERTIFICATE_MSG);
         }
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis() + Long.parseLong(SecurityConstants.EXPIRATION_ACCESS_TOKEN_TIME));
@@ -117,6 +154,15 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
             token.setExpiredIn(String.valueOf(cal.getTimeInMillis()));
             token.setTokenType(SecurityConstants.TOKEN_PREFIX);
         }
+        TSessionManagement sessionManagement = new TSessionManagement();
+        sessionManagement.setId(UUID.randomUUID().toString());
+        sessionManagement.setLogout(false);
+        sessionManagement.setSessionId(RequestContextHolder.currentRequestAttributes().getSessionId());
+        sessionManagement.setUserLoginId(authentication.getUsername());
+        sessionManagement.setStatus(MConstant.ACTIVE_STATUS);
+
+        sessionManagementRepository.save(sessionManagement);
+
         return token;
     }
 
@@ -124,7 +170,7 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
         SystemCertificate certificate = certificateRepository.findSystemCertificateByCodeAndStatus(MConstant.CERT_TYPE_2,
                 MConstant.ACTIVE_STATUS);
         if (ObjectUtils.isEmpty(certificate)) {
-            throw new CertificateNotFoundException("No active certificate could be found! Please check system certificate!");
+            throw new CertificateNotFoundException(NO_CERTIFICATE_MSG);
         }
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis() + Long.parseLong(SecurityConstants.EXPIRATION_REF_TOKEN_TIME));
