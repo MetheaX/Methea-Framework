@@ -15,7 +15,6 @@ import io.methea.domain.configuration.user.entity.TUser;
 import io.methea.domain.webservice.system.entity.SystemCertificate;
 import io.methea.exception.CertificateNotFoundException;
 import io.methea.exception.InvalidClientSecretException;
-import io.methea.exception.UserNoActiveSessionException;
 import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.repository.configuration.jwt.SessionManagementRepository;
 import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
@@ -86,11 +85,14 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
         if (ObjectUtils.isEmpty(certificate)) {
             throw new CertificateNotFoundException(NO_CERTIFICATE_MSG);
         }
-        String username = JwtUtil.decodeToken(payload.getRefreshToken(), certificate.getPrivateKey());
-        if (StringUtils.isEmpty(username)) {
+        String subject = JwtUtil.decodeToken(payload.getRefreshToken(), certificate.getPrivateKey());
+        if (StringUtils.isEmpty(subject)) {
             return null;
         }
-        TUser user = userRepository.findByUsernameAndStatus(username, MConstant.ACTIVE_STATUS);
+        if (validateUserRevokedToken(subject)) {
+            return null;
+        }
+        TUser user = userRepository.findByUsernameAndStatus(subject.split(MConstant.COLON)[0], MConstant.ACTIVE_STATUS);
         if (ObjectUtils.isEmpty(user)) {
             return null;
         }
@@ -104,12 +106,14 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
         if (ObjectUtils.isEmpty(certificate)) {
             throw new CertificateNotFoundException(NO_CERTIFICATE_MSG);
         }
-        String username = JwtUtil.decodeToken(payload.getClientToken(), certificate.getPrivateKey());
-        if (StringUtils.isNotEmpty(payload.getClientSecret()) && !payload.getClientSecret().equals(username)) {
+        String subject = JwtUtil.decodeToken(payload.getClientToken(), certificate.getPrivateKey());
+        String[] arr = subject.split(MConstant.COLON);
+        if (StringUtils.isNotEmpty(payload.getClientID()) && !payload.getClientID().equals(arr[0])) {
             throw new InvalidClientSecretException("Provided client secret invalid!");
         }
 
-        List<TSessionManagement> sessionManagements = sessionManagementRepository.findAllByUserLoginIdAndIsLogout(username, false);
+        List<TSessionManagement> sessionManagements = sessionManagementRepository
+                .findAllByUserLoginIdAndSessionIdAndIsLogout(arr[0], arr[1], false);
 
         if (!CollectionUtils.isEmpty(sessionManagements)) {
             for (TSessionManagement o : sessionManagements) {
@@ -120,8 +124,10 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
     }
 
     @Override
-    public boolean validateUserRevokedToken(String username) {
-        List<TSessionManagement> sessionManagements = sessionManagementRepository.findAllByUserLoginIdAndIsLogout(username, false);
+    public boolean validateUserRevokedToken(String subject) {
+        String[] arr = subject.split(MConstant.COLON);
+        List<TSessionManagement> sessionManagements = sessionManagementRepository
+                .findAllByUserLoginIdAndSessionIdAndIsLogout(arr[0], arr[1], false);
         return CollectionUtils.isEmpty(sessionManagements);
     }
 
@@ -204,5 +210,4 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
                 userGroupRepository.getByQuery(param, GroupAuthorityView.class),
                 userGrantedPermissionRepository.getByQuery(param, PermissionView.class), principal);
     }
-
 }

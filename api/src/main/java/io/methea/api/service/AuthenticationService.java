@@ -18,5 +18,5 @@ public interface AuthenticationService {
 
     void revokeAccessToken(RevokeTokenPayload payload, HttpServletRequest request);
 
-    boolean validateUserRevokedToken(String username);
+    boolean validateUserRevokedToken(String subject);
 }

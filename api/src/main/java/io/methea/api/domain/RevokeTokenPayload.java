@@ -7,16 +7,16 @@ public class RevokeTokenPayload extends BaseBinder<RevokeTokenPayload> {
 
     private static final long serialVersionUID = -4336352262912103574L;
 
-    private String clientSecret;
+    private String clientID;
     private String clientToken;
 
     @JsonProperty("client_id")
-    public String getClientSecret() {
-        return clientSecret;
+    public String getClientID() {
+        return clientID;
     }
 
-    public void setClientSecret(String clientSecret) {
-        this.clientSecret = clientSecret;
+    public void setClientID(String clientID) {
+        this.clientID = clientID;
     }
 
     @JsonProperty("client_token")

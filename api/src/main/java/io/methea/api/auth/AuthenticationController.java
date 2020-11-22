@@ -32,7 +32,7 @@ import java.util.Map;
 @RestController
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AuthenticationController {
-    private static Logger log = LoggerFactory.getLogger(AuthenticationController.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
     private static final String UNAUTHORIZED_ACCESS_URL = "/unauthorized-access";
     private static final String GET_ACCESS_TOKEN_URL = "/auth/token";
     private static final String VERIFY_REFRESH_TOKEN = "/auth/refresh/token";
