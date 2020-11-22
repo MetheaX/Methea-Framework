@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.security.KeyFactory;
 import java.security.Security;
@@ -28,12 +29,12 @@ import java.util.*;
  */
 public class JwtUtil {
 
-    private static Logger log = LoggerFactory.getLogger(JwtUtil.class);
+    private static final Logger log = LoggerFactory.getLogger(JwtUtil.class);
 
     private JwtUtil(){}
 
     public static String decodeToken(String token, String privateKey) {
-        String username = StringUtils.EMPTY;
+        String subject = StringUtils.EMPTY;
 
         try {
             Security.addProvider(new BouncyCastleProvider());
@@ -45,14 +46,14 @@ public class JwtUtil {
             RSADecrypter decrypter = new RSADecrypter(priKey);
             jwtDecrypt.decrypt(decrypter);
             if (System.currentTimeMillis() > jwtDecrypt.getJWTClaimsSet().getExpirationTime().getTime()) {
-                return username;
+                return subject;
             }
-            username = jwtDecrypt.getJWTClaimsSet().getSubject();
+            subject = jwtDecrypt.getJWTClaimsSet().getSubject();
         } catch (Exception ex) {
             log.error("=========> decodeToken error: ", ex);
         }
 
-        return username;
+        return subject;
     }
 
     public static Map<String, String> encodeToken(String key, String subject, String issuer, Calendar expiration) {
@@ -66,7 +67,7 @@ public class JwtUtil {
             RSAPublicKey pubKey = (RSAPublicKey) fact.generatePublic(spec);
 
             JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                    .subject(subject)
+                    .subject(subject.concat(MConstant.COLON).concat(RequestContextHolder.currentRequestAttributes().getSessionId()))
                     .issuer(issuer)
                     .expirationTime(expiration.getTime())
                     .notBeforeTime(new Date())
@@ -83,7 +84,7 @@ public class JwtUtil {
 
             map.put(MConstant.JWT_TOKEN, Base64.encodeBase64String(jwtToken.getBytes()));
         } catch (Exception e) {
-            log.error("=========> encodeToken error: " + e);
+            log.error("=========> encodeToken error: ", e);
         }
         return map;
     }

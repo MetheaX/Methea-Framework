@@ -19,11 +19,17 @@ public class PrincipalUtils {
 
     public static String getUserLoginId(HttpServletRequest request) {
         Authentication user = getAuthentication(request);
+        if (ObjectUtils.isEmpty(user)) {
+            return "System";
+        }
         return ((PrincipalAuthentication) user.getPrincipal()).getUsername();
     }
 
     public static String getLoginGroupId(HttpServletRequest request) {
         Authentication user = getAuthentication(request);
+        if (ObjectUtils.isEmpty(user)) {
+            return "System";
+        }
         return ((PrincipalAuthentication) user.getPrincipal()).getMetheaPrincipal().getGroupId();
     }
 

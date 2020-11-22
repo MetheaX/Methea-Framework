@@ -55,7 +55,6 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
-
         boolean isNotAuthorize = true;
         PrincipalAuthentication authentication = null;
         String token = req.getHeader(SecurityConstants.HEADER_STRING);
@@ -102,9 +101,13 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
             if (ObjectUtils.isEmpty(certificate)) {
                 throw new CertificateNotFoundException("No active certificate could be found! Please check system certificate!");
             }
-            String user = JwtUtil.decodeToken(token.replace(SecurityConstants.TOKEN_PREFIX, StringUtils.EMPTY), certificate.getPrivateKey());
-            if (!StringUtils.isEmpty(user)) {
-                authentication = metheaAuthenticationService.loadUserByUsername(user);
+            String subject = JwtUtil.decodeToken(token.replace(SecurityConstants.TOKEN_PREFIX, StringUtils.EMPTY), certificate.getPrivateKey());
+            if (!StringUtils.isEmpty(subject)) {
+                authentication = metheaAuthenticationService.loadUserByUsername(subject.split(MConstant.COLON)[0]);
+                if (metheaAuthenticationService.validateUserRevokedToken(subject)) {
+                    res.sendRedirect(SystemUtils.getBaseUrl(req).concat(UNAUTHORIZED_ACCESS_URL));
+                    return;
+                }
             }
         }
         // validate permission
