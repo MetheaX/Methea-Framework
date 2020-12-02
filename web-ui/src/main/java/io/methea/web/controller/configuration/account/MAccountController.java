@@ -35,7 +35,7 @@ public class MAccountController extends AbstractSimpleMetheaController<TAccount,
     public MAccountController(DataTableUIService dataTableUIService, MAccountService mAccountService, AccountValidator validator) {
         super(dataTableUIService);
         super.validator = validator;
-        super.metheaService = mAccountService;
+        super.simpleMetheaService = mAccountService;
         entity = "accounts";
         super.dataTableId = "tbl-accounts";
         configViewName = "accountList";

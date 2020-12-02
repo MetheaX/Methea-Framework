@@ -33,7 +33,7 @@ public class MAPIBaseController extends AbstractSimpleMetheaController<APIBase, 
     public MAPIBaseController(DataTableUIService dataTableUIService, MAPIBaseService service, APIBaseValidator validator) {
         super(dataTableUIService);
         super.validator = validator;
-        super.metheaService = service;
+        super.simpleMetheaService = service;
         entity = "apibases";
         super.dataTableId = "tbl-apibases";
         configViewName = "apiBaseList";

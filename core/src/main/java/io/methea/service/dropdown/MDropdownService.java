@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @Service
 public class MDropdownService {
-    private static Logger log = LoggerFactory.getLogger(MDropdownService.class);
+    private static final Logger log = LoggerFactory.getLogger(MDropdownService.class);
 
     private final HibernateExtensionRepository<AccountDropdown, String> repository;
     private final HibernateExtensionRepository<GroupDropdown, String> groupRepository;
@@ -36,6 +36,7 @@ public class MDropdownService {
     private final HibernateExtensionRepository<APIBaseDropdown, String> apiBaseRepository;
     private final HibernateExtensionRepository<MenuDropdown, String> menuRepository;
     private final Map<String, Object> param = new HashMap<>();
+    private final Map<String, Object> dropdown = new HashMap<>();
 
     @Inject
     public MDropdownService(HibernateExtensionRepository<AccountDropdown, String> repository,
@@ -53,21 +54,17 @@ public class MDropdownService {
         this.apiBaseRepository = apiBaseRepository;
         this.menuRepository = menuRepository;
         param.put(MConstant.JSON_STATUS, MConstant.ACTIVE_STATUS);
-    }
 
-    public void getDropdownData() {
-        Map<String, Object> map = new HashMap<>();
         try {
-            map.put(MConstant.YES_NO_DROPDOWN, getYesNoDropdown());
-            map.put(MConstant.ACCOUNT_DROPDOWN, getAccountDropdown());
-            map.put(MConstant.USER_DROPDOWN, getUserDropdown());
-            map.put(MConstant.GROUP_DROPDOWN, getGroupDropdown());
-            map.put(MConstant.ROLE_DROPDOWN, getRoleDropdown());
-            map.put(MConstant.URI_DROPDOWN, getURIDropdown());
-            map.put(MConstant.API_URL_DROPDOWN, getApiBaseDropdown());
-            map.put(MConstant.MENU_DROPDOWN, getMenuDropdown());
-            map.put(MConstant.HTTP_METHOD_DROPDOWN, getHttpMethodDropdown());
-            MCache.CACHE_META_DATA.put(MConstant.DROPDOWN, map);
+            dropdown.put(MConstant.YES_NO_DROPDOWN, getYesNoDropdown());
+            dropdown.put(MConstant.ACCOUNT_DROPDOWN, getAccountDropdown());
+            dropdown.put(MConstant.USER_DROPDOWN, getUserDropdown());
+            dropdown.put(MConstant.GROUP_DROPDOWN, getGroupDropdown());
+            dropdown.put(MConstant.ROLE_DROPDOWN, getRoleDropdown());
+            dropdown.put(MConstant.URI_DROPDOWN, getURIDropdown());
+            dropdown.put(MConstant.MENU_DROPDOWN, getMenuDropdown());
+            dropdown.put(MConstant.HTTP_METHOD_DROPDOWN, getHttpMethodDropdown());
+            MCache.CACHE_META_DATA.put(MConstant.DROPDOWN, dropdown);
         } catch (Exception ex) {
             log.error("=========> Get dropdown data error: ", ex);
         }
@@ -83,6 +80,10 @@ public class MDropdownService {
         return list;
     }
 
+    public void refreshAccountDropdown() {
+        dropdown.put(MConstant.ACCOUNT_DROPDOWN, getAccountDropdown());
+    }
+
     private List<GroupDropdown> getGroupDropdown() {
         List<GroupDropdown> list = new ArrayList<>();
         try {
@@ -91,6 +92,10 @@ public class MDropdownService {
             log.error("=========> Get group dropdown error: ", ex);
         }
         return list;
+    }
+
+    public void refreshGroupDropdown() {
+        dropdown.put(MConstant.GROUP_DROPDOWN, getGroupDropdown());
     }
 
     private List<RoleDropdown> getRoleDropdown() {
@@ -103,6 +108,10 @@ public class MDropdownService {
         return list;
     }
 
+    public void refreshRoleDropdown() {
+        dropdown.put(MConstant.ROLE_DROPDOWN, getRoleDropdown());
+    }
+
     private List<URIDropdown> getURIDropdown() {
         List<URIDropdown> list = new ArrayList<>();
         try {
@@ -113,6 +122,10 @@ public class MDropdownService {
         return list;
     }
 
+    public void refreshURIDropdown() {
+        dropdown.put(MConstant.URI_DROPDOWN, getURIDropdown());
+    }
+
     private List<UserDropdown> getUserDropdown() {
         List<UserDropdown> list = new ArrayList<>();
         try {
@@ -121,6 +134,10 @@ public class MDropdownService {
             log.error("=========> Get user dropdown error: ", ex);
         }
         return list;
+    }
+
+    public void refreshUserDropdown() {
+        dropdown.put(MConstant.USER_DROPDOWN, getUserDropdown());
     }
 
     private List<APIBaseDropdown> getApiBaseDropdown() {
@@ -145,6 +162,10 @@ public class MDropdownService {
         return list;
     }
 
+    public void refreshMenuDropdown() {
+        dropdown.put(MConstant.MENU_DROPDOWN, getMenuDropdown());
+    }
+
     private List<GenericDropdown> getYesNoDropdown() {
         return new ArrayList<GenericDropdown>() {
             private static final long serialVersionUID = -5416522703079609273L;
@@ -152,11 +173,12 @@ public class MDropdownService {
             {
                 add(new GenericDropdown(MConstant.YES, "Yes"));
                 add(new GenericDropdown(MConstant.NO, "No"));
-            }};
+            }
+        };
     }
 
     private List<GenericDropdown> getHttpMethodDropdown() {
-        return new ArrayList<GenericDropdown>(){
+        return new ArrayList<GenericDropdown>() {
             private static final long serialVersionUID = -1763502692588341568L;
 
             {
@@ -165,7 +187,8 @@ public class MDropdownService {
                 add(new GenericDropdown(MConstant.PUT, MConstant.PUT));
                 add(new GenericDropdown(MConstant.PATCH, MConstant.PATCH));
                 add(new GenericDropdown(MConstant.DELETE, MConstant.DELETE));
-        }};
+            }
+        };
     }
 
     public class GenericDropdown {

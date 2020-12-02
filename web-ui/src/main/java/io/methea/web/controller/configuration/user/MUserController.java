@@ -48,7 +48,7 @@ public class MUserController extends AbstractSimpleMetheaController<TUser, UserB
                            MDropdownService dropdownService, UserValidator userValidator) {
         super(dataTableUIService);
         super.validator = userValidator;
-        super.metheaService = mUserService;
+        super.simpleMetheaService = mUserService;
         super.entity = "users";
         super.dataTableId = "tbl-users";
         super.configViewName = "userList";
@@ -64,9 +64,7 @@ public class MUserController extends AbstractSimpleMetheaController<TUser, UserB
 
     @Override
     protected Model getExtraAttribute(Model model) {
-        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.CACHE_META_DATA.get(MConstant.DROPDOWN))) {
-            dropdownService.getDropdownData();
-        }
+        dropdownService.refreshGroupDropdown();
         model.addAttribute(MConstant.DROPDOWN, MCache.CACHE_META_DATA.get(MConstant.DROPDOWN));
         return model;
     }

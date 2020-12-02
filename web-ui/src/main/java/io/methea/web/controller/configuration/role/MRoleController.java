@@ -34,7 +34,7 @@ public class MRoleController extends AbstractSimpleMetheaController<TRole, RoleB
     public MRoleController(DataTableUIService dataTableUIService, RoleValidator validator, MRoleService service) {
         super(dataTableUIService);
         super.validator = validator;
-        super.metheaService = service;
+        super.simpleMetheaService = service;
         entity = "roles";
         super.dataTableId = "tbl-roles";
         configViewName = "roleList";

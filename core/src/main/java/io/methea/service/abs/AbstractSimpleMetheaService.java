@@ -30,7 +30,7 @@ import java.util.*;
 public abstract class AbstractSimpleMetheaService<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>, ID,
         V extends AbstractMetheaView<V>> implements SimpleMetheaService<E, B, ID, V> {
 
-    private static Logger log = LoggerFactory.getLogger(AbstractSimpleMetheaService.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractSimpleMetheaService.class);
     private static final String STATUS = "status";
     private final Class<V> view;
     private final CrudRepository repository;

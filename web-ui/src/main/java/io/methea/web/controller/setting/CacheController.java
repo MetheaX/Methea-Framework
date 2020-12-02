@@ -34,7 +34,6 @@ public class CacheController {
 
     @RequestMapping(value = StringUtils.EMPTY, method = RequestMethod.GET)
     public ModelAndView clearSystemCache() {
-        MCache.CACHE_META_DATA.clear();
         MCache.CACHE_MENU.clear();
         MCache.CACHE_MENU.putAll(menuService.getAllMenuByGroup());
         return new ModelAndView(REDIRECT_URL);

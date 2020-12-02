@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -42,7 +41,7 @@ public class MDataTableController extends AbstractSimpleMetheaController<TDataTa
         super(dataTableUIService);
         this.dropdownService = dropdownService;
         super.validator = validator;
-        super.metheaService = service;
+        super.simpleMetheaService = service;
         entity = "datatable";
         super.dataTableId = "tbl-datatable";
         configViewName = "dataTableList";
@@ -51,9 +50,6 @@ public class MDataTableController extends AbstractSimpleMetheaController<TDataTa
 
     @Override
     protected Model getExtraAttribute(Model model) {
-        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.CACHE_META_DATA.get(MConstant.DROPDOWN))) {
-            dropdownService.getDropdownData();
-        }
         model.addAttribute(MConstant.DROPDOWN, MCache.CACHE_META_DATA.get(MConstant.DROPDOWN));
         return model;
     }

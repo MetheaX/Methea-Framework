@@ -32,9 +32,6 @@ public class MHomeController {
 
     @RequestMapping(value = {"/", "/app"}, method = RequestMethod.GET)
     public String home(Model model, HttpServletRequest request) {
-        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.CACHE_META_DATA.get(MConstant.DROPDOWN))) {
-            dropdownService.getDropdownData();
-        }
         model.addAttribute(MConstant.DROPDOWN, MCache.CACHE_META_DATA.get(MConstant.DROPDOWN));
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
         model.addAttribute(MConstant.CORE_MENU, MCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));

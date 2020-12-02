@@ -1,7 +1,7 @@
 package io.methea.domain.configuration.group.entity;
 
 import io.methea.domain.common.entity.BaseEntity;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
