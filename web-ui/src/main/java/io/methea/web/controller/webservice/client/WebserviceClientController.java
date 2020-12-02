@@ -18,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -57,13 +56,13 @@ public class WebserviceClientController {
         this.dropdownService = dropdownService;
     }
 
-    @RequestMapping(value = StringUtils.EMPTY, method = RequestMethod.GET)
+    @GetMapping(value = StringUtils.EMPTY)
     public String viewClients(Model model, HttpServletRequest request) {
         setAttributes(model, request);
         return CLIENT_TEMPLATE_PATH;
     }
 
-    @RequestMapping(value = CREATE_URL, method = RequestMethod.POST)
+    @PostMapping(value = CREATE_URL)
     public String create(ClientBinder binder, Model model, HttpServletRequest request) {
         Client client = clientService.createOrUpdateClient(binder);
         setAttributes(model, request);

@@ -41,7 +41,7 @@ public class SystemCertificateController {
         this.certificateService = certificateService;
     }
 
-    @RequestMapping(value = StringUtils.EMPTY, method = RequestMethod.GET)
+    @GetMapping(value = StringUtils.EMPTY)
     public String viewSystemCertificate(Model model, HttpServletRequest request) {
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
         model.addAttribute("certificateStatus", certificateService.getSystemCertificate().getStatus());
@@ -49,7 +49,7 @@ public class SystemCertificateController {
         return CERTIFICATE_TEMPLATE_PATH;
     }
 
-    @RequestMapping(value = RE_GENERATE_URL, method = RequestMethod.GET)
+    @GetMapping(value = RE_GENERATE_URL)
     public ModelAndView reGenerateCertificate(Model model, HttpServletRequest request) {
         CertificateBinder binder = new CertificateBinder();
         binder.setCode(MConstant.CERT_TYPE);

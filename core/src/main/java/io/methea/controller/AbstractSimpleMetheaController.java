@@ -60,13 +60,13 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
         this.dataTableUIService = dataTableUIService;
     }
 
-    @RequestMapping(value = StringUtils.EMPTY, method = RequestMethod.GET)
+    @GetMapping(value = StringUtils.EMPTY)
     public String viewAllWithFilter(Model model, B binder, F filter, Pagination pagination, HttpServletRequest request) {
         dataTableAttributes(model, binder, filter, pagination, request);
         return templatePath;
     }
 
-    @RequestMapping(value = SAVE_URL, method = RequestMethod.POST)
+    @PostMapping(value = SAVE_URL)
     public ModelAndView save(B binder, Model model, F filter, Pagination pagination, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
         validator.validate(binder, errors);
@@ -81,7 +81,7 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
         return new ModelAndView("redirect:" + ROOT_URL.concat(MConstant.SLASH).concat(entity));
     }
 
-    @RequestMapping(value = MODIFY_URL, method = RequestMethod.POST)
+    @PostMapping(value = MODIFY_URL)
     public ModelAndView modify(B binder, Model model, F filter, Pagination pagination, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
         errors.put("validateType", "EDIT");
