@@ -62,6 +62,7 @@
                         $modalEdit.find('select[name="parentId"]').val(response.data.menu.parentId).trigger('change');
                         $modalEdit.find('input[name="menuLabel"]').val(response.data.menu.menuLabel);
                         $modalEdit.find('input[name="menuIcon"]').val(response.data.menu.menuIcon);
+                        $modalEdit.find('select[name="uriId"]').val(response.data.menu.uriId).trigger('change');
                         $modalEdit.find('select[name="groupId"]').val(response.data.menu.groupId).trigger('change');
                         $modalEdit.find('input[name="index"]').val(response.data.menu.index);
                     }

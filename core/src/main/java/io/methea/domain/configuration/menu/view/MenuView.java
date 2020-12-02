@@ -20,6 +20,8 @@ public class MenuView extends BaseView<MenuView> {
     private String menuLabel;
     @Column(name = "o.menuIcon", key = "menuIcon", where = "AND LOWER(o.menuIcon) LIKE :menuIcon")
     private String menuIcon;
+    @Column(name = "o.uriId")
+    private String uriId;
     @Column(name = "o.uriName", key = "uriName", where = "AND LOWER(o.uriName) LIKE :uriName")
     private String uriName;
     @Column(name = "o.groupId")
@@ -31,12 +33,13 @@ public class MenuView extends BaseView<MenuView> {
     @Column(name = "o.status", key = "status", where = "AND LOWER(o.status) LIKE :status", isLastColumn = true)
     private String status;
 
-    public MenuView(String id, String parentId, String menuLabel, String menuIcon, String uriName,
+    public MenuView(String id, String parentId, String menuLabel, String menuIcon, String uriId, String uriName,
                     String groupId, String groupName, Integer index, String status) {
         this.id = id;
         this.parentId = parentId;
         this.menuLabel = menuLabel;
         this.menuIcon = menuIcon;
+        this.uriId = uriId;
         this.uriName = uriName;
         this.groupId = groupId;
         this.groupName = groupName;
@@ -74,6 +77,14 @@ public class MenuView extends BaseView<MenuView> {
 
     public void setMenuIcon(String menuIcon) {
         this.menuIcon = menuIcon;
+    }
+
+    public String getUriId() {
+        return uriId;
+    }
+
+    public void setUriId(String uriId) {
+        this.uriId = uriId;
     }
 
     public String getUriName() {

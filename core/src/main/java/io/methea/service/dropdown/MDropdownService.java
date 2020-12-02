@@ -64,6 +64,7 @@ public class MDropdownService {
             dropdown.put(MConstant.URI_DROPDOWN, getURIDropdown());
             dropdown.put(MConstant.MENU_DROPDOWN, getMenuDropdown());
             dropdown.put(MConstant.HTTP_METHOD_DROPDOWN, getHttpMethodDropdown());
+            dropdown.put(MConstant.API_URL_DROPDOWN, getApiBaseDropdown());
             MCache.CACHE_META_DATA.put(MConstant.DROPDOWN, dropdown);
         } catch (Exception ex) {
             log.error("=========> Get dropdown data error: ", ex);
