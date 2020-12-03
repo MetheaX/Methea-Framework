@@ -1,6 +1,5 @@
 package io.methea.domain.common.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.methea.domain.common.entity.abs.AbstractMetheaEntity;
 import org.hibernate.annotations.CreationTimestamp;

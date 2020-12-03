@@ -9573,8 +9573,8 @@ html:not([dir="rtl"]) .c-sidebar-nav-dropdown.c-show > .c-sidebar-nav-dropdown-t
   background-repeat: no-repeat;
   background-position: center;
   transition: -webkit-transform 0.3s;
-  transition: transform 0.3s;
-  transition: transform 0.3s, -webkit-transform 0.3s;
+  /*transition: transform 0.3s;*/
+  /*transition: transform 0.3s, -webkit-transform 0.3s;*/
 }
 
 html:not([dir="rtl"]) .c-sidebar-nav-dropdown-toggle::after {
@@ -9596,11 +9596,11 @@ html:not([dir="rtl"]) .c-sidebar-nav-dropdown-toggle .badge {
 }
 
 .c-sidebar-nav-dropdown-items {
-  max-height: 0;
+  /*max-height: 0;*/
   padding: 0;
-  overflow-y: hidden;
+  /*overflow-y: hidden;*/
   list-style: none;
-  transition: max-height 0.3s ease-in-out;
+  /*transition: max-height 0.3s ease-in-out;*/
 }
 
 html:not([dir="rtl"]) .c-sidebar-nav-dropdown-items .c-sidebar-nav-link, html:not([dir="rtl"]) .c-sidebar-nav-dropdown-items .c-sidebar-nav-dropdown-toggle {

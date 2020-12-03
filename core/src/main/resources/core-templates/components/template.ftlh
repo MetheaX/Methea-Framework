@@ -50,7 +50,7 @@
             <#if coreMenu?has_content>
                 <#list coreMenu as m>
                     <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-                        <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#"><i
+                        <a class="c-sidebar-nav-link" href="#"><i
                                     class="${m.menuIcon}"></i>&nbsp;&nbsp;${m.menuLabel}</a>
                         <ul class="c-sidebar-nav-dropdown-items">
                             <#if m.subMenu?has_content>
