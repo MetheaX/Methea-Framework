@@ -34,6 +34,13 @@
             $.fn.select2.defaults.set("theme", "bootstrap");
         });
     </script>
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
     <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
         <div>
             <h3 class="c-sidebar-brand-full"><a class="c-sidebar-nav-link" href="${contextPath}">Methea Framework</a>
@@ -99,6 +106,11 @@
     </div>
     <script src="${contextPath}/resources/vendor/coreui/coreui.bundle.min.js"></script>
     <script src="${contextPath}/resources/vendor/coreui/utils/coreui-utils.js"></script>
+    <script>
+        jQuery(window).on("load", function() {
+            $('#preloader').fadeOut(500);
+        });
+    </script>
     </body>
     </html>
 </#macro>

@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -49,14 +48,19 @@ public class SystemCertificateController {
         return CERTIFICATE_TEMPLATE_PATH;
     }
 
-    @GetMapping(value = RE_GENERATE_URL)
-    public ModelAndView reGenerateCertificate(Model model, HttpServletRequest request) {
+    @ResponseBody
+    @PostMapping(value = RE_GENERATE_URL)
+    public ResponseEntity<Map<String, Object>> reGenerateCertificate(@RequestBody Map<String, Object> payload) {
         CertificateBinder binder = new CertificateBinder();
+        Map<String, Object> map = new HashMap<>();
         binder.setCode(MConstant.CERT_TYPE);
-        certificateService.createOrUpdateCertificate(binder);
-        model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
-        model.addAttribute(MConstant.CORE_MENU, MCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
-        return new ModelAndView("redirect:".concat(ROOT_URL));
+        map.put(MConstant.JSON_STATUS, 500);
+        map.put(MConstant.JSON_MESSAGE, "Failed to renew certificate!");
+        if (!ObjectUtils.isEmpty(certificateService.createOrUpdateCertificate(binder))) {
+            map.put(MConstant.JSON_STATUS, 200);
+            map.put(MConstant.JSON_MESSAGE, "System certificate renewed!");
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @ResponseBody
