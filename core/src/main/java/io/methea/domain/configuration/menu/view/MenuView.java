@@ -8,7 +8,7 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Author : DKSilverX
  * Date : 04/07/2020
  */
-@SelectFrom(fromClause = "FROM TMenu o", orderBy = "ORDER BY o.updatedDateTime DESC")
+@SelectFrom(fromClause = "FROM TMenu o", orderBy = "ORDER BY o.index ASC")
 public class MenuView extends BaseView<MenuView> {
     private static final long serialVersionUID = -1518321161191263065L;
 

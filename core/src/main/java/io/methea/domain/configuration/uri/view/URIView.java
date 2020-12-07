@@ -8,7 +8,7 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Author : DKSilverX
  * Date : 06/05/2020
  */
-@SelectFrom(fromClause = "FROM TMstURI o", orderBy = "ORDER BY o.updatedDateTime DESC")
+@SelectFrom(fromClause = "FROM TMstURI o", orderBy = "ORDER BY o.uriName ASC")
 public class URIView extends BaseView<URIView> {
     private static final long serialVersionUID = 5717744242304408285L;
 

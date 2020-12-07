@@ -9,7 +9,7 @@ import io.methea.domain.common.view.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;
 import io.methea.repository.hibernateextension.annotation.SelectFrom;
 
-@SelectFrom(fromClause = "FROM TAccount o", orderBy = "ORDER BY o.updatedDateTime DESC")
+@SelectFrom(fromClause = "FROM TAccount o", orderBy = "ORDER BY o.accountName ASC")
 public class AccountView extends BaseView<AccountView> {
 
     private static final long serialVersionUID = -8462411991270288224L;
