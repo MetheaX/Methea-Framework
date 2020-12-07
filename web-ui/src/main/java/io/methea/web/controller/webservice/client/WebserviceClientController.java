@@ -6,7 +6,6 @@ import io.methea.domain.webservice.client.entity.Client;
 import io.methea.domain.webservice.client.dto.ClientBinder;
 import io.methea.domain.webservice.client.view.ClientView;
 import io.methea.service.auth.ClientService;
-import io.methea.service.dropdown.MDropdownService;
 import io.methea.utils.PrincipalUtils;
 import io.methea.utils.SystemUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -48,12 +47,10 @@ public class WebserviceClientController {
     private static final String ENTITY = "clients";
 
     private final ClientService clientService;
-    private final MDropdownService dropdownService;
 
     @Inject
-    public WebserviceClientController(ClientService clientService, MDropdownService dropdownService) {
+    public WebserviceClientController(ClientService clientService) {
         this.clientService = clientService;
-        this.dropdownService = dropdownService;
     }
 
     @GetMapping(value = StringUtils.EMPTY)

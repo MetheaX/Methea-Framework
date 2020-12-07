@@ -51,6 +51,7 @@ public class MMenuController extends AbstractSimpleMetheaController<TMenu, MenuB
 
     @Override
     protected Model getExtraAttribute(Model model) {
+        dropdownService.refreshMenuDropdown();
         model.addAttribute(MConstant.DROPDOWN, MCache.CACHE_META_DATA.get(MConstant.DROPDOWN));
         return model;
     }

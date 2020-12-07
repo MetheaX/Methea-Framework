@@ -12,6 +12,7 @@ import io.methea.domain.configuration.group.view.GroupAuthorityView;
 import io.methea.domain.configuration.jwt.entity.TSessionManagement;
 import io.methea.domain.configuration.permission.view.PermissionView;
 import io.methea.domain.configuration.user.entity.TUser;
+import io.methea.domain.webservice.client.entity.Client;
 import io.methea.domain.webservice.system.entity.SystemCertificate;
 import io.methea.exception.CertificateNotFoundException;
 import io.methea.exception.InvalidClientSecretException;
@@ -19,6 +20,7 @@ import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.repository.configuration.jwt.SessionManagementRepository;
 import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
 import io.methea.repository.configuration.user.UserRepository;
+import io.methea.repository.webservice.client.ClientRepository;
 import io.methea.repository.webservice.system.SystemCertificateRepository;
 import io.methea.utils.SystemUtils;
 import io.methea.utils.auth.JwtUtil;
@@ -50,6 +52,7 @@ import java.util.*;
 public class MetheaAuthenticationService implements UserDetailsService, AuthenticationService {
 
     private final UserRepository userRepository;
+    private final ClientRepository clientRepository;
     private final UserGrantedPermissionRepository userGrantedPermissionRepository;
     private final UserGroupRepository userGroupRepository;
     private final SystemCertificateRepository certificateRepository;
@@ -59,10 +62,11 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
 
     @Inject
     public MetheaAuthenticationService(UserRepository userRepository,
-                                       UserGrantedPermissionRepository userGrantedPermissionRepository,
-                                       UserGroupRepository userGroupRepository,
-                                       SystemCertificateRepository certificateRepository, SessionManagementRepository sessionManagementRepository) {
+                                       ClientRepository clientRepository, UserGrantedPermissionRepository userGrantedPermissionRepository,
+                                       UserGroupRepository userGroupRepository, SystemCertificateRepository certificateRepository,
+                                       SessionManagementRepository sessionManagementRepository) {
         this.userRepository = userRepository;
+        this.clientRepository = clientRepository;
         this.userGrantedPermissionRepository = userGrantedPermissionRepository;
         this.userGroupRepository = userGroupRepository;
         this.certificateRepository = certificateRepository;
@@ -73,7 +77,10 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
     public Token generateTokenFromUser(RequestTokenPayload payload, HttpServletRequest request) {
         PrincipalAuthentication authentication = loadUserAsClient(payload);
         if (ObjectUtils.isEmpty(authentication)) {
-            return null;
+            authentication = loadClient(payload);
+            if (ObjectUtils.isEmpty(authentication)) {
+                return null;
+            }
         }
         return generateToken(authentication, request, false);
     }
@@ -136,7 +143,11 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
         TUser user = userRepository.findByUsernameAndStatus(s, MConstant.ACTIVE_STATUS);
 
         if (ObjectUtils.isEmpty(user)) {
-            return null;
+            Client client = clientRepository.findClientByClientIdAndStatus(s, MConstant.ACTIVE_STATUS);
+            if (ObjectUtils.isEmpty(client)) {
+                return null;
+            }
+            return buildPrincipal(client);
         }
         return buildPrincipal(user);
     }
@@ -199,6 +210,28 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
             return null;
         }
         return buildPrincipal(user);
+    }
+
+    private PrincipalAuthentication loadClient(RequestTokenPayload payload) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        Client client = clientRepository.findClientByClientIdAndStatus(payload.getClientId(), MConstant.ACTIVE_STATUS);
+        if (ObjectUtils.isEmpty(client)) {
+            return null;
+        }
+        if (!encoder.matches(payload.getClientSecret(), client.getClientSecret())) {
+            return null;
+        }
+        return buildPrincipal(client);
+    }
+
+    private PrincipalAuthentication buildPrincipal(Client client) {
+        MetheaPrincipal principal = new MetheaPrincipal();
+        Map<String, Object> param = new HashMap<>();
+        param.put("username", client.getClientId());
+        principal.setUsername(client.getClientId());
+        principal.setForceUserResetPassword(MConstant.NO);
+        return new PrincipalAuthentication(client.getClientId(), client.getClientSecret(), new ArrayList<>(),
+                userGrantedPermissionRepository.getByQuery(param, PermissionView.class), principal);
     }
 
     private PrincipalAuthentication buildPrincipal(TUser user) {

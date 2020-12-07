@@ -15,7 +15,6 @@ public class ClientBinder extends BaseBinder<ClientBinder> {
     private static final long serialVersionUID = 1054575166018682165L;
 
     private String clientId = StringUtils.EMPTY;
-    private String verifyCode = StringUtils.EMPTY;
     private List<String> apiBases = new ArrayList<>();
 
     public ClientBinder() {
@@ -31,14 +30,6 @@ public class ClientBinder extends BaseBinder<ClientBinder> {
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
-    }
-
-    public String getVerifyCode() {
-        return verifyCode;
-    }
-
-    public void setVerifyCode(String verifyCode) {
-        this.verifyCode = verifyCode;
     }
 
     public List<String> getApiBases() {

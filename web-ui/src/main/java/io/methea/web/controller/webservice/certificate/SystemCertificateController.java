@@ -2,7 +2,6 @@ package io.methea.web.controller.webservice.certificate;
 
 import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
-import io.methea.domain.webservice.system.dto.CertificateBinder;
 import io.methea.service.auth.CertificateService;
 import io.methea.utils.PrincipalUtils;
 import io.methea.utils.SystemUtils;
@@ -43,7 +42,7 @@ public class SystemCertificateController {
     @GetMapping(value = StringUtils.EMPTY)
     public String viewSystemCertificate(Model model, HttpServletRequest request) {
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
-        model.addAttribute("certificateStatus", certificateService.getSystemCertificate().getStatus());
+        model.addAttribute("certificateStatus", certificateService.getSystemCertificate());
         model.addAttribute(MConstant.CORE_MENU, MCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
         return CERTIFICATE_TEMPLATE_PATH;
     }
@@ -51,12 +50,10 @@ public class SystemCertificateController {
     @ResponseBody
     @PostMapping(value = RE_GENERATE_URL)
     public ResponseEntity<Map<String, Object>> reGenerateCertificate(@RequestBody Map<String, Object> payload) {
-        CertificateBinder binder = new CertificateBinder();
         Map<String, Object> map = new HashMap<>();
-        binder.setCode(MConstant.CERT_TYPE);
         map.put(MConstant.JSON_STATUS, 500);
         map.put(MConstant.JSON_MESSAGE, "Failed to renew certificate!");
-        if (!ObjectUtils.isEmpty(certificateService.createOrUpdateCertificate(binder))) {
+        if (!ObjectUtils.isEmpty(certificateService.createOrRenewCertificate())) {
             map.put(MConstant.JSON_STATUS, 200);
             map.put(MConstant.JSON_MESSAGE, "System certificate renewed!");
         }
@@ -69,7 +66,7 @@ public class SystemCertificateController {
         Map<String, Object> map = new HashMap<>();
         map.put(MConstant.JSON_STATUS, 500);
         map.put(MConstant.JSON_MESSAGE, "Failed to deactivate certificate!!!");
-        if (!ObjectUtils.isEmpty(certificateService.deactivateCertificate())) {
+        if (certificateService.deactivateCertificate()) {
             map.put(MConstant.JSON_STATUS, 200);
             map.put(MConstant.JSON_MESSAGE, "Deactivate certificate success!!!");
         }
@@ -82,7 +79,7 @@ public class SystemCertificateController {
         Map<String, Object> map = new HashMap<>();
         map.put(MConstant.JSON_STATUS, 500);
         map.put(MConstant.JSON_MESSAGE, "Failed to activate certificate!!!");
-        if (!ObjectUtils.isEmpty(certificateService.activateCertificate())) {
+        if (certificateService.activateCertificate()) {
             map.put(MConstant.JSON_STATUS, 200);
             map.put(MConstant.JSON_MESSAGE, "Activate certificate success!!!");
         }

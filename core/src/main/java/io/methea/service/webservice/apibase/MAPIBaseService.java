@@ -17,7 +17,7 @@ import javax.inject.Inject;
  */
 @Service
 public class MAPIBaseService extends AbstractSimpleMetheaService<APIBase, APIBaseBinder, String, APIBaseView> {
-    private static Logger log = LoggerFactory.getLogger(MAPIBaseService.class);
+    private static final Logger log = LoggerFactory.getLogger(MAPIBaseService.class);
 
     @Inject
     public MAPIBaseService(APIBaseRepository repository) {

@@ -27,8 +27,6 @@ public class Client extends BaseEntity<Client> {
     private String oneTimeDisplaySecretKey;
 
     @Type(type = "text")
-    @Column(name = "verify_code", nullable = false)
-    private String verifyCode;
 
     public String getId() {
         return id;
@@ -60,13 +58,5 @@ public class Client extends BaseEntity<Client> {
 
     public void setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
-    }
-
-    public String getVerifyCode() {
-        return verifyCode;
-    }
-
-    public void setVerifyCode(String verifyCode) {
-        this.verifyCode = verifyCode;
     }
 }

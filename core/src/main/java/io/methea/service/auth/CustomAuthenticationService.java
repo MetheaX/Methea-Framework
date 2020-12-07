@@ -10,10 +10,13 @@ import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
 import io.methea.repository.configuration.user.UserRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -26,6 +29,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CustomAuthenticationService implements UserDetailsService {
 
     private final UserRepository userRepository;
