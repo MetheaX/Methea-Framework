@@ -10,6 +10,7 @@ import io.methea.domain.configuration.uri.dropdown.URIDropdown;
 import io.methea.domain.configuration.user.dropdown.UserDropdown;
 import io.methea.domain.webservice.baseapi.dropdown.APIBaseDropdown;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -88,11 +89,26 @@ public class MDropdownService {
     private List<GroupDropdown> getGroupDropdown() {
         List<GroupDropdown> list = new ArrayList<>();
         try {
+            Map<String, Object> param = new HashMap<>();
+            param.put(MConstant.JSON_STATUS, MConstant.ACTIVE_STATUS);
+            param.put("accountId", "%%");
             list = groupRepository.getByQuery(param, GroupDropdown.class);
         } catch (Exception ex) {
-            log.error("=========> Get group dropdown error: ", ex);
+            log.error("=========> Get getGroupDropdown error: ", ex);
         }
         return list;
+    }
+
+    public List<GroupDropdown> getGroupDropdownByAccount(String accountId) {
+        try {
+            Map<String, Object> param = new HashMap<>();
+            param.put(MConstant.JSON_STATUS, MConstant.ACTIVE_STATUS);
+            param.put("accountId", "%".concat(accountId).concat("%"));
+            return groupRepository.getByQuery(param, GroupDropdown.class);
+        } catch (Exception ex) {
+            log.error("=========> Get getGroupDropdownByAccount error: ", ex);
+        }
+        return null;
     }
 
     public void refreshGroupDropdown() {

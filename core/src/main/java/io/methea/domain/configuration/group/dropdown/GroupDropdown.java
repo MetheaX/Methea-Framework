@@ -11,7 +11,7 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
 @SelectFrom(fromClause = "FROM TUserGroup o", orderBy = "ORDER BY o.groupName ASC")
 public class GroupDropdown extends BaseView<GroupDropdown> {
     private static final long serialVersionUID = -8990771004017469895L;
-    @Column(name = "o.id")
+    @Column(name = "o.id", key = "accountId", where = "AND o.accountId LIKE :accountId")
     private String id;
     @Column(name = "o.groupName", key = "status", where = "AND o.status = :status", isLastColumn = true)
     private String name;

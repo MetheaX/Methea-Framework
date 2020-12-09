@@ -19,7 +19,9 @@
 
         <@mmodal.modal className="modal-tbl-users-add" labelTitle="Add New User">
             <@mform.form actionUrl="${contextPath}/app/users/save" resetUrl="/app/users">
-                <@mselect.select labelName="Group Name" selectId="labelDropDownGroupName" selectName="groupId"
+                <@mselect.select labelName="Account" selectId="labelDropDownAccountName" selectName="accountId"
+                values=mDropdown.accountDropdown required="true" errors=errors></@mselect.select>
+                <@mselect.select labelName="Group" selectId="labelDropDownGroupName" selectName="groupId"
                 values=mDropdown.groupDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Username" inputType="text" inputId="labelUsername"
                 inputPlaceHolder="Username" inputName="username" inputValue="${binder.username}" required="true" errors=errors></@minput.input>
@@ -42,7 +44,9 @@
             <@mform.form actionUrl="${contextPath}/app/users/modify" resetUrl="/app/users">
                 <@mhiddeninput.input inputType="text" inputId="labelEditUserId" inputName="id"
                 inputValue="${binder.id}" required="true"></@mhiddeninput.input>
-                <@mselect.select labelName="Group Name" selectId="labelEditDropDownGroupName" selectName="groupId"
+                <@mreadonlyinput.input labelName="Account" inputType="text" inputId="labelEditAccount"
+                inputPlaceHolder="Account" inputName="accountName" inputValue="${binder.accountName}" required="true"></@mreadonlyinput.input>
+                <@mselect.select labelName="Group" selectId="labelEditDropDownGroupName" selectName="groupId"
                 values=mDropdown.groupDropdown required="true" errors=errors></@mselect.select>
                 <@mreadonlyinput.input labelName="Username" inputType="text" inputId="labelEditUsername"
                 inputPlaceHolder="Username" inputName="username" inputValue="${binder.username}" required="true"></@mreadonlyinput.input>
@@ -74,18 +78,31 @@
         $(document).ready(function () {
             const $modalEdit = $('.modal-tbl-users-edit');
             const $modalResetPassword = $('.modal-tbl-users-reset-password');
+            const $accountDropdown = $('#labelDropDownAccountName');
+            const $groupDropdown = $('#labelDropDownGroupName');
+            const $editGroupDropdown = $('#labelEditDropDownGroupName');
+
+            loadGroupDropdownByAccount($accountDropdown, $groupDropdown, false, undefined);
+
+            $accountDropdown.change(function () {
+                loadGroupDropdownByAccount($accountDropdown, $groupDropdown, false, undefined);
+            });
+
             $('.btn-tbl-users-data-edit').click(function () {
                 const $row = $(this).closest("tr");
                 const $id = $row.find('td:eq(0)').text();
                 axios.get('${contextPath}' + '/app/users/rest?id=' + $id).then(function (response) {
-                    if (response.data.status === 200) {
-                        $modalEdit.find('input[name="id"]').val(response.data.users.id);
-                        $modalEdit.find('select[name="groupId"]').val(response.data.users.groupId).trigger('change');
-                        $modalEdit.find('input[name="username"]').val(response.data.users.username);
-                        $modalEdit.find('input[name="firstName"]').val(response.data.users.firstName);
-                        $modalEdit.find('input[name="lastName"]').val(response.data.users.lastName);
-                        $modalEdit.find('input[name="phone"]').val(response.data.users.phone);
-                        $modalEdit.find('input[name="email"]').val(response.data.users.email);
+                    if (200 === response.data.status) {
+                        if (loadGroupDropdownByAccount(response.data.users.accountId, $editGroupDropdown, true, response.data.users.groupId)) {
+                            $modalEdit.find('input[name="id"]').val(response.data.users.id);
+                            $modalEdit.find('input[name="accountName"]').val(response.data.users.accountName);
+                            $modalEdit.find('select[name="groupId"]').val(response.data.users.groupId);
+                            $modalEdit.find('input[name="username"]').val(response.data.users.username);
+                            $modalEdit.find('input[name="firstName"]').val(response.data.users.firstName);
+                            $modalEdit.find('input[name="lastName"]').val(response.data.users.lastName);
+                            $modalEdit.find('input[name="phone"]').val(response.data.users.phone);
+                            $modalEdit.find('input[name="email"]').val(response.data.users.email);
+                        }
                     }
                 }).catch(function (error) {
                     console.log(error);
@@ -96,6 +113,30 @@
                 const $id = $row.find('td:eq(0)').text();
                 $modalResetPassword.find('input[name="id"]').val($id);
             });
+
+            async function loadGroupDropdownByAccount(accountControl, groupControl, isEdit, selectedId) {
+                let id = accountControl;
+                if (!isEdit) id = accountControl.find(":selected").val();
+                await axios.get('${contextPath}' + '/app/dropdown/accounts/' + id + "/groups").then(function (response) {
+                    if (200 === response.data.status) {
+                        groupControl.empty();
+                        for (let o of response.data.data) {
+                            if (selectedId === o.id) {
+                                groupControl.append("<option selected value='" + o.id + "'>"
+                                    + o.name + "</option>");
+                            } else {
+                                groupControl.append("<option value='" + o.id + "'>"
+                                    + o.name + "</option>");
+                            }
+                        }
+                        return true;
+                    }
+                    return false;
+                }).catch(function (err) {
+                    console.log(err);
+                });
+                return false;
+            }
         });
     </script>
 </#compress>

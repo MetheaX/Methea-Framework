@@ -53,7 +53,7 @@
                     const $row = $(this).closest("tr");
                     const $id = $row.find('td:eq(0)').text();
                     axios.get('${contextPath}' + '/app/datatable/rest?id=' + $id).then(function (response) {
-                        if (response.data.status === 200) {
+                        if (200 === response.data.status) {
                             $modalEdit.find('input[name="id"]').val(response.data.datatable.id);
                             $modalEdit.find('input[name="viewName"]').val(response.data.datatable.viewName);
                             $modalEdit.find('input[name="labelColumnHead"]').val(response.data.datatable.labelColumnHead);

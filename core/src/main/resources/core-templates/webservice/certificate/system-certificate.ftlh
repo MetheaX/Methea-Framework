@@ -39,7 +39,7 @@
                             message.removeClass('alert-success');
                             message.addClass('alert-warning');
                             axios.post('${contextPath}' + '/app/system-certificate/re-generate', {}).then(function (response) {
-                                if (response.data.status === 200) {
+                                if (200 === response.data.status) {
                                     loader.fadeOut(500);
                                     message.text('System certificate active.');
                                     message.removeClass('alert-warning');
@@ -65,7 +65,7 @@
                     }).then((willDisable) => {
                         if (willDisable) {
                             axios.post('${contextPath}' + '/app/system-certificate/rest/deactivate', {}).then(function (response) {
-                                if (response.data.status === 200) {
+                                if (200 === response.data.status) {
                                     window.location.reload();
                                 }
                             }).catch(function (error) {
@@ -86,7 +86,7 @@
                     }).then((willActivate) => {
                         if (willActivate) {
                             axios.post('${contextPath}' + '/app/system-certificate/rest/activate', {}).then(function (response) {
-                                if (response.data.status === 200) {
+                                if (200 === response.data.status) {
                                     window.location.reload();
                                 }
                             }).catch(function (error) {

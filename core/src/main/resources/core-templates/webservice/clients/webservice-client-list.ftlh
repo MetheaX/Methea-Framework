@@ -63,7 +63,7 @@
                         axios.post('${contextPath}' + '/app/webservice-clients/revoke-client', {
                             id: $id
                         }).then(function (response) {
-                            if (response.data.status === 200) {
+                            if (200 === response.data.status) {
                                 window.location.reload();
                             }
                         }).catch(function (error) {

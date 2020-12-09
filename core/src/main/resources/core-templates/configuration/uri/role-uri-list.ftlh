@@ -40,7 +40,7 @@
                 const $row = $(this).closest("tr");
                 const $id = $row.find('td:eq(0)').text();
                 axios.get('${contextPath}' + '/app/roleURIs/rest?id=' + $id).then(function (response) {
-                    if (response.data.status === 200) {
+                    if (200 === response.data.status) {
                         $modalEdit.find('input[name="id"]').val(response.data.roleURIs.id);
                         $modalEdit.find('select[name="roleId"]').val(response.data.roleURIs.roleId).trigger('change');
                         $modalEdit.find('select[name="uriId"]').val(response.data.roleURIs.uriId).trigger('change');

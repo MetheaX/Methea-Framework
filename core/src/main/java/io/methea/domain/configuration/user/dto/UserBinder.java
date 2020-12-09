@@ -11,6 +11,8 @@ public class UserBinder extends BaseBinder<UserBinder> {
     private static final long serialVersionUID = 562319370498560845L;
 
     private String id = StringUtils.EMPTY;
+    private String accountId = StringUtils.EMPTY;
+    private String accountName = StringUtils.EMPTY;
     private String groupId = StringUtils.EMPTY;
     private String username = StringUtils.EMPTY;
     private String firstName = StringUtils.EMPTY;
@@ -27,6 +29,22 @@ public class UserBinder extends BaseBinder<UserBinder> {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public String getGroupId() {

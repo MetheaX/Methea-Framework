@@ -43,7 +43,7 @@
                 const $row = $(this).closest("tr");
                 const $id = $row.find('td:eq(0)').text();
                 axios.get('${contextPath}' + '/app/accounts/rest?id=' + $id).then(function (response) {
-                    if (response.data.status === 200) {
+                    if (200 === response.data.status) {
                         $modalEdit.find('input[name="id"]').val(response.data.accounts.id);
                         $modalEdit.find('input[name="accountName"]').val(response.data.accounts.accountName);
                         $modalEdit.find('input[name="accountEmail"]').val(response.data.accounts.accountEmail);

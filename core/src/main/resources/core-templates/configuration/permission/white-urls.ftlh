@@ -58,7 +58,7 @@
                 const $row = $(this).closest("tr");
                 const $id = $row.find('td:eq(0)').text();
                 axios.get('${contextPath}' + '/app/whiteurls/rest/entity?id=' + $id).then(function (response) {
-                    if (response.data.status === 200) {
+                    if (200 === response.data.status) {
                         $modalEdit.find('input[name="id"]').val(response.data.whiteurls.id);
                         $modalEdit.find('select[name="uriId"]').val(response.data.whiteurls.uriId).trigger('change');
                         $modalEdit.find('select[name="allowedMethod"]').val(response.data.whiteurls.allowedMethod).trigger('change');
@@ -71,7 +71,7 @@
                 const $row = $(this).closest("tr");
                 const $id = $row.find('td:eq(0)').text();
                 axios.get('${contextPath}' + '/app/whiteurls/rest/entity?id=' + $id).then(function (response) {
-                    if (response.data.status === 200) {
+                    if (200 === response.data.status) {
                         $modalViewDetail.find('input[name="id"]').val(response.data.whiteurls.id);
                         $modalViewDetail.find('select[name="uriId"]').val(response.data.whiteurls.uriId).trigger('change');
                         $modalViewDetail.find('select[name="allowedMethod"]').val(response.data.whiteurls.allowedMethod).trigger('change');

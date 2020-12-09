@@ -57,7 +57,7 @@
                 const $row = $(this).closest("tr");
                 const $id = $row.find('td:eq(0)').text();
                 axios.get('${contextPath}' + '/app/menu/rest?id=' + $id).then(function (response) {
-                    if (response.data.status === 200) {
+                    if (200 === response.data.status) {
                         $modalEdit.find('input[name="id"]').val(response.data.menu.id);
                         $modalEdit.find('select[name="parentId"]').val(response.data.menu.parentId).trigger('change');
                         $modalEdit.find('input[name="menuLabel"]').val(response.data.menu.menuLabel);
