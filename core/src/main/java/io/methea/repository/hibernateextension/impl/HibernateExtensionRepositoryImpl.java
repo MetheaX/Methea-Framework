@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
@@ -27,6 +29,8 @@ import java.util.Map;
 @Repository
 @SuppressWarnings("unchecked")
 public class HibernateExtensionRepositoryImpl<V, ID> implements HibernateExtensionRepository<V, ID> {
+
+    private static final Logger log = LoggerFactory.getLogger(HibernateExtensionRepositoryImpl.class);
 
     private SessionFactory sessionFactory;
     private static final String SPACE = " ";
@@ -88,6 +92,7 @@ public class HibernateExtensionRepositoryImpl<V, ID> implements HibernateExtensi
             Query query = session.createQuery(hql);
             setCriteria(query, parameters);
             Number number = (Number) query.uniqueResult();
+            log.info("========> [HibernateExtensionRepositoryImpl] count: {}", number);
             return number.longValue();
         } catch (Exception ex) {
             throw new RuntimeException("[HibernateExtensionRepositoryImpl] count error: ", ex);
@@ -144,7 +149,7 @@ public class HibernateExtensionRepositoryImpl<V, ID> implements HibernateExtensi
         String hql = StringUtils.EMPTY;
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", id);
-        String selectClause = "SELECT new ".concat(view.getName()).concat("(");
+        String selectClause = "SELECT DISTINCT new ".concat(view.getName()).concat("(");
         String whereClause = " WHERE 1=1 ";
         try {
             Field[] fields = view.getDeclaredFields();

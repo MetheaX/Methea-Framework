@@ -11,8 +11,9 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -45,7 +46,7 @@ public class MUserProfileController {
         this.service = service;
     }
 
-    @RequestMapping(value = FORCE_USR_CHG_PWD_URL, method = RequestMethod.GET)
+    @GetMapping(value = FORCE_USR_CHG_PWD_URL)
     public String resetUserPassword(Model model, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
         errors.put("password", StringUtils.EMPTY);
@@ -54,7 +55,7 @@ public class MUserProfileController {
         return TEMPLATE_PATH;
     }
 
-    @RequestMapping(value = SAVE_CHG_PWD_URL, method = RequestMethod.POST)
+    @PostMapping(value = SAVE_CHG_PWD_URL)
     public ModelAndView saveChangePassword(Model model, UserBinder binder, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
         errors.put("validateType", "CHN");

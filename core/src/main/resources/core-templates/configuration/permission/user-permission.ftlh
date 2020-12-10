@@ -41,7 +41,7 @@
                 const $row = $(this).closest("tr");
                 const $id = $row.find('td:eq(0)').text();
                 axios.get('${contextPath}' + '/app/permissions/rest?id=' + $id).then(function (response) {
-                    if (response.data.status === 200) {
+                    if (200 === response.data.status) {
                         $modalEdit.find('input[name="id"]').val(response.data.permissions.id);
                         $modalEdit.find('select[name="userLoginId"]').val(response.data.permissions.userLoginId).trigger('change');
                         $modalEdit.find('select[name="roleId"]').val(response.data.permissions.roleId).trigger('change');

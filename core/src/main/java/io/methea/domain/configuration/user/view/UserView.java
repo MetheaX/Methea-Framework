@@ -8,8 +8,8 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Author : DKSilverX
  * Date : 23/04/2020
  */
-@SelectFrom(fromClause = "FROM TUser o, TUserGroup p", join = "o.groupId = p.id",
-        orderBy = "ORDER BY o.updatedDateTime DESC")
+@SelectFrom(fromClause = "FROM TUser o JOIN TUserGroup p ON o.groupId = p.id JOIN TAccount q ON q.id = p.accountId",
+        orderBy = "ORDER BY o.username ASC")
 public class UserView extends BaseView<UserView> {
     private static final long serialVersionUID = 1458249184346892136L;
 
@@ -19,6 +19,10 @@ public class UserView extends BaseView<UserView> {
     private String username;
     @Column(name = "o.groupId")
     private String groupId;
+    @Column(name = "q.id")
+    private String accountId;
+    @Column(name = "q.accountName")
+    private String accountName;
     @Column(name = "p.groupName", key = "groupName", where = "AND LOWER(p.groupName) LIKE :groupName")
     private String groupName;
     @Column(name = "o.firstName", key = "firstName", where = "AND LOWER(o.firstName) LIKE :firstName")
@@ -33,11 +37,13 @@ public class UserView extends BaseView<UserView> {
             "AND o.groupId = p.id", isLastColumn = true)
     private String status;
 
-    public UserView(String id, String username, String groupId, String groupName, String firstName, String lastName,
-                    String phone, String email, String status) {
+    public UserView(String id, String username, String groupId, String accountId, String accountName, String groupName,
+                    String firstName, String lastName, String phone, String email, String status) {
         this.id = id;
         this.username = username;
         this.groupId = groupId;
+        this.accountId = accountId;
+        this.accountName = accountName;
         this.groupName = groupName;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -60,6 +66,22 @@ public class UserView extends BaseView<UserView> {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public String getGroupId() {

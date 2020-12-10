@@ -1,8 +1,8 @@
 package io.methea.domain.configuration.user.entity;
 
 import io.methea.domain.common.entity.BaseEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.UUID;

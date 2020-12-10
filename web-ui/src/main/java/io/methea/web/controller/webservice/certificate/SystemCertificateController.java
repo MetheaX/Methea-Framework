@@ -2,7 +2,6 @@ package io.methea.web.controller.webservice.certificate;
 
 import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
-import io.methea.domain.webservice.system.dto.CertificateBinder;
 import io.methea.service.auth.CertificateService;
 import io.methea.utils.PrincipalUtils;
 import io.methea.utils.SystemUtils;
@@ -16,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -41,22 +39,25 @@ public class SystemCertificateController {
         this.certificateService = certificateService;
     }
 
-    @RequestMapping(value = StringUtils.EMPTY, method = RequestMethod.GET)
+    @GetMapping(value = StringUtils.EMPTY)
     public String viewSystemCertificate(Model model, HttpServletRequest request) {
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
-        model.addAttribute("certificateStatus", certificateService.getSystemCertificate().getStatus());
+        model.addAttribute("certificateStatus", certificateService.getSystemCertificate());
         model.addAttribute(MConstant.CORE_MENU, MCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
         return CERTIFICATE_TEMPLATE_PATH;
     }
 
-    @RequestMapping(value = RE_GENERATE_URL, method = RequestMethod.GET)
-    public ModelAndView reGenerateCertificate(Model model, HttpServletRequest request) {
-        CertificateBinder binder = new CertificateBinder();
-        binder.setCode(MConstant.CERT_TYPE);
-        certificateService.createOrUpdateCertificate(binder);
-        model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
-        model.addAttribute(MConstant.CORE_MENU, MCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
-        return new ModelAndView("redirect:".concat(ROOT_URL));
+    @ResponseBody
+    @PostMapping(value = RE_GENERATE_URL)
+    public ResponseEntity<Map<String, Object>> reGenerateCertificate(@RequestBody Map<String, Object> payload) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(MConstant.JSON_STATUS, 500);
+        map.put(MConstant.JSON_MESSAGE, "Failed to renew certificate!");
+        if (!ObjectUtils.isEmpty(certificateService.createOrRenewCertificate())) {
+            map.put(MConstant.JSON_STATUS, 200);
+            map.put(MConstant.JSON_MESSAGE, "System certificate renewed!");
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @ResponseBody
@@ -65,7 +66,7 @@ public class SystemCertificateController {
         Map<String, Object> map = new HashMap<>();
         map.put(MConstant.JSON_STATUS, 500);
         map.put(MConstant.JSON_MESSAGE, "Failed to deactivate certificate!!!");
-        if (!ObjectUtils.isEmpty(certificateService.deactivateCertificate())) {
+        if (certificateService.deactivateCertificate()) {
             map.put(MConstant.JSON_STATUS, 200);
             map.put(MConstant.JSON_MESSAGE, "Deactivate certificate success!!!");
         }
@@ -78,7 +79,7 @@ public class SystemCertificateController {
         Map<String, Object> map = new HashMap<>();
         map.put(MConstant.JSON_STATUS, 500);
         map.put(MConstant.JSON_MESSAGE, "Failed to activate certificate!!!");
-        if (!ObjectUtils.isEmpty(certificateService.activateCertificate())) {
+        if (certificateService.activateCertificate()) {
             map.put(MConstant.JSON_STATUS, 200);
             map.put(MConstant.JSON_MESSAGE, "Activate certificate success!!!");
         }

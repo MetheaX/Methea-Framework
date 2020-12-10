@@ -19,7 +19,7 @@ import java.util.Optional;
 @Service
 public class MUserService extends AbstractSimpleMetheaService<TUser, UserBinder, String, UserView> {
 
-    private static Logger log = LoggerFactory.getLogger(MUserService.class);
+    private static final Logger log = LoggerFactory.getLogger(MUserService.class);
     private final UserRepository repository;
 
     public MUserService(UserRepository repository, HibernateExtensionRepository<UserView, String> extensionRepository) {

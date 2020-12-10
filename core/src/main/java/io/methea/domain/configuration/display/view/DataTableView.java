@@ -8,7 +8,7 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Author : DKSilverX
  * Date : 18/04/2020
  */
-@SelectFrom(fromClause = "FROM TDataTableView o", orderBy = "ORDER BY o.updatedDateTime DESC")
+@SelectFrom(fromClause = "FROM TDataTableView o", orderBy = "ORDER BY o.viewName ASC")
 public class DataTableView extends BaseView<DataTableView> {
     private static final long serialVersionUID = 2335231132063689758L;
 

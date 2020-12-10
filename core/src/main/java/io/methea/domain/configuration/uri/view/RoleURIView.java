@@ -9,7 +9,7 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Date : 16/05/2020
  */
 @SelectFrom(fromClause = "FROM TRoleURI o, TRole p, TMstURI q", join = "o.roleId = p.id AND o.uriId = q.id",
-        orderBy = "ORDER BY o.updatedDateTime DESC")
+        orderBy = "ORDER BY o.uriName ASC")
 public class RoleURIView extends BaseView<RoleURIView> {
     private static final long serialVersionUID = -8338954022243292523L;
 

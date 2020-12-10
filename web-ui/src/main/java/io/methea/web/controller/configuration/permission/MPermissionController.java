@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -44,7 +43,7 @@ public class MPermissionController extends AbstractSimpleMetheaController<TRMUse
         super(dataTableUIService);
         this.dropdownService = dropdownService;
         super.validator = validator;
-        super.metheaService = service;
+        super.simpleMetheaService = service;
         entity = "permissions";
         super.dataTableId = "tbl-permissions";
         configViewName = "permissionList";
@@ -53,9 +52,8 @@ public class MPermissionController extends AbstractSimpleMetheaController<TRMUse
 
     @Override
     protected Model getExtraAttribute(Model model) {
-        if (CollectionUtils.isEmpty((Map<?, ?>) MCache.CACHE_META_DATA.get(MConstant.DROPDOWN))) {
-            dropdownService.getDropdownData();
-        }
+        dropdownService.refreshUserDropdown();
+        dropdownService.refreshRoleDropdown();
         model.addAttribute(MConstant.DROPDOWN, MCache.CACHE_META_DATA.get(MConstant.DROPDOWN));
         return model;
     }

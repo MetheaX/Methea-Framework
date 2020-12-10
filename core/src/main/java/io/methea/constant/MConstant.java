@@ -28,6 +28,7 @@ public class MConstant {
     public static final String CORE_TEMPLATE_KEY = "methea.core.freemarker.templates";
     public static final String CLIENT_TEMPLATE_KEY = "methea.client.freemarker.templates";
 
+    public static final String ID = "id";
     public static final String COMMA = ",";
     public static final String COLON = ":";
     public static final String SPACE = " ";

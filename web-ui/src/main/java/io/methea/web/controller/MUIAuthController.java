@@ -6,8 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,13 +25,13 @@ public class MUIAuthController {
     private static final String LOGIN_TEMPLATE_PATH = "login/login-page";
     private static final String ACCESS_DENIED_TEMPLATE_PATH = "access-denied/access-denied-page";
 
-    @RequestMapping(value = LOGIN_URL, method = RequestMethod.GET)
+    @GetMapping(value = LOGIN_URL)
     public String auth(Model model, HttpServletRequest request) {
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
         return LOGIN_TEMPLATE_PATH;
     }
 
-    @RequestMapping(value = ACCESS_DENIED, method = RequestMethod.GET)
+    @GetMapping(value = ACCESS_DENIED)
     public String accessDenied(Model model, HttpServletRequest request) {
         model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
         return ACCESS_DENIED_TEMPLATE_PATH;

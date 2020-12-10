@@ -34,7 +34,7 @@ public class MURIController extends AbstractSimpleMetheaController<TMstURI, URIB
     public MURIController(DataTableUIService dataTableUIService, URIValidator validator, URIService service) {
         super(dataTableUIService);
         super.validator = validator;
-        super.metheaService = service;
+        super.simpleMetheaService = service;
         entity = "uris";
         super.dataTableId = "tbl-uris";
         configViewName = "uriList";

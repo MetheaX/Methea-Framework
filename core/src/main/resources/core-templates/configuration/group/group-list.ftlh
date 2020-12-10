@@ -16,7 +16,7 @@
             <@mform.form actionUrl="${contextPath}/app/groups/save" resetUrl="/app/groups">
                 <@minput.input labelName="Group Name" inputType="text" inputId="labelGroupName"
                 inputPlaceHolder="Group Name" inputName="groupName" inputValue="${binder.groupName}" required="true" errors=errors></@minput.input>
-                <@mselect.select labelName="Account Name" selectId="labelUserAccountName" selectName="accountId"
+                <@mselect.select labelName="Account" selectId="labelUserAccountName" selectName="accountId"
                 values=mDropdown.accountDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Remarks" inputType="text" inputId="labelRemarks"
                 inputPlaceHolder="Remarks" inputName="remarks" inputValue="${binder.remarks}" required="true" errors=errors></@minput.input>
@@ -29,7 +29,7 @@
                 inputValue="${binder.id}" required="true"></@mhiddeninput.input>
                 <@minput.input labelName="Group Name" inputType="text" inputId="labelEditGroupName"
                 inputPlaceHolder="Group Name" inputName="groupName" inputValue="${binder.groupName}" required="true" errors=errors></@minput.input>
-                <@mselect.select labelName="Account Name" selectId="labelEditUserAccountName" selectName="accountId"
+                <@mselect.select labelName="Account" selectId="labelEditUserAccountName" selectName="accountId"
                 values=mDropdown.accountDropdown required="true" errors=errors></@mselect.select>
                 <@minput.input labelName="Remarks" inputType="text" inputId="labelEditRemarks"
                 inputPlaceHolder="Remarks" inputName="remarks" inputValue="${binder.remarks}" required="true" errors=errors></@minput.input>

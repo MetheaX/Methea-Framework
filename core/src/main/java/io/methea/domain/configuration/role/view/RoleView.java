@@ -8,7 +8,7 @@ import io.methea.repository.hibernateextension.annotation.SelectFrom;
  * Author : DKSilverX
  * Date : 02/05/2020
  */
-@SelectFrom(fromClause = "FROM TRole o", orderBy = "ORDER BY o.updatedDateTime DESC")
+@SelectFrom(fromClause = "FROM TRole o", orderBy = "ORDER BY o.name ASC")
 public class RoleView extends BaseView<RoleView> {
     private static final long serialVersionUID = 1983737063764391023L;
 

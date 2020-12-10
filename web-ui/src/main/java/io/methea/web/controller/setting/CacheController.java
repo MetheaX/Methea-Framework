@@ -6,8 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,9 +32,8 @@ public class CacheController {
         this.menuService = menuService;
     }
 
-    @RequestMapping(value = StringUtils.EMPTY, method = RequestMethod.GET)
+    @GetMapping(value = StringUtils.EMPTY)
     public ModelAndView clearSystemCache() {
-        MCache.CACHE_META_DATA.clear();
         MCache.CACHE_MENU.clear();
         MCache.CACHE_MENU.putAll(menuService.getAllMenuByGroup());
         return new ModelAndView(REDIRECT_URL);

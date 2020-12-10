@@ -1,5 +1,7 @@
 package io.methea.validator.configuration.display;
 
+import io.methea.cache.MCache;
+import io.methea.constant.MConstant;
 import io.methea.domain.configuration.display.dto.DataTableBinder;
 import io.methea.validator.abs.AbstractMetheaValidator;
 import org.springframework.stereotype.Component;
@@ -19,5 +21,7 @@ public class DataTableValidator extends AbstractMetheaValidator<DataTableBinder>
         rejectIfBlank(errors, "label.datatable.attribute.name", binder.getColumnKey(), "columnKey", "Attribute Name");
         rejectIfBlank(errors, "label.datatable.allow.filter", binder.getAllowFilter(), "allowFilter", "Allow Filter");
         rejectIfBlank(errors, "label.datatable.seq", String.valueOf(binder.getSequence()), "sequence", "Column Seq");
+        MCache.CACHE_META_DATA.remove(binder.getViewName().concat(MConstant.COLUMNS_KEY));
+        MCache.CACHE_META_DATA.remove(binder.getViewName().concat(MConstant.COLUMNS_LABEL));
     }
 }

@@ -13,7 +13,7 @@
 
         <@mmodal.modal className="modal-tbl-apibases-add" labelTitle="Add New API URLs">
             <@mform.form actionUrl="${contextPath}/app/apibases/save" resetUrl="/app/apibases">
-                <@minput.input labelName="API Base URL" inputType="text" inputId="labelApiBaseUrl"
+                <@minput.input labelName="API Endpoint" inputType="text" inputId="labelApiBaseUrl"
                 inputPlaceHolder="Name" inputName="apiUrl" inputValue="${binder.apiUrl}" required="true" errors=errors></@minput.input>
             </@mform.form>
         </@mmodal.modal>
@@ -22,7 +22,7 @@
             <@mform.form actionUrl="${contextPath}/app/apibases/modify" resetUrl="/app/apibases">
                 <@mhiddeninput.input inputType="text" inputId="labelEditAPIUrlId" inputName="id"
                 inputValue="" required="true"></@mhiddeninput.input>
-                <@minput.input labelName="API Base URL" inputType="text" inputId="labelEditAccountName"
+                <@minput.input labelName="API Endpoint" inputType="text" inputId="labelEditAccountName"
                 inputPlaceHolder="API Base URL" inputName="apiUrl" inputValue="${binder.apiUrl}" required="true" errors=errors></@minput.input>
             </@mform.form>
         </@mmodal.modal>
@@ -34,7 +34,7 @@
                     const $row = $(this).closest("tr");
                     const $id = $row.find('td:eq(0)').text();
                     axios.get('${contextPath}' + '/app/apibases/rest?id=' + $id).then(function (response) {
-                        if (response.data.status === 200) {
+                        if (200 === response.data.status) {
                             $modalEdit.find('input[name="id"]').val(response.data.apibases.id);
                             $modalEdit.find('input[name="apiUrl"]').val(response.data.apibases.apiUrl);
                         }

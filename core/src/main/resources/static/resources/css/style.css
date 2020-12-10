@@ -9573,8 +9573,8 @@ html:not([dir="rtl"]) .c-sidebar-nav-dropdown.c-show > .c-sidebar-nav-dropdown-t
   background-repeat: no-repeat;
   background-position: center;
   transition: -webkit-transform 0.3s;
-  transition: transform 0.3s;
-  transition: transform 0.3s, -webkit-transform 0.3s;
+  /*transition: transform 0.3s;*/
+  /*transition: transform 0.3s, -webkit-transform 0.3s;*/
 }
 
 html:not([dir="rtl"]) .c-sidebar-nav-dropdown-toggle::after {
@@ -9596,11 +9596,11 @@ html:not([dir="rtl"]) .c-sidebar-nav-dropdown-toggle .badge {
 }
 
 .c-sidebar-nav-dropdown-items {
-  max-height: 0;
+  /*max-height: 0;*/
   padding: 0;
-  overflow-y: hidden;
+  /*overflow-y: hidden;*/
   list-style: none;
-  transition: max-height 0.3s ease-in-out;
+  /*transition: max-height 0.3s ease-in-out;*/
 }
 
 html:not([dir="rtl"]) .c-sidebar-nav-dropdown-items .c-sidebar-nav-link, html:not([dir="rtl"]) .c-sidebar-nav-dropdown-items .c-sidebar-nav-dropdown-toggle {
@@ -17228,4 +17228,79 @@ a.text-dark:hover, a.text-dark:focus {
     color: inherit;
   }
 }
+
+[data-theme-version="dark"] #preloader {
+  background: #162336; }
+
+
+[data-theme-version="dark"] .loader__bar {
+  background: #7571f9;
+  box-shadow: 1px 1px 0 rgba(120, 130, 140, 0.13); }
+
+[data-theme-version="dark"] .loader__ball {
+  background: #7571f9; }
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg); } }
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0; }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -3.5rem; }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -12.4rem; } }
+
+@keyframes color {
+  100%,
+  0% {
+    stroke: #d62d20; }
+  40% {
+    stroke: #0057e7; }
+  66% {
+    stroke: #008744; }
+  80%,
+  90% {
+    stroke: #ffa700; } }
+
+#preloader {
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff; }
+
+.loader {
+  position: absolute;
+  width: 5rem;
+  height: 10rem;
+  top: 50%;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%); }
+
+.circular {
+  animation: rotate 2s linear infinite;
+  height: 100%;
+  transform-origin: center center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto; }
+
+.path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+  stroke-linecap: round; }
 /*# sourceMappingURL=style.css.map */
