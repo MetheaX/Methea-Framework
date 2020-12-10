@@ -34,12 +34,12 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend"><span class="input-group-text">
                                           <i class="fa fa-user-o"></i></span></div>
-                                        <input class="form-control" type="text" name="username" value="admin" placeholder="Username">
+                                        <input class="form-control" type="text" name="username" value="" placeholder="Username">
                                     </div>
                                     <div class="input-group mb-4">
                                         <div class="input-group-prepend"><span class="input-group-text">
                                           <i class="fa fa-lock"></i></span></div>
-                                        <input class="form-control" type="password" name="password" value="admin" placeholder="Password">
+                                        <input class="form-control" type="password" name="password" value="" placeholder="Password">
                                     </div>
                                     <div class="row">
                                         <div class="col-6">

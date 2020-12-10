@@ -74,3 +74,8 @@ Support with `Spring Boot 2.2.2.Release` and later version of Spring Boot.
 3. Deployment methea web management (Optional)
    
    Methea web management allow you to manage users, permission, roles, groups, URI... in webservice application.
+    * Default login credential for web management
+    
+        `username: admin`
+        
+        `password: admin`
