@@ -1,6 +1,7 @@
 package io.methea.domain.configuration.permission.entity;
 
 import io.methea.domain.common.entity.BaseEntity;
+import io.methea.domain.configuration.resource.entity.TResource;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,20 +11,19 @@ import java.util.List;
  * Date : 12/09/2020
  */
 @Entity
-@Table(name = "tbl_core_white_uri")
-public class TWhiteURIPermission extends BaseEntity<TWhiteURIPermission> {
+@Table(name = "core_public_permission")
+public class TPublicPermission extends BaseEntity<TPublicPermission> {
 
     private static final long serialVersionUID = 8696065132921614456L;
 
     @Id
-    @Column(name = "white_uri_id")
+    @Column(name = "public_perm_id", length = 36)
     private String id;
-    @Column(name = "uri_id", nullable = false, unique = true)
-    private String uriId;
-    @Column(name = "uri_name", nullable = false, unique = true)
-    private String uriName;
+    @OneToOne
+    @JoinColumn(name = "resource_id")
+    private TResource resource;
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "tbl_core_allowed_method", joinColumns = @JoinColumn(name = "white_uri_id"))
+    @CollectionTable(name = "core_perm_allowed_method", joinColumns = @JoinColumn(name = "public_perm_id"))
     @Column(name = "http_method")
     private List<String> allowedMethod;
 
@@ -35,20 +35,12 @@ public class TWhiteURIPermission extends BaseEntity<TWhiteURIPermission> {
         this.id = id;
     }
 
-    public String getUriId() {
-        return uriId;
+    public TResource getResource() {
+        return resource;
     }
 
-    public void setUriId(String uriId) {
-        this.uriId = uriId;
-    }
-
-    public String getUriName() {
-        return uriName;
-    }
-
-    public void setUriName(String uriName) {
-        this.uriName = uriName;
+    public void setResource(TResource resource) {
+        this.resource = resource;
     }
 
     public List<String> getAllowedMethod() {

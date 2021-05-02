@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -30,6 +31,11 @@ public class BeanConfiguration {
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncodingConfigurer() {
         return new BCryptPasswordEncoder();
+    }
+
+    public Argon2PasswordEncoder argon2PasswordEncoder() {
+        return new Argon2PasswordEncoder(MConstant.SALT_LENGTH, MConstant.HASH_LENGTH, MConstant.PARALLELISM,
+                MConstant.MEMORY, MConstant.ITERATIONS);
     }
 
     @Bean

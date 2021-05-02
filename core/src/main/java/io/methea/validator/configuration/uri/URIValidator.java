@@ -1,6 +1,6 @@
 package io.methea.validator.configuration.uri;
 
-import io.methea.domain.configuration.uri.dto.URIBinder;
+import io.methea.domain.configuration.resource.dto.URIBinder;
 import io.methea.validator.abs.AbstractMetheaValidator;
 import org.springframework.stereotype.Component;
 

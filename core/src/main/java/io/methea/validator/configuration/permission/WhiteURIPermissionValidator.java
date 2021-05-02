@@ -1,7 +1,7 @@
 package io.methea.validator.configuration.permission;
 
 import io.methea.domain.configuration.permission.dto.WhiteURIPermissionBinder;
-import io.methea.domain.configuration.uri.entity.TMstURI;
+import io.methea.domain.configuration.resource.entity.TResource;
 import io.methea.repository.configuration.uri.URIRepository;
 import io.methea.validator.abs.AbstractMetheaValidator;
 import org.springframework.stereotype.Component;
@@ -24,11 +24,11 @@ public class WhiteURIPermissionValidator extends AbstractMetheaValidator<WhiteUR
 
     @Override
     public void validate(WhiteURIPermissionBinder binder, Map<String, String> errors) {
-        Optional<TMstURI> optional = repository.findById(binder.getUriId());
+        Optional<TResource> optional = repository.findById(binder.getUriId());
         if (!optional.isPresent()) {
             errors.put("uriId", "Error: Provided uri invalid!!!");
         } else {
-            binder.setUriName(optional.get().getUriName());
+           // binder.setUriName(optional.get().getUriName());
         }
     }
 }

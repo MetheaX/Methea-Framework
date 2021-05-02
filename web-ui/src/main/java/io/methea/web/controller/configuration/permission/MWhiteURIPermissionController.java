@@ -4,7 +4,7 @@ import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
 import io.methea.controller.AbstractSimpleMetheaController;
 import io.methea.domain.configuration.permission.dto.WhiteURIPermissionBinder;
-import io.methea.domain.configuration.permission.entity.TWhiteURIPermission;
+import io.methea.domain.configuration.permission.entity.TPublicPermission;
 import io.methea.domain.configuration.permission.filter.WhiteURIPermissionFilter;
 import io.methea.domain.configuration.permission.view.WhiteURIPermissionView;
 import io.methea.service.configuration.display.DataTableUIService;
@@ -31,7 +31,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = MWhiteURIPermissionController.ROOT_URL)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class MWhiteURIPermissionController extends AbstractSimpleMetheaController<TWhiteURIPermission, WhiteURIPermissionBinder,
+public class MWhiteURIPermissionController extends AbstractSimpleMetheaController<TPublicPermission, WhiteURIPermissionBinder,
         WhiteURIPermissionView, WhiteURIPermissionFilter> {
     static final String ROOT_URL = "/app/whiteurls";
 
@@ -71,8 +71,8 @@ public class MWhiteURIPermissionController extends AbstractSimpleMetheaControlle
     }
 
     @Override
-    protected TWhiteURIPermission getEntityFromBinder(WhiteURIPermissionBinder binder) {
-        TWhiteURIPermission whiteURIPermission = new TWhiteURIPermission();
+    protected TPublicPermission getEntityFromBinder(WhiteURIPermissionBinder binder) {
+        TPublicPermission whiteURIPermission = new TPublicPermission();
         whiteURIPermission.setId(UUID.randomUUID().toString());
         return whiteURIPermission;
     }

@@ -1,4 +1,4 @@
-package io.methea.domain.configuration.uri.filter;
+package io.methea.domain.configuration.resource.filter;
 
 import io.methea.domain.common.filter.BaseFilter;
 import org.apache.commons.lang3.StringUtils;

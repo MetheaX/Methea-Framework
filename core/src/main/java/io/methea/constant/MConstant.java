@@ -76,4 +76,13 @@ public class MConstant {
     public static final String PUT = "PUT";
     public static final String PATCH = "PATCH";
     public static final String DELETE = "DELETE";
+
+    // argon
+    public static final int SALT_LENGTH = 64;
+    public static final int HASH_LENGTH = 128;
+    public static final int PARALLELISM = 8;
+    public static final int MEMORY = 4096;
+    public static final int ITERATIONS = 5;
+    public static final String ARGON_PREFIX_SPLIT = "\\$argon2id\\$v=19\\$m=4096,t=5,p=8\\$";
+    public static final String ARGON_PREFIX = "$argon2id$v=19$m=4096,t=5,p=8$";
 }

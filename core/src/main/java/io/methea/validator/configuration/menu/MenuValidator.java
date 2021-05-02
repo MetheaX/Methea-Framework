@@ -1,9 +1,9 @@
 package io.methea.validator.configuration.menu;
 
 import io.methea.constant.MConstant;
-import io.methea.domain.configuration.group.entity.TUserGroup;
+import io.methea.domain.configuration.group.entity.TGroup;
 import io.methea.domain.configuration.menu.dto.MenuBinder;
-import io.methea.domain.configuration.uri.entity.TMstURI;
+import io.methea.domain.configuration.resource.entity.TResource;
 import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.repository.configuration.menu.MenuRepository;
 import io.methea.repository.configuration.uri.URIRepository;
@@ -33,7 +33,7 @@ public class MenuValidator extends AbstractMetheaValidator<MenuBinder> {
 
     @Override
     public void validate(MenuBinder binder, Map<String, String> errors) {
-        Optional<TUserGroup> opt = groupRepository.findById(binder.getGroupId());
+        Optional<TGroup> opt = groupRepository.findById(binder.getGroupId());
         if (!opt.isPresent()) {
             errors.put("groupId", "Error: Provided group invalid!!!");
         } else {
@@ -43,11 +43,11 @@ public class MenuValidator extends AbstractMetheaValidator<MenuBinder> {
             binder.setUriId(StringUtils.EMPTY);
             binder.setUriName(StringUtils.EMPTY);
         } else {
-            Optional<TMstURI> optional = uriRepository.findById(binder.getUriId());
+            Optional<TResource> optional = uriRepository.findById(binder.getUriId());
             if (!optional.isPresent()) {
                 errors.put("uriId", "Error: Provided URL invalid!!!");
             } else {
-                binder.setUriName(optional.get().getUriName());
+               // binder.setUriName(optional.get().getUriName());
             }
         }
     }

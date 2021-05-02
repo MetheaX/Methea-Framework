@@ -8,12 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tbl_core_jwt_config")
+@Table(name = "core_jwt_config")
 public class TJWTConfig extends BaseEntity<TJWTConfig> {
 
     private static final long serialVersionUID = -7549497443834650618L;
 
     @Id
+    @Column(name = "jwt_id", length = 36)
     private String id;
     @Column(name = "access_token_timeout", nullable = false)
     private long accessTokenTimeout;

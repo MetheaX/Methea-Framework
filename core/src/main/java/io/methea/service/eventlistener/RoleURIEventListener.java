@@ -2,8 +2,7 @@ package io.methea.service.eventlistener;
 
 import io.methea.constant.MConstant;
 import io.methea.domain.configuration.role.entity.TRole;
-import io.methea.domain.configuration.uri.entity.TMstURI;
-import io.methea.domain.configuration.uri.entity.TRoleURI;
+import io.methea.domain.configuration.resource.entity.TResource;
 import io.methea.exception.RoleInactiveException;
 import io.methea.exception.URIInactiveException;
 import io.methea.repository.configuration.role.UserRoleRepository;
@@ -33,32 +32,32 @@ public class RoleURIEventListener {
         this.roleRepository = roleRepository;
         this.uriRepository = uriRepository;
     }
-
-    @Async
-    @Transactional
-    @EventListener(condition = "#entity.activate")
-    public void handleRoleURIActivatedEvent(TRoleURI entity) {
-        Optional<TRole> obj = roleRepository.findById(entity.getRoleId());
-        if (obj.isPresent()) {
-            TRole role = obj.get();
-            if (MConstant.INACTIVE_STATUS.equals(role.getStatus())) {
-                throw new RoleInactiveException(String.format("Cannot activate URI mapping, role [%s] inactive!", role.getName()));
-            }
-        }
-        Optional<TMstURI> o = uriRepository.findById(entity.getUriId());
-        if (o.isPresent()) {
-            TMstURI uri = o.get();
-            if (MConstant.INACTIVE_STATUS.equals(uri.getStatus())) {
-                throw new URIInactiveException(String.format("Cannot activate URI mapping, URI [%s] inactive!", uri.getUriName()));
-            }
-        }
-        helperService.saveInternalPermissionURIBase(entity);
-    }
-
-    @Async
-    @Transactional
-    @EventListener(condition = "#entity.deactivate")
-    public void handleRoleURIDeactivateEvent(TRoleURI entity) {
-        helperService.saveInternalPermissionURIBase(entity);
-    }
+//
+//    @Async
+//    @Transactional
+//    @EventListener(condition = "#entity.activate")
+//    public void handleRoleURIActivatedEvent(TRoleURI entity) {
+//        Optional<TRole> obj = roleRepository.findById(entity.getRoleId());
+//        if (obj.isPresent()) {
+//            TRole role = obj.get();
+//            if (MConstant.INACTIVE_STATUS.equals(role.getStatus())) {
+//                throw new RoleInactiveException(String.format("Cannot activate URI mapping, role [%s] inactive!", role.getName()));
+//            }
+//        }
+//        Optional<TResource> o = uriRepository.findById(entity.getUriId());
+//        if (o.isPresent()) {
+//            TResource uri = o.get();
+//            if (MConstant.INACTIVE_STATUS.equals(uri.getStatus())) {
+//                throw new URIInactiveException(String.format("Cannot activate URI mapping, URI [%s] inactive!", uri.getUriName()));
+//            }
+//        }
+//        helperService.saveInternalPermissionURIBase(entity);
+//    }
+//
+//    @Async
+//    @Transactional
+//    @EventListener(condition = "#entity.deactivate")
+//    public void handleRoleURIDeactivateEvent(TRoleURI entity) {
+//        helperService.saveInternalPermissionURIBase(entity);
+//    }
 }

@@ -1,7 +1,7 @@
 package io.methea.service.eventlistener;
 
 import io.methea.domain.configuration.account.entity.TAccount;
-import io.methea.domain.configuration.group.entity.TUserGroup;
+import io.methea.domain.configuration.group.entity.TGroup;
 import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.service.configuration.group.MGroupService;
 import org.springframework.context.event.EventListener;
@@ -33,9 +33,9 @@ public class AccountEventListener {
     @Transactional
     @EventListener(condition = "#entity.activate")
     public void handleAccountActivate(TAccount entity) {
-        List<TUserGroup> groups = groupRepository.findAllByAccountId(entity.getId());
+        List<TGroup> groups = groupRepository.findAllByAccountId(entity.getId());
         if (!CollectionUtils.isEmpty(groups)) {
-            for (TUserGroup group : groups) {
+            for (TGroup group : groups) {
                 groupService.activateEntity(group.getId());
             }
         }
@@ -45,9 +45,9 @@ public class AccountEventListener {
     @Transactional
     @EventListener(condition = "#entity.deactivate")
     public void handleAccountDeactivate(TAccount entity) {
-        List<TUserGroup> groups = groupRepository.findAllByAccountId(entity.getId());
+        List<TGroup> groups = groupRepository.findAllByAccountId(entity.getId());
         if (!CollectionUtils.isEmpty(groups)) {
-            for (TUserGroup group : groups) {
+            for (TGroup group : groups) {
                 groupService.deactivateEntity(group.getId());
             }
         }

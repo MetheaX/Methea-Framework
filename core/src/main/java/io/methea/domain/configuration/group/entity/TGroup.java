@@ -1,12 +1,10 @@
 package io.methea.domain.configuration.group.entity;
 
 import io.methea.domain.common.entity.BaseEntity;
+import io.methea.domain.configuration.account.entity.TAccount;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 /**
@@ -14,16 +12,21 @@ import java.util.UUID;
  * Date : 21/08/2019
  */
 @Entity
-@Table(name = "tbl_core_group")
-public class TUserGroup extends BaseEntity<TUserGroup> {
+@Table(name = "core_group")
+public class TGroup extends BaseEntity<TGroup> {
     private static final long serialVersionUID = -4855334223690873520L;
     @Id
-    @Column(name = "group_id")
+    @Column(name = "group_id", length = 36)
     private String id;
-    @Column(name = "account_id", nullable = false)
-    private String accountId;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private TAccount account;
+    @Column(name = "group_code", nullable = false, unique = true, length = 18)
+    private String groupCode;
     @Column(name = "group_name", nullable = false)
     private String groupName;
+    @Column(name = "group_name_oth")
+    private String groupNameOth;
     @Column(name = "remarks")
     private String remarks;
 
@@ -38,12 +41,20 @@ public class TUserGroup extends BaseEntity<TUserGroup> {
         }
     }
 
-    public String getAccountId() {
-        return accountId;
+    public TAccount getAccount() {
+        return account;
     }
 
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
+    public void setAccount(TAccount account) {
+        this.account = account;
+    }
+
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
     }
 
     public String getGroupName() {
@@ -52,6 +63,14 @@ public class TUserGroup extends BaseEntity<TUserGroup> {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public String getGroupNameOth() {
+        return groupNameOth;
+    }
+
+    public void setGroupNameOth(String groupNameOth) {
+        this.groupNameOth = groupNameOth;
     }
 
     public String getRemarks() {

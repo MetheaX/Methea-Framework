@@ -1,6 +1,7 @@
 package io.methea.service.configuration.menu;
 
 import io.methea.constant.MConstant;
+import io.methea.domain.configuration.group.entity.TGroup;
 import io.methea.domain.configuration.menu.dto.MenuBinder;
 import io.methea.domain.configuration.menu.entity.TMenu;
 import io.methea.domain.configuration.menu.view.MenuRender;
@@ -31,15 +32,15 @@ public class MMenuService extends AbstractSimpleMetheaService<TMenu, MenuBinder,
         this.repository = repository;
     }
 
-    public Map<String, List<MenuRender>> getAllMenuByGroup() {
-        Map<String, List<MenuRender>> map = new HashMap<>();
+    public Map<TGroup, List<MenuRender>> getAllMenuByGroup() {
+        Map<TGroup, List<MenuRender>> map = new HashMap<>();
         List<TMenu> menus = repository.findAllByStatusOrderByIndexAsc(MConstant.ACTIVE_STATUS);
 
         // group menu by group
-        Map<String, List<TMenu>> menuByGroup = menus.stream().collect(Collectors.groupingBy(TMenu::getGroupId));
+        Map<TGroup, List<TMenu>> menuByGroup = menus.stream().collect(Collectors.groupingBy(TMenu::getGroup));
         List<MenuRender> menuRenders;
         // menu by parent
-        for (Map.Entry<String, List<TMenu>> entry : menuByGroup.entrySet()) {
+        for (Map.Entry<TGroup, List<TMenu>> entry : menuByGroup.entrySet()) {
             menuRenders = new ArrayList<>();
             Map<String, List<TMenu>> tmp = entry.getValue().stream().collect(Collectors.groupingBy(TMenu::getParentId));
             for (TMenu menu : entry.getValue()) {

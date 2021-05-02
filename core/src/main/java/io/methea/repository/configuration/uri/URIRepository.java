@@ -1,7 +1,7 @@
 package io.methea.repository.configuration.uri;
 
-        import io.methea.domain.configuration.uri.entity.TMstURI;
-        import io.methea.domain.configuration.uri.view.URIView;
+        import io.methea.domain.configuration.resource.entity.TResource;
+        import io.methea.domain.configuration.resource.view.URIView;
         import io.methea.repository.hibernateextension.HibernateExtensionRepository;
         import org.springframework.data.repository.CrudRepository;
 
@@ -9,5 +9,5 @@ package io.methea.repository.configuration.uri;
  * Author : DKSilverX
  * Date : 15/09/2019
  */
-public interface URIRepository extends CrudRepository<TMstURI, String>, HibernateExtensionRepository<URIView, String> {
+public interface URIRepository extends CrudRepository<TResource, String>, HibernateExtensionRepository<URIView, String> {
 }

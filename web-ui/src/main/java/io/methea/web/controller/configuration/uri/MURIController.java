@@ -1,10 +1,10 @@
 package io.methea.web.controller.configuration.uri;
 
 import io.methea.controller.AbstractSimpleMetheaController;
-import io.methea.domain.configuration.uri.dto.URIBinder;
-import io.methea.domain.configuration.uri.entity.TMstURI;
-import io.methea.domain.configuration.uri.filter.URIFilter;
-import io.methea.domain.configuration.uri.view.URIView;
+import io.methea.domain.configuration.resource.dto.URIBinder;
+import io.methea.domain.configuration.resource.entity.TResource;
+import io.methea.domain.configuration.resource.filter.URIFilter;
+import io.methea.domain.configuration.resource.view.URIView;
 import io.methea.service.configuration.display.DataTableUIService;
 import io.methea.service.configuration.uri.URIService;
 import io.methea.validator.configuration.uri.URIValidator;
@@ -27,7 +27,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = MURIController.ROOT_URL)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class MURIController extends AbstractSimpleMetheaController<TMstURI, URIBinder, URIView, URIFilter> {
+public class MURIController extends AbstractSimpleMetheaController<TResource, URIBinder, URIView, URIFilter> {
     static final String ROOT_URL = "/app/uris";
 
     @Inject
@@ -56,8 +56,8 @@ public class MURIController extends AbstractSimpleMetheaController<TMstURI, URIB
     }
 
     @Override
-    protected TMstURI getEntityFromBinder(URIBinder binder) {
-        TMstURI uri = new TMstURI();
+    protected TResource getEntityFromBinder(URIBinder binder) {
+        TResource uri = new TResource();
         uri.setId(UUID.randomUUID().toString());
         return uri;
     }

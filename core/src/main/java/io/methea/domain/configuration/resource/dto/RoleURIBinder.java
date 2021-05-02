@@ -1,4 +1,4 @@
-package io.methea.domain.configuration.uri.dto;
+package io.methea.domain.configuration.resource.dto;
 
 import io.methea.domain.common.binder.BaseBinder;
 import org.apache.commons.lang3.StringUtils;

@@ -4,7 +4,7 @@ import io.methea.cache.MCache;
 import io.methea.constant.MConstant;
 import io.methea.controller.AbstractSimpleMetheaController;
 import io.methea.domain.configuration.group.dto.UserGroupBinder;
-import io.methea.domain.configuration.group.entity.TUserGroup;
+import io.methea.domain.configuration.group.entity.TGroup;
 import io.methea.domain.configuration.group.filter.GroupFilter;
 import io.methea.domain.configuration.group.view.GroupView;
 import io.methea.service.configuration.display.DataTableUIService;
@@ -31,7 +31,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = MGroupController.ROOT_URL)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class MGroupController extends AbstractSimpleMetheaController<TUserGroup, UserGroupBinder, GroupView, GroupFilter> {
+public class MGroupController extends AbstractSimpleMetheaController<TGroup, UserGroupBinder, GroupView, GroupFilter> {
 
     static final String ROOT_URL = "/app/groups";
     private final MDropdownService dropdownService;
@@ -72,8 +72,8 @@ public class MGroupController extends AbstractSimpleMetheaController<TUserGroup,
     }
 
     @Override
-    protected TUserGroup getEntityFromBinder(UserGroupBinder binder) {
-        TUserGroup group = new TUserGroup();
+    protected TGroup getEntityFromBinder(UserGroupBinder binder) {
+        TGroup group = new TGroup();
         group.setId(UUID.randomUUID().toString());
         return group;
     }

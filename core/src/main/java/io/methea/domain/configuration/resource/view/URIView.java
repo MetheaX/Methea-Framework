@@ -1,4 +1,4 @@
-package io.methea.domain.configuration.uri.view;
+package io.methea.domain.configuration.resource.view;
 
 import io.methea.domain.common.view.BaseView;
 import io.methea.repository.hibernateextension.annotation.Column;

@@ -56,10 +56,10 @@ public class ClientService {
             client.setStatus(MConstant.ACTIVE_STATUS);
             client.setStatus(MConstant.ACTIVE_STATUS);
 
-            helperService.revokePermissionBaseOnClientID(client.getClientId());
+            //helperService.revokePermissionBaseOnClientID(client.getClientId());
 
             clientRepository.save(client);
-            helperService.saveClientPermission(client.getClientId(), binder.getApiBases());
+            //helperService.saveClientPermission(client.getClientId(), binder.getApiBases());
 
             return client;
         } catch (Exception ex) {
@@ -79,6 +79,6 @@ public class ClientService {
     @Transactional
     public void revokeClient(String s) {
         clientRepository.revokeClient(s);
-        helperService.revokePermissionBaseOnClientID(s);
+        //helperService.revokePermissionBaseOnClientID(s);
     }
 }

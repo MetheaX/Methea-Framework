@@ -6,11 +6,10 @@ import io.methea.domain.configuration.account.dropdown.AccountDropdown;
 import io.methea.domain.configuration.group.dropdown.GroupDropdown;
 import io.methea.domain.configuration.menu.dropdown.MenuDropdown;
 import io.methea.domain.configuration.role.dropdown.RoleDropdown;
-import io.methea.domain.configuration.uri.dropdown.URIDropdown;
+import io.methea.domain.configuration.resource.dropdown.URIDropdown;
 import io.methea.domain.configuration.user.dropdown.UserDropdown;
 import io.methea.domain.webservice.baseapi.dropdown.APIBaseDropdown;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -74,11 +73,11 @@ public class MDropdownService {
 
     private List<AccountDropdown> getAccountDropdown() {
         List<AccountDropdown> list = new ArrayList<>();
-        try {
-            list = repository.getByQuery(param, AccountDropdown.class);
-        } catch (Exception ex) {
-            log.error("=========> Get account dropdown error: ", ex);
-        }
+//        try {
+//            list = repository.getByQuery(param, AccountDropdown.class);
+//        } catch (Exception ex) {
+//            log.error("=========> Get account dropdown error: ", ex);
+//        }
         return list;
     }
 
@@ -88,26 +87,26 @@ public class MDropdownService {
 
     private List<GroupDropdown> getGroupDropdown() {
         List<GroupDropdown> list = new ArrayList<>();
-        try {
-            Map<String, Object> param = new HashMap<>();
-            param.put(MConstant.JSON_STATUS, MConstant.ACTIVE_STATUS);
-            param.put("accountId", "%%");
-            list = groupRepository.getByQuery(param, GroupDropdown.class);
-        } catch (Exception ex) {
-            log.error("=========> Get getGroupDropdown error: ", ex);
-        }
+//        try {
+//            Map<String, Object> param = new HashMap<>();
+//            param.put(MConstant.JSON_STATUS, MConstant.ACTIVE_STATUS);
+//            param.put("accountId", "%%");
+//            list = groupRepository.getByQuery(param, GroupDropdown.class);
+//        } catch (Exception ex) {
+//            log.error("=========> Get getGroupDropdown error: ", ex);
+//        }
         return list;
     }
 
     public List<GroupDropdown> getGroupDropdownByAccount(String accountId) {
-        try {
-            Map<String, Object> param = new HashMap<>();
-            param.put(MConstant.JSON_STATUS, MConstant.ACTIVE_STATUS);
-            param.put("accountId", "%".concat(accountId).concat("%"));
-            return groupRepository.getByQuery(param, GroupDropdown.class);
-        } catch (Exception ex) {
-            log.error("=========> Get getGroupDropdownByAccount error: ", ex);
-        }
+//        try {
+//            Map<String, Object> param = new HashMap<>();
+//            param.put(MConstant.JSON_STATUS, MConstant.ACTIVE_STATUS);
+//            param.put("accountId", "%".concat(accountId).concat("%"));
+//            return groupRepository.getByQuery(param, GroupDropdown.class);
+//        } catch (Exception ex) {
+//            log.error("=========> Get getGroupDropdownByAccount error: ", ex);
+//        }
         return null;
     }
 
@@ -117,11 +116,11 @@ public class MDropdownService {
 
     private List<RoleDropdown> getRoleDropdown() {
         List<RoleDropdown> list = new ArrayList<>();
-        try {
-            list = roleRepository.getByQuery(param, RoleDropdown.class);
-        } catch (Exception ex) {
-            log.error("=========> Get role dropdown error: ", ex);
-        }
+//        try {
+//            list = roleRepository.getByQuery(param, RoleDropdown.class);
+//        } catch (Exception ex) {
+//            log.error("=========> Get role dropdown error: ", ex);
+//        }
         return list;
     }
 
@@ -131,11 +130,11 @@ public class MDropdownService {
 
     private List<URIDropdown> getURIDropdown() {
         List<URIDropdown> list = new ArrayList<>();
-        try {
-            list = uriRepository.getByQuery(param, URIDropdown.class);
-        } catch (Exception ex) {
-            log.error("=========> Get URI dropdown error: ", ex);
-        }
+//        try {
+//            list = uriRepository.getByQuery(param, URIDropdown.class);
+//        } catch (Exception ex) {
+//            log.error("=========> Get URI dropdown error: ", ex);
+//        }
         return list;
     }
 
@@ -145,11 +144,11 @@ public class MDropdownService {
 
     private List<UserDropdown> getUserDropdown() {
         List<UserDropdown> list = new ArrayList<>();
-        try {
-            list = userRepository.getByQuery(param, UserDropdown.class);
-        } catch (Exception ex) {
-            log.error("=========> Get user dropdown error: ", ex);
-        }
+//        try {
+//            list = userRepository.getByQuery(param, UserDropdown.class);
+//        } catch (Exception ex) {
+//            log.error("=========> Get user dropdown error: ", ex);
+//        }
         return list;
     }
 
@@ -159,23 +158,23 @@ public class MDropdownService {
 
     private List<APIBaseDropdown> getApiBaseDropdown() {
         List<APIBaseDropdown> list = new ArrayList<>();
-        try {
-            list = apiBaseRepository.getByQuery(param, APIBaseDropdown.class);
-        } catch (Exception ex) {
-            log.error("=========> Get api dropdown error: ", ex);
-        }
+//        try {
+//            list = apiBaseRepository.getByQuery(param, APIBaseDropdown.class);
+//        } catch (Exception ex) {
+//            log.error("=========> Get api dropdown error: ", ex);
+//        }
         return list;
     }
 
     private List<MenuDropdown> getMenuDropdown() {
         List<MenuDropdown> list = new ArrayList<>();
         MenuDropdown defaultMenu = new MenuDropdown("P", "None");
-        try {
-            list.add(defaultMenu);
-            list.addAll(menuRepository.getByQuery(param, MenuDropdown.class));
-        } catch (Exception ex) {
-            log.error("=========> Get menu dropdown error: ", ex);
-        }
+//        try {
+//            list.add(defaultMenu);
+//            list.addAll(menuRepository.getByQuery(param, MenuDropdown.class));
+//        } catch (Exception ex) {
+//            log.error("=========> Get menu dropdown error: ", ex);
+//        }
         return list;
     }
 

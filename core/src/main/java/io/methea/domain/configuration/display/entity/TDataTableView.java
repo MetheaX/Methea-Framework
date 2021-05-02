@@ -9,7 +9,7 @@ import javax.persistence.*;
  * Date : 18/01/2020
  */
 @Entity
-@Table(name = "tbl_core_datatable_view")
+@Table(name = "core_datatable_view")
 public class TDataTableView extends BaseEntity<TDataTableView> {
 
     private static final long serialVersionUID = 2479617149185927338L;

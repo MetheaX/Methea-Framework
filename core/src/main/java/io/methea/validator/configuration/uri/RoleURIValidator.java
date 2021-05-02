@@ -1,8 +1,8 @@
 package io.methea.validator.configuration.uri;
 
 import io.methea.domain.configuration.role.entity.TRole;
-import io.methea.domain.configuration.uri.dto.RoleURIBinder;
-import io.methea.domain.configuration.uri.entity.TMstURI;
+import io.methea.domain.configuration.resource.dto.RoleURIBinder;
+import io.methea.domain.configuration.resource.entity.TResource;
 import io.methea.repository.configuration.role.UserRoleRepository;
 import io.methea.repository.configuration.uri.URIRepository;
 import io.methea.validator.abs.AbstractMetheaValidator;
@@ -32,11 +32,11 @@ public class RoleURIValidator extends AbstractMetheaValidator<RoleURIBinder> {
         if (!role.isPresent()) {
             errors.put("roleId", "Error: Provided role invalid!!!");
         }
-        Optional<TMstURI> uri = uriRepository.findById(binder.getUriId());
+        Optional<TResource> uri = uriRepository.findById(binder.getUriId());
         if (!uri.isPresent()) {
             errors.put("uriId", "Error: Provided URI invalid!!!");
         } else {
-            binder.setUriName(uri.get().getUriName());
+            //binder.setUriName(uri.get().getUriName());
         }
     }
 }

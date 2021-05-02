@@ -8,12 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tbl_core_session_management")
+@Table(name = "core_session_management")
 public class TSessionManagement extends BaseEntity<TSessionManagement> {
 
     private static final long serialVersionUID = 6839737862614212682L;
 
     @Id
+    @Column(name = "id", length = 36)
     private String id;
 
     @Column(name = "user_login_id", nullable = false)

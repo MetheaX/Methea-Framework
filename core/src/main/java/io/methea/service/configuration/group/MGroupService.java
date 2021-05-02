@@ -1,7 +1,7 @@
 package io.methea.service.configuration.group;
 
 import io.methea.domain.configuration.group.dto.UserGroupBinder;
-import io.methea.domain.configuration.group.entity.TUserGroup;
+import io.methea.domain.configuration.group.entity.TGroup;
 import io.methea.domain.configuration.group.view.GroupView;
 import io.methea.repository.configuration.group.UserGroupRepository;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
@@ -15,7 +15,7 @@ import javax.inject.Inject;
  * Date : 16/04/2020
  */
 @Service
-public class MGroupService extends AbstractSimpleMetheaService<TUserGroup, UserGroupBinder, String, GroupView> {
+public class MGroupService extends AbstractSimpleMetheaService<TGroup, UserGroupBinder, String, GroupView> {
 
     @Inject
     public MGroupService(UserGroupRepository repository,

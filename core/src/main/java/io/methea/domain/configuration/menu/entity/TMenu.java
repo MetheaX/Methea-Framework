@@ -1,18 +1,17 @@
 package io.methea.domain.configuration.menu.entity;
 
 import io.methea.domain.common.entity.BaseEntity;
+import io.methea.domain.configuration.group.entity.TGroup;
+import io.methea.domain.configuration.resource.entity.TResource;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Author : DKSilverX
  * Date : 28/06/2020
  */
 @Entity
-@Table(name = "tbl_core_menu")
+@Table(name = "core_menu")
 public class TMenu extends BaseEntity<TMenu> {
 
     private static final long serialVersionUID = 8047293537806520907L;
@@ -26,14 +25,12 @@ public class TMenu extends BaseEntity<TMenu> {
     private String menuLabel;
     @Column(name = "menu_icon", nullable = false)
     private String menuIcon;
-    @Column(name = "uri_id", nullable = false)
-    private String uriId;
-    @Column(name = "uri_name", nullable = false)
-    private String uriName;
-    @Column(name = "group_id", nullable = false)
-    private String groupId;
-    @Column(name = "group_name", nullable = false)
-    private String groupName;
+    @ManyToOne
+    @JoinColumn(name = "resource_id")
+    private TResource resource;
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private TGroup group;
     @Column(name = "index")
     private Integer index;
 
@@ -69,36 +66,20 @@ public class TMenu extends BaseEntity<TMenu> {
         this.menuIcon = menuIcon;
     }
 
-    public String getUriId() {
-        return uriId;
+    public TResource getResource() {
+        return resource;
     }
 
-    public void setUriId(String uriId) {
-        this.uriId = uriId;
+    public void setResource(TResource resource) {
+        this.resource = resource;
     }
 
-    public String getUriName() {
-        return uriName;
+    public TGroup getGroup() {
+        return group;
     }
 
-    public void setUriName(String uriName) {
-        this.uriName = uriName;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setGroup(TGroup group) {
+        this.group = group;
     }
 
     public Integer getIndex() {

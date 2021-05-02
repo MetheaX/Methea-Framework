@@ -2,7 +2,7 @@ package io.methea.service.eventlistener;
 
 import io.methea.constant.MConstant;
 import io.methea.domain.configuration.account.entity.TAccount;
-import io.methea.domain.configuration.group.entity.TUserGroup;
+import io.methea.domain.configuration.group.entity.TGroup;
 import io.methea.domain.configuration.user.entity.TUser;
 import io.methea.exception.AccountInactiveException;
 import io.methea.repository.configuration.account.AccountRepository;
@@ -37,29 +37,29 @@ public class GroupEventListener {
         this.accountRepository = accountRepository;
     }
 
-    @Async
-    @Transactional
-    @EventListener(condition = "#entity.activate")
-    public void handleGroupActivate(TUserGroup entity) {
-        Optional<TAccount> obj = accountRepository.findById(entity.getAccountId());
-        if (obj.isPresent()) {
-            TAccount account = obj.get();
-            if (MConstant.INACTIVE_STATUS.equals(account.getStatus())) {
-                throw new AccountInactiveException(String.format("Cannot activate group, account [%s] inactive!", account.getAccountName()));
-            }
-        }
-        List<TUser> users = userRepository.findAllByGroupId(entity.getId());
-        if (!CollectionUtils.isEmpty(users)) {
-            for (TUser user : users) {
-                userService.activateEntity(user.getId());
-            }
-        }
-    }
+//    @Async
+//    @Transactional
+//    @EventListener(condition = "#entity.activate")
+//    public void handleGroupActivate(TGroup entity) {
+//        Optional<TAccount> obj = accountRepository.findById(entity.getAccountId());
+//        if (obj.isPresent()) {
+//            TAccount account = obj.get();
+//            if (MConstant.INACTIVE_STATUS.equals(account.getStatus())) {
+//                throw new AccountInactiveException(String.format("Cannot activate group, account [%s] inactive!", account.getAccountName()));
+//            }
+//        }
+//        List<TUser> users = userRepository.findAllByGroupId(entity.getId());
+//        if (!CollectionUtils.isEmpty(users)) {
+//            for (TUser user : users) {
+//                userService.activateEntity(user.getId());
+//            }
+//        }
+//    }
 
     @Async
     @Transactional
     @EventListener(condition = "#entity.deactivate")
-    public void handleGroupDeactivate(TUserGroup entity) {
+    public void handleGroupDeactivate(TGroup entity) {
         List<TUser> users = userRepository.findAllByGroupId(entity.getId());
         if (!CollectionUtils.isEmpty(users)) {
             for (TUser user : users) {

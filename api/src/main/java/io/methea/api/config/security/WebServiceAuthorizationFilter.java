@@ -4,7 +4,7 @@ import io.methea.api.service.MetheaAuthenticationService;
 import io.methea.config.security.GrantedPermission;
 import io.methea.config.security.PrincipalAuthentication;
 import io.methea.constant.MConstant;
-import io.methea.domain.configuration.permission.entity.TWhiteURIPermission;
+import io.methea.domain.configuration.permission.entity.TPublicPermission;
 import io.methea.domain.webservice.system.entity.SystemCertificate;
 import io.methea.exception.CertificateNotFoundException;
 import io.methea.repository.configuration.permission.WhiteURIPermissionRepository;
@@ -25,6 +25,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -58,11 +59,13 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
         boolean isNotAuthorize = true;
         PrincipalAuthentication authentication = null;
         String token = req.getHeader(SecurityConstants.HEADER_STRING);
-        List<TWhiteURIPermission> whiteURIs = whiteURLRepository.findAllByStatus(MConstant.ACTIVE_STATUS);
-        TWhiteURIPermission tmp = null;
+        List<TPublicPermission> whiteURIs = whiteURLRepository.findAllByStatus(MConstant.ACTIVE_STATUS);
+        TPublicPermission tmp = null;
         // Initial white list
         if (CollectionUtils.isNotEmpty(whiteURIs)) {
-            Map<String, TWhiteURIPermission> map = whiteURIs.stream().collect(Collectors.toMap(TWhiteURIPermission::getUriName, o -> o));
+            // @Todo
+            //Map<String, TPublicPermission> map = whiteURIs.stream().collect(Collectors.toMap(TPublicPermission::getUriName, o -> o));
+            Map<String, TPublicPermission> map = new HashMap<>();
             // check white parent config
             String wURI = StringUtils.EMPTY;
             for (String str : req.getRequestURI().split(MConstant.SLASH)) {
