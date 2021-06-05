@@ -1,6 +1,6 @@
 package io.methea.web.config.security;
 
-import io.methea.service.auth.CustomAuthenticationService;
+import io.methea.service.CustomAuthenticationService;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

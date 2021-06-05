@@ -1,7 +1,7 @@
 package io.methea.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.methea.domain.common.binder.BaseBinder;
+import io.methea.domain.binder.BaseBinder;
 
 public class RevokeTokenPayload extends BaseBinder<RevokeTokenPayload> {
 

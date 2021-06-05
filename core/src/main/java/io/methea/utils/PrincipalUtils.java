@@ -1,7 +1,7 @@
 package io.methea.utils;
 
 import io.methea.config.security.PrincipalAuthentication;
-import io.methea.constant.MConstant;
+import io.methea.constant.MetheaConstant;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.util.ObjectUtils;
@@ -36,7 +36,7 @@ public class PrincipalUtils {
     private static Authentication getAuthentication(HttpServletRequest request) {
         Authentication user = null;
         HttpSession session = request.getSession(true);
-        SecurityContextImpl securityContext = (SecurityContextImpl) session.getAttribute(MConstant.SPRING_SECURITY_CONTEXT);
+        SecurityContextImpl securityContext = (SecurityContextImpl) session.getAttribute(MetheaConstant.SPRING_SECURITY_CONTEXT);
         if (!ObjectUtils.isEmpty(securityContext)) {
             user = securityContext.getAuthentication();
         }

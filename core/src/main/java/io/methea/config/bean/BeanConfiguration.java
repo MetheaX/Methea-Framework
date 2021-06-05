@@ -1,6 +1,6 @@
 package io.methea.config.bean;
 
-import io.methea.constant.MConstant;
+import io.methea.constant.MetheaConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,8 +34,8 @@ public class BeanConfiguration {
     }
 
     public Argon2PasswordEncoder argon2PasswordEncoder() {
-        return new Argon2PasswordEncoder(MConstant.SALT_LENGTH, MConstant.HASH_LENGTH, MConstant.PARALLELISM,
-                MConstant.MEMORY, MConstant.ITERATIONS);
+        return new Argon2PasswordEncoder(MetheaConstant.SALT_LENGTH, MetheaConstant.HASH_LENGTH, MetheaConstant.PARALLELISM,
+                MetheaConstant.MEMORY, MetheaConstant.ITERATIONS);
     }
 
     @Bean
@@ -45,15 +45,15 @@ public class BeanConfiguration {
 
     @Bean
     public FreeMarkerConfigurer freeMarkerConfigurer() {
-        String coreTemplate = env.getProperty(MConstant.CORE_TEMPLATE_KEY);
+        String coreTemplate = env.getProperty(MetheaConstant.CORE_TEMPLATE_KEY);
         if (StringUtils.isNotEmpty(coreTemplate)) {
-            String clientTemplate = env.getProperty(MConstant.CLIENT_TEMPLATE_KEY);
+            String clientTemplate = env.getProperty(MetheaConstant.CLIENT_TEMPLATE_KEY);
             if (StringUtils.isNotEmpty(clientTemplate)) {
-                coreTemplate = coreTemplate.concat(MConstant.COMMA).concat(clientTemplate);
+                coreTemplate = coreTemplate.concat(MetheaConstant.COMMA).concat(clientTemplate);
             }
             FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
             configurer.setDefaultEncoding("UTF-8");
-            configurer.setTemplateLoaderPaths(coreTemplate.split(MConstant.COMMA));
+            configurer.setTemplateLoaderPaths(coreTemplate.split(MetheaConstant.COMMA));
             return configurer;
         }
         return null;

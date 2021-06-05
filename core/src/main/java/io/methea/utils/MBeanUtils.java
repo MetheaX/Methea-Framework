@@ -1,6 +1,6 @@
 package io.methea.utils;
 
-import io.methea.constant.MConstant;
+import io.methea.constant.MetheaConstant;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
@@ -22,7 +22,7 @@ public class MBeanUtils {
         Set<String> nullProperties = new HashSet<>();
         for (java.beans.PropertyDescriptor property : properties) {
             Object srcValue = src.getPropertyValue(property.getName());
-            if (null == srcValue || MConstant.ID.equals(property.getName())) nullProperties.add(property.getName());
+            if (null == srcValue || MetheaConstant.ID.equals(property.getName())) nullProperties.add(property.getName());
         }
 
         String[] result = new String[nullProperties.size()];

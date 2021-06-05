@@ -1,10 +1,10 @@
 package io.methea.service.abs;
 
-import io.methea.constant.MConstant;
-import io.methea.domain.common.binder.abs.AbstractMetheaBinder;
-import io.methea.domain.common.entity.BaseEntity;
-import io.methea.domain.common.entity.abs.AbstractMetheaEntity;
-import io.methea.domain.common.view.abs.AbstractMetheaView;
+import io.methea.constant.MetheaConstant;
+import io.methea.domain.binder.abs.AbstractMetheaBinder;
+import io.methea.domain.entity.BaseEntity;
+import io.methea.domain.entity.abs.AbstractMetheaEntity;
+import io.methea.domain.view.abs.AbstractMetheaView;
 import io.methea.repository.hibernateextension.HibernateExtensionRepository;
 import io.methea.repository.hibernateextension.domain.HibernatePage;
 import io.methea.utils.MBeanUtils;
@@ -89,7 +89,7 @@ public abstract class AbstractSimpleMetheaService<E extends AbstractMetheaEntity
             Optional<E> optional = repository.findById(id);
             if (optional.isPresent()) {
                 E entity = optional.get();
-                setStatusAuditLog(entity, MConstant.ACTIVE_STATUS);
+                setStatusAuditLog(entity, MetheaConstant.ACTIVE_STATUS);
                 entity.setActivate(true);
                 repository.save(entity);
                 publisher.publishEvent(entity);
@@ -109,7 +109,7 @@ public abstract class AbstractSimpleMetheaService<E extends AbstractMetheaEntity
             Optional<E> optional = repository.findById(id);
             if (optional.isPresent()) {
                 E entity = optional.get();
-                setStatusAuditLog(entity, MConstant.INACTIVE_STATUS);
+                setStatusAuditLog(entity, MetheaConstant.INACTIVE_STATUS);
                 entity.setDeactivate(true);
                 repository.save(entity);
                 publisher.publishEvent(entity);
@@ -153,7 +153,7 @@ public abstract class AbstractSimpleMetheaService<E extends AbstractMetheaEntity
     }
 
     private void setCreateAuditLog(E entity) {
-        BaseEntity obj = new BaseEntity(MConstant.ACTIVE_STATUS, PrincipalUtils.getUserLoginId(request), LocalDateTime.ofInstant(new Date().toInstant(),
+        BaseEntity obj = new BaseEntity(MetheaConstant.ACTIVE_STATUS, PrincipalUtils.getUserLoginId(request), LocalDateTime.ofInstant(new Date().toInstant(),
                 ZoneId.systemDefault()), PrincipalUtils.getUserLoginId(request), LocalDateTime.ofInstant(new Date().toInstant(),
                 ZoneId.systemDefault()));
         BeanUtils.copyProperties(obj, entity);

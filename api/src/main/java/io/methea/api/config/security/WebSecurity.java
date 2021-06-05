@@ -1,9 +1,9 @@
 package io.methea.api.config.security;
 
 import io.methea.api.service.MetheaAuthenticationService;
-import io.methea.constant.MConstant;
-import io.methea.repository.configuration.permission.WhiteURIPermissionRepository;
-import io.methea.repository.webservice.system.SystemCertificateRepository;
+import io.methea.constant.MetheaConstant;
+import io.methea.repository.WhiteURIPermissionRepository;
+import io.methea.repository.SystemCertificateRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -67,8 +67,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         configuration.setAllowedOrigins(Collections.singletonList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTION", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Access-Control-Allow-Headers", "x-requested-with",
-                ObjectUtils.isEmpty(env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY)) ? SecurityConstants.HEADER_STRING
-                        : env.getProperty(MConstant.CLIENT_REQUEST_HEADER_KEY)));
+                ObjectUtils.isEmpty(env.getProperty(MetheaConstant.CLIENT_REQUEST_HEADER_KEY)) ? SecurityConstants.HEADER_STRING
+                        : env.getProperty(MetheaConstant.CLIENT_REQUEST_HEADER_KEY)));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

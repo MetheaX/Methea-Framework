@@ -1,13 +1,13 @@
 package io.methea.controller;
 
-import io.methea.cache.MCache;
-import io.methea.constant.MConstant;
-import io.methea.domain.common.binder.abs.AbstractMetheaBinder;
-import io.methea.domain.common.entity.abs.AbstractMetheaEntity;
-import io.methea.domain.common.filter.abs.AbstractMetheaFilter;
-import io.methea.domain.common.view.abs.AbstractMetheaView;
+import io.methea.cache.MetheaCache;
+import io.methea.constant.MetheaConstant;
+import io.methea.domain.binder.abs.AbstractMetheaBinder;
+import io.methea.domain.entity.abs.AbstractMetheaEntity;
+import io.methea.domain.filter.abs.AbstractMetheaFilter;
+import io.methea.domain.view.abs.AbstractMetheaView;
 import io.methea.service.abs.AbstractSimpleMetheaService;
-import io.methea.service.configuration.display.DataTableUIService;
+import io.methea.service.DataTableUIService;
 import io.methea.utils.Pagination;
 import io.methea.utils.PrincipalUtils;
 import io.methea.utils.SystemUtils;
@@ -78,7 +78,7 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
             return new ModelAndView(templatePath);
         }
         simpleMetheaService.saveEntity(getEntityFromBinder(binder), binder);
-        return new ModelAndView("redirect:" + ROOT_URL.concat(MConstant.SLASH).concat(entity));
+        return new ModelAndView("redirect:" + ROOT_URL.concat(MetheaConstant.SLASH).concat(entity));
     }
 
     @PostMapping(value = MODIFY_URL)
@@ -95,19 +95,19 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
             return new ModelAndView(templatePath);
         }
         simpleMetheaService.modifyEntity(getEntityId(binder), binder);
-        return new ModelAndView("redirect:" + ROOT_URL.concat(MConstant.SLASH).concat(entity));
+        return new ModelAndView("redirect:" + ROOT_URL.concat(MetheaConstant.SLASH).concat(entity));
     }
 
     @ResponseBody
     @GetMapping(value = API_GET_BY_ID)
     public ResponseEntity<Map<String, Object>> getById(@RequestParam String id) {
         Map<String, Object> map = new HashMap<>();
-        map.put(MConstant.JSON_STATUS, 500);
-        map.put(MConstant.JSON_MESSAGE, String.format("Failed to get %s", entity));
+        map.put(MetheaConstant.JSON_STATUS, 500);
+        map.put(MetheaConstant.JSON_MESSAGE, String.format("Failed to get %s", entity));
         Object view = simpleMetheaService.getEntityViewById(id);
         if (!ObjectUtils.isEmpty(view)) {
-            map.put(MConstant.JSON_STATUS, 200);
-            map.put(MConstant.JSON_MESSAGE, String.format("Get %s success!", entity));
+            map.put(MetheaConstant.JSON_STATUS, 200);
+            map.put(MetheaConstant.JSON_MESSAGE, String.format("Get %s success!", entity));
             map.put(entity, view);
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
@@ -117,12 +117,12 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
     @GetMapping(value = API_GET_ENTITY_BY_ID)
     public ResponseEntity<Map<String, Object>> getEntityById(@RequestParam String id) {
         Map<String, Object> map = new HashMap<>();
-        map.put(MConstant.JSON_STATUS, 500);
-        map.put(MConstant.JSON_MESSAGE, String.format("Failed to get %s", entity));
+        map.put(MetheaConstant.JSON_STATUS, 500);
+        map.put(MetheaConstant.JSON_MESSAGE, String.format("Failed to get %s", entity));
         Optional<E> o = simpleMetheaService.getEntityById(id);
         if (o.isPresent()) {
-            map.put(MConstant.JSON_STATUS, 200);
-            map.put(MConstant.JSON_MESSAGE, String.format("Get %s success!", entity));
+            map.put(MetheaConstant.JSON_STATUS, 200);
+            map.put(MetheaConstant.JSON_MESSAGE, String.format("Get %s success!", entity));
             map.put(entity, o.get());
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
@@ -132,15 +132,15 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
     @PostMapping(value = API_ACTIVATE_URL)
     public ResponseEntity<Map<String, Object>> activateEntity(@RequestBody Map<String, String> payload) {
         Map<String, Object> map = new HashMap<>();
-        map.put(MConstant.JSON_STATUS, 500);
-        map.put(MConstant.JSON_MESSAGE, String.format("Failed to activate %s", entity));
+        map.put(MetheaConstant.JSON_STATUS, 500);
+        map.put(MetheaConstant.JSON_MESSAGE, String.format("Failed to activate %s", entity));
         try {
             if (simpleMetheaService.activateEntity(payload.get("id"))) {
-                map.put(MConstant.JSON_STATUS, 200);
-                map.put(MConstant.JSON_MESSAGE, String.format("Activate %s success!", entity));
+                map.put(MetheaConstant.JSON_STATUS, 200);
+                map.put(MetheaConstant.JSON_MESSAGE, String.format("Activate %s success!", entity));
             }
         } catch (Exception ex) {
-            map.put(MConstant.JSON_MESSAGE, ex.getMessage());
+            map.put(MetheaConstant.JSON_MESSAGE, ex.getMessage());
         }
 
         return new ResponseEntity<>(map, HttpStatus.OK);
@@ -150,31 +150,31 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
     @PostMapping(value = API_DEACTIVATE_URL)
     public ResponseEntity<Map<String, Object>> deactivateEntity(@RequestBody Map<String, String> payload) {
         Map<String, Object> map = new HashMap<>();
-        map.put(MConstant.JSON_STATUS, 500);
-        map.put(MConstant.JSON_MESSAGE, String.format("Failed to deactivate %s", entity));
+        map.put(MetheaConstant.JSON_STATUS, 500);
+        map.put(MetheaConstant.JSON_MESSAGE, String.format("Failed to deactivate %s", entity));
         try {
             if (simpleMetheaService.deactivateEntity(payload.get("id"))) {
-                map.put(MConstant.JSON_STATUS, 200);
-                map.put(MConstant.JSON_MESSAGE, String.format("Deactivate %s success!", entity));
+                map.put(MetheaConstant.JSON_STATUS, 200);
+                map.put(MetheaConstant.JSON_MESSAGE, String.format("Deactivate %s success!", entity));
             }
         } catch (Exception ex) {
-            map.put(MConstant.JSON_MESSAGE, ex.getMessage());
+            map.put(MetheaConstant.JSON_MESSAGE, ex.getMessage());
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     protected void dataTableAttributes(Model model, B binder, F filter, Pagination pagination, HttpServletRequest request) {
-        if (CollectionUtils.isEmpty((List<?>) MCache.CACHE_META_DATA.get(configViewName.concat(MConstant.COLUMNS_KEY)))
-                || CollectionUtils.isEmpty((List<?>) MCache.CACHE_META_DATA.get(configViewName.concat(MConstant.COLUMNS_LABEL)))) {
+        if (CollectionUtils.isEmpty((List<?>) MetheaCache.CACHE_META_DATA.get(configViewName.concat(MetheaConstant.COLUMNS_KEY)))
+                || CollectionUtils.isEmpty((List<?>) MetheaCache.CACHE_META_DATA.get(configViewName.concat(MetheaConstant.COLUMNS_LABEL)))) {
             dataTableUIService.getMetaTableConfiguration(configViewName);
         }
 
         Map<String, List<?>> map = new HashMap<>();
-        map.put(MConstant.JSON_DATA, simpleMetheaService.getAllEntityViewByFilter(getFilterColumns(filter), pagination));
-        model.addAttribute(MConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
-        model.addAttribute("tableHead", MCache.CACHE_META_DATA.get(configViewName.concat(MConstant.COLUMNS_LABEL)));
-        model.addAttribute("tableColumns", MCache.CACHE_META_DATA.get(configViewName.concat(MConstant.COLUMNS_KEY)));
-        model.addAttribute("tableFilterColumns", MCache.CACHE_META_DATA.get(configViewName.concat(MConstant.COLUMNS_FILTER)));
+        map.put(MetheaConstant.JSON_DATA, simpleMetheaService.getAllEntityViewByFilter(getFilterColumns(filter), pagination));
+        model.addAttribute(MetheaConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
+        model.addAttribute("tableHead", MetheaCache.CACHE_META_DATA.get(configViewName.concat(MetheaConstant.COLUMNS_LABEL)));
+        model.addAttribute("tableColumns", MetheaCache.CACHE_META_DATA.get(configViewName.concat(MetheaConstant.COLUMNS_KEY)));
+        model.addAttribute("tableFilterColumns", MetheaCache.CACHE_META_DATA.get(configViewName.concat(MetheaConstant.COLUMNS_FILTER)));
         model.addAttribute(entity, map);
         model.addAttribute("dataFilters", filter);
         model.addAttribute("pagination", pagination);
@@ -182,7 +182,7 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
         model.addAttribute("errors", new HashMap<>());
         model.addAttribute("hasErrors", false);
         model.addAttribute("popup", dataTableId);
-        model.addAttribute(MConstant.CORE_MENU, MCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
+        model.addAttribute(MetheaConstant.CORE_MENU, MetheaCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
         getExtraAttribute(model);
     }
 

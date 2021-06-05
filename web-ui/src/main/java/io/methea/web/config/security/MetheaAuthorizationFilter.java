@@ -2,7 +2,7 @@ package io.methea.web.config.security;
 
 import io.methea.config.security.GrantedPermission;
 import io.methea.config.security.PrincipalAuthentication;
-import io.methea.constant.MConstant;
+import io.methea.constant.MetheaConstant;
 import io.methea.utils.SystemUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -57,7 +57,7 @@ public class MetheaAuthorizationFilter extends BasicAuthenticationFilter {
         boolean isNotAuthorize = true;
         PrincipalAuthentication authentication;
         HttpSession session = req.getSession(true);
-        SecurityContextImpl securityContext = (SecurityContextImpl) session.getAttribute(MConstant.SPRING_SECURITY_CONTEXT);
+        SecurityContextImpl securityContext = (SecurityContextImpl) session.getAttribute(MetheaConstant.SPRING_SECURITY_CONTEXT);
         if (!ObjectUtils.isEmpty(securityContext)) {
             Authentication user = securityContext.getAuthentication();
             authentication = (PrincipalAuthentication) user.getPrincipal();
@@ -66,7 +66,7 @@ public class MetheaAuthorizationFilter extends BasicAuthenticationFilter {
                 String requestURI = req.getRequestURI();
                 try {
                     if (IS_FRC_CHN_PWD.equalsIgnoreCase(authentication.getMetheaPrincipal().getForceUserResetPassword())
-                            && !WHITE_URLS.contains(requestURI.split(MConstant.SLASH)[1])) {
+                            && !WHITE_URLS.contains(requestURI.split(MetheaConstant.SLASH)[1])) {
                         res.sendRedirect(SystemUtils.getBaseUrl(req).concat(CHN_PWD_URL));
                         return;
                     }
@@ -80,16 +80,16 @@ public class MetheaAuthorizationFilter extends BasicAuthenticationFilter {
                         .collect(Collectors.toList());
 
                 //>>>>> is it contain parent configuration?
-                for (String str : requestURI.split(MConstant.SLASH)) {
-                    uri = uri.concat(MConstant.SLASH).concat(StringUtils.stripToEmpty(str));
+                for (String str : requestURI.split(MetheaConstant.SLASH)) {
+                    uri = uri.concat(MetheaConstant.SLASH).concat(StringUtils.stripToEmpty(str));
                     StringBuilder builder = new StringBuilder(uri);
-                    if (grantedURIs.contains(requestURI) || grantedURIs.contains((builder.deleteCharAt(0).toString() + MConstant.SLASH_STAR))) {
+                    if (grantedURIs.contains(requestURI) || grantedURIs.contains((builder.deleteCharAt(0).toString() + MetheaConstant.SLASH_STAR))) {
                         isNotAuthorize = false;
                     }
                 }
                 //>>>>> is it config with this specific URI, will check on second condition when request "/"
-                if (grantedURIs.contains(requestURI) || grantedURIs.contains(requestURI + MConstant.SLASH_STAR)
-                        || grantedURIs.contains(requestURI + MConstant.DOUBLE_STAR)) {
+                if (grantedURIs.contains(requestURI) || grantedURIs.contains(requestURI + MetheaConstant.SLASH_STAR)
+                        || grantedURIs.contains(requestURI + MetheaConstant.DOUBLE_STAR)) {
                     isNotAuthorize = false;
                 }
                 if (isNotAuthorize) {

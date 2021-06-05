@@ -1,7 +1,7 @@
 package io.methea.listener;
 
-import io.methea.cache.MCache;
-import io.methea.service.configuration.menu.MMenuService;
+import io.methea.cache.MetheaCache;
+import io.methea.service.MenuService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -16,16 +16,16 @@ import javax.inject.Inject;
 @Component
 public class SystemLoadedEventListener {
 
-    private final MMenuService service;
+    private final MenuService service;
 
     @Inject
-    public SystemLoadedEventListener(MMenuService service) {
+    public SystemLoadedEventListener(MenuService service) {
         this.service = service;
     }
 
     @Lazy
     @EventListener({ContextRefreshedEvent.class})
     public void onContextRefreshEvent() {
-        MCache.CACHE_MENU.putAll(service.getAllMenuByGroup());
+        MetheaCache.CACHE_MENU.putAll(service.getAllMenuByGroup());
     }
 }

@@ -1,13 +1,6 @@
 package io.methea.service.eventlistener;
 
-import io.methea.domain.configuration.resource.entity.TResource;
-import io.methea.service.eventlistener.helper.InternalPermissionHelperService;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.List;
 
 /**
  * Author : DKSilverX

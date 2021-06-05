@@ -1,28 +1,18 @@
 package io.methea.service.eventlistener;
 
-import io.methea.constant.MConstant;
-import io.methea.domain.configuration.group.entity.TGroup;
-import io.methea.domain.configuration.permission.entity.TPermission;
-import io.methea.domain.configuration.role.entity.TRole;
-import io.methea.domain.configuration.user.entity.TUser;
-import io.methea.exception.GroupInactiveException;
-import io.methea.exception.RoleInactiveException;
-import io.methea.exception.UserInactiveException;
-import io.methea.repository.configuration.group.UserGroupRepository;
-import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
-import io.methea.repository.configuration.role.UserRoleRepository;
-import io.methea.repository.configuration.user.UserRepository;
+import io.methea.domain.entity.TRole;
+import io.methea.domain.entity.TUser;
+import io.methea.repository.GroupRepository;
+import io.methea.repository.UserGrantedPermissionRepository;
+import io.methea.repository.RoleRepository;
+import io.methea.repository.UserRepository;
 import io.methea.service.eventlistener.helper.InternalPermissionHelperService;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Author : DKSilverX
@@ -32,15 +22,15 @@ import java.util.UUID;
 public class ConfigurationEventListener {
 
     private static final String SYS_STARTER = "ROLE_SYS_STARTER";
-    private final UserRoleRepository roleRepository;
-    private final UserGroupRepository groupRepository;
+    private final RoleRepository roleRepository;
+    private final GroupRepository groupRepository;
     private final UserRepository userRepository;
     private final UserGrantedPermissionRepository userGrantedPermissionRepository;
     private final InternalPermissionHelperService helperService;
 
     @Inject
-    public ConfigurationEventListener( UserRoleRepository roleRepository,
-                                      UserGroupRepository groupRepository, UserRepository userRepository,
+    public ConfigurationEventListener(RoleRepository roleRepository,
+                                      GroupRepository groupRepository, UserRepository userRepository,
                                       UserGrantedPermissionRepository userGrantedPermissionRepository,
                                       InternalPermissionHelperService helperService) {
         this.roleRepository = roleRepository;

@@ -1,6 +1,6 @@
 package io.methea.utils.auth;
 
-import io.methea.constant.MConstant;
+import io.methea.constant.MetheaConstant;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
@@ -18,7 +18,7 @@ public class Encryption {
     private Encryption(){}
 
     public static String encrypt(String text, RSAPublicKey publicKey) throws Exception {
-        Cipher c = Cipher.getInstance(MConstant.RSA);
+        Cipher c = Cipher.getInstance(MetheaConstant.RSA);
         c.init(Cipher.ENCRYPT_MODE, publicKey);
         byte[] input = text.getBytes();
         c.update(input);
@@ -28,7 +28,7 @@ public class Encryption {
 
 
     public static String decrypt(String encVal, RSAPrivateKey privateKey) throws Exception {
-        Cipher c = Cipher.getInstance(MConstant.RSA);
+        Cipher c = Cipher.getInstance(MetheaConstant.RSA);
         c.init(Cipher.DECRYPT_MODE, privateKey);
 
         byte[] decodedValue = Base64.decodeBase64(encVal);

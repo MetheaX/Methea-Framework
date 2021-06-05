@@ -1,19 +1,9 @@
 package io.methea.service.eventlistener;
 
-import io.methea.constant.MConstant;
-import io.methea.domain.configuration.role.entity.TRole;
-import io.methea.domain.configuration.resource.entity.TResource;
-import io.methea.exception.RoleInactiveException;
-import io.methea.exception.URIInactiveException;
-import io.methea.repository.configuration.role.UserRoleRepository;
-import io.methea.repository.configuration.uri.URIRepository;
+import io.methea.repository.RoleRepository;
+import io.methea.repository.ResourceRepository;
 import io.methea.service.eventlistener.helper.InternalPermissionHelperService;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.Optional;
 
 /**
  * Author : DKSilverX
@@ -23,11 +13,11 @@ import java.util.Optional;
 public class RoleURIEventListener {
 
     private final InternalPermissionHelperService helperService;
-    private final UserRoleRepository roleRepository;
-    private final URIRepository uriRepository;
+    private final RoleRepository roleRepository;
+    private final ResourceRepository uriRepository;
 
-    public RoleURIEventListener(InternalPermissionHelperService helperService, UserRoleRepository roleRepository,
-                                URIRepository uriRepository) {
+    public RoleURIEventListener(InternalPermissionHelperService helperService, RoleRepository roleRepository,
+                                ResourceRepository uriRepository) {
         this.helperService = helperService;
         this.roleRepository = roleRepository;
         this.uriRepository = uriRepository;

@@ -5,7 +5,7 @@ import io.methea.api.domain.RequestTokenPayload;
 import io.methea.api.domain.RevokeTokenPayload;
 import io.methea.api.domain.Token;
 import io.methea.api.service.MetheaAuthenticationService;
-import io.methea.constant.MConstant;
+import io.methea.constant.MetheaConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -48,8 +48,8 @@ public class AuthenticationController {
     @GetMapping(value = UNAUTHORIZED_ACCESS_URL, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> unauthorizedAccess() {
         Map<String, Object> map = new HashMap<>();
-        map.put(MConstant.JSON_MESSAGE, "Unauthorized Access!!");
-        map.put(MConstant.JSON_STATUS, 401);
+        map.put(MetheaConstant.JSON_MESSAGE, "Unauthorized Access!!");
+        map.put(MetheaConstant.JSON_STATUS, 401);
 
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
@@ -61,13 +61,13 @@ public class AuthenticationController {
             Token token = authenticationService.generateTokenFromUser(client, req);
 
             if (ObjectUtils.isEmpty(token)) {
-                map.put(MConstant.JSON_MESSAGE, "Invalid account!!");
-                map.put(MConstant.JSON_STATUS, 400);
+                map.put(MetheaConstant.JSON_MESSAGE, "Invalid account!!");
+                map.put(MetheaConstant.JSON_STATUS, 400);
                 return new ResponseEntity<>(map, HttpStatus.OK);
             }
             map.put("token", token);
-            map.put(MConstant.JSON_MESSAGE, "Access token generated!!!");
-            map.put(MConstant.JSON_STATUS, 200);
+            map.put(MetheaConstant.JSON_MESSAGE, "Access token generated!!!");
+            map.put(MetheaConstant.JSON_STATUS, 200);
         } catch (Exception ex) {
             log.error("=========> Generate access token from user error: ", ex);
         }
@@ -82,13 +82,13 @@ public class AuthenticationController {
         try {
             Token token = authenticationService.generateTokenFromRefreshToken(payload, req);
             if (ObjectUtils.isEmpty(token)) {
-                map.put(MConstant.JSON_MESSAGE, "Invalid refresh token!!");
-                map.put(MConstant.JSON_STATUS, 400);
+                map.put(MetheaConstant.JSON_MESSAGE, "Invalid refresh token!!");
+                map.put(MetheaConstant.JSON_STATUS, 400);
                 return new ResponseEntity<>(map, HttpStatus.OK);
             }
             map.put("token", token);
-            map.put(MConstant.JSON_MESSAGE, "Access token generated!!!");
-            map.put(MConstant.JSON_STATUS, 200);
+            map.put(MetheaConstant.JSON_MESSAGE, "Access token generated!!!");
+            map.put(MetheaConstant.JSON_STATUS, 200);
         } catch (Exception ex) {
             log.error("=========> Generate access token from refresh token error: ", ex);
         }
@@ -103,12 +103,12 @@ public class AuthenticationController {
 
         try {
             authenticationService.revokeAccessToken(payload, request);
-            map.put(MConstant.JSON_MESSAGE, "Access token revoked!!!");
-            map.put(MConstant.JSON_STATUS, 200);
+            map.put(MetheaConstant.JSON_MESSAGE, "Access token revoked!!!");
+            map.put(MetheaConstant.JSON_STATUS, 200);
         } catch (Exception ex) {
             log.error("=========> revokeAccessToken error: ", ex);
-            map.put(MConstant.JSON_MESSAGE, "Failed to revoke access token!!");
-            map.put(MConstant.JSON_STATUS, 400);
+            map.put(MetheaConstant.JSON_MESSAGE, "Failed to revoke access token!!");
+            map.put(MetheaConstant.JSON_STATUS, 400);
         }
 
         return new ResponseEntity<>(map, HttpStatus.OK);

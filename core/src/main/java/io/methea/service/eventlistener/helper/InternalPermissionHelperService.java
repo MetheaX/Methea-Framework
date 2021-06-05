@@ -1,21 +1,9 @@
 package io.methea.service.eventlistener.helper;
 
-import io.methea.constant.MConstant;
 //import io.methea.domain.configuration.permission.entity.TRMUserPermission;
-import io.methea.domain.configuration.permission.entity.TPermission;
 //import io.methea.domain.configuration.resource.entity.TRoleURI;
-import io.methea.domain.webservice.baseapi.entity.APIBase;
-import io.methea.exception.APIBaseNotFoundException;
-import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
 //import io.methea.repository.configuration.uri.RoleURIRepository;
-import io.methea.repository.webservice.baseapi.APIBaseRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
-import javax.inject.Inject;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Author : DKSilverX

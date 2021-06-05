@@ -1,16 +1,6 @@
 package io.methea.service.eventlistener;
 
-import io.methea.constant.MConstant;
-import io.methea.domain.configuration.role.entity.TRole;
-import io.methea.repository.configuration.permission.UserGrantedPermissionRepository;
-import io.methea.service.eventlistener.helper.InternalPermissionHelperService;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
-import javax.transaction.Transactional;
-import java.util.List;
 
 /**
  * Author : DKSilverX

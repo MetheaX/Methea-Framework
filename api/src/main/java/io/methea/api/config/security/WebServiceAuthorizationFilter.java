@@ -3,12 +3,12 @@ package io.methea.api.config.security;
 import io.methea.api.service.MetheaAuthenticationService;
 import io.methea.config.security.GrantedPermission;
 import io.methea.config.security.PrincipalAuthentication;
-import io.methea.constant.MConstant;
-import io.methea.domain.configuration.permission.entity.TPublicPermission;
-import io.methea.domain.webservice.system.entity.SystemCertificate;
+import io.methea.constant.MetheaConstant;
+import io.methea.domain.entity.TPublicPermission;
+import io.methea.domain.entity.TSystemCertificate;
 import io.methea.exception.CertificateNotFoundException;
-import io.methea.repository.configuration.permission.WhiteURIPermissionRepository;
-import io.methea.repository.webservice.system.SystemCertificateRepository;
+import io.methea.repository.WhiteURIPermissionRepository;
+import io.methea.repository.SystemCertificateRepository;
 import io.methea.utils.SystemUtils;
 import io.methea.utils.auth.JwtUtil;
 import org.apache.commons.collections4.CollectionUtils;
@@ -59,7 +59,7 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
         boolean isNotAuthorize = true;
         PrincipalAuthentication authentication = null;
         String token = req.getHeader(SecurityConstants.HEADER_STRING);
-        List<TPublicPermission> whiteURIs = whiteURLRepository.findAllByStatus(MConstant.ACTIVE_STATUS);
+        List<TPublicPermission> whiteURIs = whiteURLRepository.findAllByStatus(MetheaConstant.ACTIVE_STATUS);
         TPublicPermission tmp = null;
         // Initial white list
         if (CollectionUtils.isNotEmpty(whiteURIs)) {
@@ -68,10 +68,10 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
             Map<String, TPublicPermission> map = new HashMap<>();
             // check white parent config
             String wURI = StringUtils.EMPTY;
-            for (String str : req.getRequestURI().split(MConstant.SLASH)) {
-                wURI = wURI.concat(MConstant.SLASH).concat(StringUtils.stripToEmpty(str));
+            for (String str : req.getRequestURI().split(MetheaConstant.SLASH)) {
+                wURI = wURI.concat(MetheaConstant.SLASH).concat(StringUtils.stripToEmpty(str));
                 StringBuilder builder = new StringBuilder(wURI);
-                String key = (builder.deleteCharAt(0).toString() + MConstant.SLASH_STAR);
+                String key = (builder.deleteCharAt(0).toString() + MetheaConstant.SLASH_STAR);
                 if (map.containsKey(key)) {
                     tmp = map.get(key);
                     break;
@@ -80,17 +80,17 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
             // check exact white uri
             if (map.containsKey(req.getRequestURI()) && ObjectUtils.isEmpty(tmp)) {
                 tmp = map.get(req.getRequestURI());
-            } else if (map.containsKey(req.getRequestURI() + MConstant.SLASH_STAR) && ObjectUtils.isEmpty(tmp)) {
-                tmp = map.get(req.getRequestURI() + MConstant.SLASH_STAR);
-            } else if (map.containsKey(req.getRequestURI() + MConstant.DOUBLE_STAR) && ObjectUtils.isEmpty(tmp)) {
-                tmp = map.get(req.getRequestURI() + MConstant.DOUBLE_STAR);
+            } else if (map.containsKey(req.getRequestURI() + MetheaConstant.SLASH_STAR) && ObjectUtils.isEmpty(tmp)) {
+                tmp = map.get(req.getRequestURI() + MetheaConstant.SLASH_STAR);
+            } else if (map.containsKey(req.getRequestURI() + MetheaConstant.DOUBLE_STAR) && ObjectUtils.isEmpty(tmp)) {
+                tmp = map.get(req.getRequestURI() + MetheaConstant.DOUBLE_STAR);
             }
         }
 
         // validate white list
         if (!ObjectUtils.isEmpty(tmp)) {
             if (tmp.getAllowedMethod().contains(req.getMethod())) {
-                authentication = metheaAuthenticationService.loadUserByUsername(MConstant.PUBLIC_USER);
+                authentication = metheaAuthenticationService.loadUserByUsername(MetheaConstant.PUBLIC_USER);
                 SecurityContextHolder.getContext().setAuthentication(
                         new UsernamePasswordAuthenticationToken(authentication, null, authentication.getAuthorities()));
                 isNotAuthorize = false;
@@ -98,15 +98,15 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         // validate token
-        if (!StringUtils.isEmpty(token) && !WHITE_URL.equals(req.getRequestURI().split(MConstant.SLASH)[1]) && isNotAuthorize) {
-            SystemCertificate certificate = certificateRepository.findSystemCertificateByCodeAndStatus(MConstant.CERT_TYPE,
-                    MConstant.ACTIVE_STATUS);
+        if (!StringUtils.isEmpty(token) && !WHITE_URL.equals(req.getRequestURI().split(MetheaConstant.SLASH)[1]) && isNotAuthorize) {
+            TSystemCertificate certificate = certificateRepository.findSystemCertificateByCodeAndStatus(MetheaConstant.CERT_TYPE,
+                    MetheaConstant.ACTIVE_STATUS);
             if (ObjectUtils.isEmpty(certificate)) {
                 throw new CertificateNotFoundException("No active certificate could be found! Please check system certificate!");
             }
             String subject = JwtUtil.decodeToken(token.replace(SecurityConstants.TOKEN_PREFIX, StringUtils.EMPTY), certificate.getPrivateKey());
             if (!StringUtils.isEmpty(subject)) {
-                authentication = metheaAuthenticationService.loadUserByUsername(subject.split(MConstant.COLON)[0]);
+                authentication = metheaAuthenticationService.loadUserByUsername(subject.split(MetheaConstant.COLON)[0]);
                 if (metheaAuthenticationService.validateUserRevokedToken(subject)) {
                     res.sendRedirect(SystemUtils.getBaseUrl(req).concat(UNAUTHORIZED_ACCESS_URL));
                     return;
@@ -123,16 +123,16 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
                     .collect(Collectors.toList());
 
             //>>>>> is it contain parent configuration?
-            for (String str : requestURI.split(MConstant.SLASH)) {
-                uri = uri.concat(MConstant.SLASH).concat(StringUtils.stripToEmpty(str));
+            for (String str : requestURI.split(MetheaConstant.SLASH)) {
+                uri = uri.concat(MetheaConstant.SLASH).concat(StringUtils.stripToEmpty(str));
                 StringBuilder builder = new StringBuilder(uri);
-                if (grantedURIs.contains(requestURI) || grantedURIs.contains((builder.deleteCharAt(0).toString() + MConstant.SLASH_STAR))) {
+                if (grantedURIs.contains(requestURI) || grantedURIs.contains((builder.deleteCharAt(0).toString() + MetheaConstant.SLASH_STAR))) {
                     isNotAuthorize = false;
                 }
             }
             //>>>>> is it config with this specific URI, will check on second condition when request "/"
-            if (grantedURIs.contains(requestURI) || grantedURIs.contains(requestURI + MConstant.SLASH_STAR)
-                    || grantedURIs.contains(requestURI + MConstant.DOUBLE_STAR)) {
+            if (grantedURIs.contains(requestURI) || grantedURIs.contains(requestURI + MetheaConstant.SLASH_STAR)
+                    || grantedURIs.contains(requestURI + MetheaConstant.DOUBLE_STAR)) {
                 isNotAuthorize = false;
             }
             if (isNotAuthorize) {

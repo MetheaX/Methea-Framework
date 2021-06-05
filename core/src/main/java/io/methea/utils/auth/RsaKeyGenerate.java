@@ -1,6 +1,6 @@
 package io.methea.utils.auth;
 
-import io.methea.constant.MConstant;
+import io.methea.constant.MetheaConstant;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.*;
@@ -17,7 +17,7 @@ public class RsaKeyGenerate {
         try {
             Security.addProvider(new BouncyCastleProvider());
             // Create the public and private keys
-            KeyPairGenerator generator = KeyPairGenerator.getInstance(MConstant.RSA, "BC");
+            KeyPairGenerator generator = KeyPairGenerator.getInstance(MetheaConstant.RSA, "BC");
 
             SecureRandom random = new SecureRandom();
             generator.initialize(keySize, random);

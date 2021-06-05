@@ -1,9 +1,9 @@
 package io.methea.service.eventlistener;
 
-import io.methea.domain.configuration.account.entity.TAccount;
-import io.methea.domain.configuration.group.entity.TGroup;
-import io.methea.repository.configuration.group.UserGroupRepository;
-import io.methea.service.configuration.group.MGroupService;
+import io.methea.domain.entity.TAccount;
+import io.methea.domain.entity.TGroup;
+import io.methea.repository.GroupRepository;
+import io.methea.service.GroupService;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,11 @@ import java.util.List;
 @Service
 public class AccountEventListener {
 
-    private final UserGroupRepository groupRepository;
-    private final MGroupService groupService;
+    private final GroupRepository groupRepository;
+    private final GroupService groupService;
 
     @Inject
-    public AccountEventListener(UserGroupRepository groupRepository, MGroupService groupService) {
+    public AccountEventListener(GroupRepository groupRepository, GroupService groupService) {
         this.groupRepository = groupRepository;
         this.groupService = groupService;
     }

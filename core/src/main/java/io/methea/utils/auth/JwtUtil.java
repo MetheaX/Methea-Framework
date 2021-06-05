@@ -7,7 +7,7 @@ import com.nimbusds.jose.crypto.RSADecrypter;
 import com.nimbusds.jose.crypto.RSAEncrypter;
 import com.nimbusds.jwt.EncryptedJWT;
 import com.nimbusds.jwt.JWTClaimsSet;
-import io.methea.constant.MConstant;
+import io.methea.constant.MetheaConstant;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -40,7 +40,7 @@ public class JwtUtil {
             Security.addProvider(new BouncyCastleProvider());
             byte[] data = Base64.decodeBase64(privateKey);
             PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(data);
-            KeyFactory fact = KeyFactory.getInstance(MConstant.RSA);
+            KeyFactory fact = KeyFactory.getInstance(MetheaConstant.RSA);
             RSAPrivateKey priKey = (RSAPrivateKey) fact.generatePrivate(spec);
             EncryptedJWT jwtDecrypt = EncryptedJWT.parse(new String(Base64.decodeBase64(token)));
             RSADecrypter decrypter = new RSADecrypter(priKey);
@@ -63,11 +63,11 @@ public class JwtUtil {
             Security.addProvider(new BouncyCastleProvider());
             byte[] data = Base64.decodeBase64(key);
             X509EncodedKeySpec spec = new X509EncodedKeySpec (data);
-            KeyFactory fact = KeyFactory.getInstance(MConstant.RSA);
+            KeyFactory fact = KeyFactory.getInstance(MetheaConstant.RSA);
             RSAPublicKey pubKey = (RSAPublicKey) fact.generatePublic(spec);
 
             JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                    .subject(subject.concat(MConstant.COLON).concat(RequestContextHolder.currentRequestAttributes().getSessionId()))
+                    .subject(subject.concat(MetheaConstant.COLON).concat(RequestContextHolder.currentRequestAttributes().getSessionId()))
                     .issuer(issuer)
                     .expirationTime(expiration.getTime())
                     .notBeforeTime(new Date())
@@ -82,7 +82,7 @@ public class JwtUtil {
             jwtEncrypt.encrypt(encryptors);
             String jwtToken = jwtEncrypt.serialize();
 
-            map.put(MConstant.JWT_TOKEN, Base64.encodeBase64String(jwtToken.getBytes()));
+            map.put(MetheaConstant.JWT_TOKEN, Base64.encodeBase64String(jwtToken.getBytes()));
         } catch (Exception e) {
             log.error("=========> encodeToken error: ", e);
         }
