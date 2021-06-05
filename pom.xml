@@ -14,7 +14,7 @@
         <version>2.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>io.methea</groupId>
+    <groupId>io.github.metheax</groupId>
     <artifactId>methea</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>methea</name>

@@ -1,0 +1,9 @@
+package io.github.metheax.config.security;
+
+/**
+ * Author : DKSilverX
+ * Date : 16/04/2020
+ */
+public interface GrantedPermission {
+    String getGrantedPermission();
+}
