@@ -9,10 +9,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * Author : DKSilverX
  * Date : 08/08/2020
  */
-@SpringBootApplication(scanBasePackages = {"io.methea"})
-@EnableJpaRepositories(basePackages =  {"io.methea"})
-@EntityScan(basePackages = {"io.methea"})
+@SpringBootApplication(scanBasePackages = {"io.github.metheax"})
+@EnableJpaRepositories(basePackages =  {"io.github.metheax"})
+@EntityScan(basePackages = {"io.github.metheax"})
 public class AdminApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(AdminApplication.class, args);
     }

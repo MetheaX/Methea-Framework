@@ -1,11 +1,11 @@
 package io.github.metheax.web.config.security;
 
 import io.github.metheax.service.CustomAuthenticationService;
+import io.github.metheax.utils.auth.MetheaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Author : DKSilverX
@@ -15,16 +15,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private final CustomAuthenticationService customAuthenticationService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final MetheaPasswordEncoder encoder;
 
-    public WebSecurity(CustomAuthenticationService customAuthenticationService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurity(CustomAuthenticationService customAuthenticationService, MetheaPasswordEncoder encoder) {
         this.customAuthenticationService = customAuthenticationService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.encoder = encoder;
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(customAuthenticationService).passwordEncoder(bCryptPasswordEncoder);
+        authenticationManagerBuilder.userDetailsService(customAuthenticationService).passwordEncoder(encoder);
     }
 
     @Override

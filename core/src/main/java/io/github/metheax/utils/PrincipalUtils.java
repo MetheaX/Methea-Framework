@@ -35,11 +35,15 @@ public class PrincipalUtils {
 
     private static Authentication getAuthentication(HttpServletRequest request) {
         Authentication user = null;
-        HttpSession session = request.getSession(true);
-        SecurityContextImpl securityContext = (SecurityContextImpl) session.getAttribute(MetheaConstant.SPRING_SECURITY_CONTEXT);
-        if (!ObjectUtils.isEmpty(securityContext)) {
-            user = securityContext.getAuthentication();
+        try {
+            HttpSession session = request.getSession(true);
+            SecurityContextImpl securityContext = (SecurityContextImpl) session.getAttribute(MetheaConstant.SPRING_SECURITY_CONTEXT);
+            if (!ObjectUtils.isEmpty(securityContext)) {
+                user = securityContext.getAuthentication();
+            }
+            return user;
+        } catch (Exception ex) {
+            return null;
         }
-        return user;
     }
 }

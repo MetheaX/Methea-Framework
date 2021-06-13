@@ -4,6 +4,7 @@ import io.github.metheax.api.service.MetheaAuthenticationService;
 import io.github.metheax.constant.MetheaConstant;
 import io.github.metheax.repository.WhiteURIPermissionRepository;
 import io.github.metheax.repository.SystemCertificateRepository;
+import io.github.metheax.utils.auth.MetheaPasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -29,16 +29,16 @@ import java.util.Collections;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private final MetheaAuthenticationService metheaAuthenticationService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final MetheaPasswordEncoder encoder;
     private final SystemCertificateRepository certificateRepository;
     private final WhiteURIPermissionRepository whiteURIPermissionRepository;
     private final Environment env;
 
     @Inject
-    public WebSecurity(MetheaAuthenticationService service, BCryptPasswordEncoder bCryptPasswordEncoder,
+    public WebSecurity(MetheaAuthenticationService service, MetheaPasswordEncoder encoder,
                        SystemCertificateRepository certificateRepository,
                        WhiteURIPermissionRepository whiteURIPermissionRepository, Environment env) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.encoder = encoder;
         this.certificateRepository = certificateRepository;
         this.metheaAuthenticationService = service;
         this.whiteURIPermissionRepository = whiteURIPermissionRepository;
@@ -47,7 +47,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(metheaAuthenticationService).passwordEncoder(bCryptPasswordEncoder);
+        authenticationManagerBuilder.userDetailsService(metheaAuthenticationService).passwordEncoder(encoder);
     }
 
     @Override

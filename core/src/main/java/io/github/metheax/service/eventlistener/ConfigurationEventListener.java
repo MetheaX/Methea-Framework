@@ -1,6 +1,6 @@
 package io.github.metheax.service.eventlistener;
 
-import io.github.metheax.repository.UserGrantedPermissionRepository;
+import io.github.metheax.repository.PermissionRepository;
 import io.github.metheax.service.eventlistener.helper.InternalPermissionHelperService;
 import io.github.metheax.domain.entity.TRole;
 import io.github.metheax.domain.entity.TUser;
@@ -25,18 +25,18 @@ public class ConfigurationEventListener {
     private final RoleRepository roleRepository;
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
-    private final UserGrantedPermissionRepository userGrantedPermissionRepository;
+    private final PermissionRepository permissionRepository;
     private final InternalPermissionHelperService helperService;
 
     @Inject
     public ConfigurationEventListener(RoleRepository roleRepository,
                                       GroupRepository groupRepository, UserRepository userRepository,
-                                      UserGrantedPermissionRepository userGrantedPermissionRepository,
+                                      PermissionRepository permissionRepository,
                                       InternalPermissionHelperService helperService) {
         this.roleRepository = roleRepository;
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
-        this.userGrantedPermissionRepository = userGrantedPermissionRepository;
+        this.permissionRepository = permissionRepository;
         this.helperService = helperService;
     }
 

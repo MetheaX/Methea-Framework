@@ -151,7 +151,7 @@ public class TUser extends BaseEntity<TUser> {
     }
 
     public String getPassword() {
-        return password;
+        return MetheaConstant.ARGON_PREFIX.concat(password);
     }
 
     public void setPassword(String password) {

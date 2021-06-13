@@ -8,10 +8,11 @@ import io.github.metheax.repository.hibernateextension.annotation.SelectFrom;
  * Author : DKSilverX
  * Date : 16/04/2020
  */
-@SelectFrom(fromClause = "FROM TUserPermission o")
+@SelectFrom(fromClause = "FROM TPermission o")
 public class PermissionView extends BaseView<PermissionView> implements GrantedPermission {
     private static final long serialVersionUID = -3006282444338388548L;
-    @Column(name = "o.uriName", key = "username", where = "AND o.userId = :username AND o.status = 'A'", isLastColumn = true)
+    @Column(name = "o.resource.resourceName", key = "roles",
+            where = "AND o.role IN :roles AND o.status = 'A'", isLastColumn = true)
     private String uriName;
 
     public PermissionView(String uriName) {

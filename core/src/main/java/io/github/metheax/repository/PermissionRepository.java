@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
  * Author : DKSilverX
  * Date : 15/09/2019
  */
-public interface UserGrantedPermissionRepository extends CrudRepository<TPermission, String>,
+public interface PermissionRepository extends CrudRepository<TPermission, String>,
         HibernateExtensionRepository<PermissionView, String> {
 //    @Modifying
 //    @Query("DELETE FROM TPermission perm WHERE perm.userId = ?1 AND perm.viewId = ?2")

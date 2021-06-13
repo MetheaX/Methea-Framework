@@ -33,6 +33,7 @@ public class BeanConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
     public Argon2PasswordEncoder argon2PasswordEncoder() {
         return new Argon2PasswordEncoder(MetheaConstant.SALT_LENGTH, MetheaConstant.HASH_LENGTH, MetheaConstant.PARALLELISM,
                 MetheaConstant.MEMORY, MetheaConstant.ITERATIONS);

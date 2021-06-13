@@ -16,21 +16,20 @@ import io.github.metheax.domain.entity.TClient;
 import io.github.metheax.domain.entity.TSystemCertificate;
 import io.github.metheax.exception.CertificateNotFoundException;
 import io.github.metheax.exception.InvalidClientSecretException;
-import io.github.metheax.repository.GroupRepository;
 import io.github.metheax.repository.SessionManagementRepository;
-import io.github.metheax.repository.UserGrantedPermissionRepository;
+import io.github.metheax.repository.PermissionRepository;
 import io.github.metheax.repository.UserRepository;
 import io.github.metheax.repository.ClientRepository;
 import io.github.metheax.repository.SystemCertificateRepository;
 import io.github.metheax.utils.SystemUtils;
 import io.github.metheax.utils.auth.JwtUtil;
+import io.github.metheax.utils.auth.MetheaPasswordEncoder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -53,24 +52,24 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
 
     private final UserRepository userRepository;
     private final ClientRepository clientRepository;
-    private final UserGrantedPermissionRepository userGrantedPermissionRepository;
-    private final GroupRepository userGroupRepository;
+    private final PermissionRepository permissionRepository;
     private final SystemCertificateRepository certificateRepository;
     private final SessionManagementRepository sessionManagementRepository;
+    private final MetheaPasswordEncoder encoder;
 
     private static final String NO_CERTIFICATE_MSG = "No active certificate could be found! Please check system certificate!";
 
     @Inject
     public MetheaAuthenticationService(UserRepository userRepository,
-                                       ClientRepository clientRepository, UserGrantedPermissionRepository userGrantedPermissionRepository,
-                                       GroupRepository userGroupRepository, SystemCertificateRepository certificateRepository,
-                                       SessionManagementRepository sessionManagementRepository) {
+                                       ClientRepository clientRepository, PermissionRepository permissionRepository,
+                                       SystemCertificateRepository certificateRepository,
+                                       SessionManagementRepository sessionManagementRepository, MetheaPasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.clientRepository = clientRepository;
-        this.userGrantedPermissionRepository = userGrantedPermissionRepository;
-        this.userGroupRepository = userGroupRepository;
+        this.permissionRepository = permissionRepository;
         this.certificateRepository = certificateRepository;
         this.sessionManagementRepository = sessionManagementRepository;
+        this.encoder = encoder;
     }
 
     @Override
@@ -200,7 +199,6 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
     }
 
     private PrincipalAuthentication loadUserAsClient(RequestTokenPayload payload) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         TUser user = userRepository.findByUsernameAndStatus(payload.getClientId(), MetheaConstant.ACTIVE_STATUS);
 
         if (ObjectUtils.isEmpty(user)) {
@@ -213,7 +211,6 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
     }
 
     private PrincipalAuthentication loadClient(RequestTokenPayload payload) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         TClient client = clientRepository.findClientByClientIdAndStatus(payload.getClientId(), MetheaConstant.ACTIVE_STATUS);
         if (ObjectUtils.isEmpty(client)) {
             return null;
@@ -231,16 +228,18 @@ public class MetheaAuthenticationService implements UserDetailsService, Authenti
         principal.setUsername(client.getClientId());
         principal.setForceUserResetPassword(MetheaConstant.NO);
         return new PrincipalAuthentication(client.getClientId(), client.getClientSecret(), new ArrayList<>(),
-                userGrantedPermissionRepository.getByQuery(param, PermissionView.class), principal);
+                permissionRepository.getByQuery(param, PermissionView.class), principal);
     }
 
     private PrincipalAuthentication buildPrincipal(TUser user) {
         MetheaPrincipal principal = new MetheaPrincipal();
+        List<GroupAuthorityView> grantedAuthority = new ArrayList<>();
         Map<String, Object> param = new HashMap<>();
-        param.put("username", user.getUsername());
+        param.put("roles", user.getRoles());
         BeanUtils.copyProperties(user, principal);
-        return new PrincipalAuthentication(user.getUsername(), user.getPassword(),
-                userGroupRepository.getByQuery(param, GroupAuthorityView.class),
-                userGrantedPermissionRepository.getByQuery(param, PermissionView.class), principal);
+        GroupAuthorityView groupAuthorityView = new GroupAuthorityView(user.getGroup().getGroupCode());
+        grantedAuthority.add(groupAuthorityView);
+        return new PrincipalAuthentication(user.getUsername(), user.getPassword(), grantedAuthority,
+                permissionRepository.getByQuery(param, PermissionView.class), principal);
     }
 }
