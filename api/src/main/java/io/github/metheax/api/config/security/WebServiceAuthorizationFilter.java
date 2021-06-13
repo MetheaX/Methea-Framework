@@ -25,7 +25,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -63,9 +62,8 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
         TPublicPermission tmp = null;
         // Initial white list
         if (CollectionUtils.isNotEmpty(whiteURIs)) {
-            // @Todo
-            //Map<String, TPublicPermission> map = whiteURIs.stream().collect(Collectors.toMap(TPublicPermission::getUriName, o -> o));
-            Map<String, TPublicPermission> map = new HashMap<>();
+            Map<String, TPublicPermission> map = whiteURIs.stream()
+                    .collect(Collectors.toMap(x -> x.getResource().getResourceName(), o -> o));
             // check white parent config
             String wURI = StringUtils.EMPTY;
             for (String str : req.getRequestURI().split(MetheaConstant.SLASH)) {
@@ -87,7 +85,7 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
             }
         }
 
-        // validate white list
+        // validate allow method
         if (!ObjectUtils.isEmpty(tmp)) {
             if (tmp.getAllowedMethod().contains(req.getMethod())) {
                 authentication = metheaAuthenticationService.loadUserByUsername(MetheaConstant.PUBLIC_USER);
