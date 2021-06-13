@@ -43,7 +43,7 @@ public class SystemCertificateController {
     public String viewSystemCertificate(Model model, HttpServletRequest request) {
         model.addAttribute(MetheaConstant.CONTEXT_PATH_KEY, SystemUtils.getBaseUrl(request));
         model.addAttribute("certificateStatus", certificateService.getSystemCertificate());
-        model.addAttribute(MetheaConstant.CORE_MENU, MetheaCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
+        model.addAttribute(MetheaConstant.CORE_MENU, MetheaCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupCode(request)));
         return CERTIFICATE_TEMPLATE_PATH;
     }
 

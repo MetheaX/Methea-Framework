@@ -56,7 +56,7 @@
                             <#if m.subMenu?has_content>
                                 <#list m.subMenu as s>
                                     <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link"
-                                                                      href="${contextPath}${s.uriName}">
+                                                                      href="${contextPath}${s.resource.resourceName}">
                                             <span class="c-sidebar-nav-icon"></span><i class="${s.menuIcon}"></i>&nbsp;&nbsp;${s.menuLabel}
                                         </a></li>
                                 </#list>

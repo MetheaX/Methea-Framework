@@ -1,6 +1,5 @@
 package io.github.metheax.cache;
 
-import io.github.metheax.domain.entity.TGroup;
 import io.github.metheax.domain.view.MenuRender;
 
 import java.util.HashMap;
@@ -16,5 +15,5 @@ public class MetheaCache {
 
     public static final Map<String, Object> CACHE_META_DATA = new HashMap<>();
 
-    public static final Map<TGroup, List<MenuRender>> CACHE_MENU = new HashMap<>();
+    public static final Map<String, List<MenuRender>> CACHE_MENU = new HashMap<>();
 }

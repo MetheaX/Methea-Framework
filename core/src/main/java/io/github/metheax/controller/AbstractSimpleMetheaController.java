@@ -182,7 +182,7 @@ public abstract class AbstractSimpleMetheaController<E extends AbstractMetheaEnt
         model.addAttribute("errors", new HashMap<>());
         model.addAttribute("hasErrors", false);
         model.addAttribute("popup", dataTableId);
-        model.addAttribute(MetheaConstant.CORE_MENU, MetheaCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupId(request)));
+        model.addAttribute(MetheaConstant.CORE_MENU, MetheaCache.CACHE_MENU.get(PrincipalUtils.getLoginGroupCode(request)));
         getExtraAttribute(model);
     }
 

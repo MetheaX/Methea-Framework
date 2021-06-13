@@ -25,12 +25,12 @@ public class PrincipalUtils {
         return ((PrincipalAuthentication) user.getPrincipal()).getUsername();
     }
 
-    public static String getLoginGroupId(HttpServletRequest request) {
+    public static String getLoginGroupCode(HttpServletRequest request) {
         Authentication user = getAuthentication(request);
         if (ObjectUtils.isEmpty(user)) {
             return "System";
         }
-        return ((PrincipalAuthentication) user.getPrincipal()).getMetheaPrincipal().getGroupId();
+        return ((PrincipalAuthentication) user.getPrincipal()).getMetheaPrincipal().getGroupCode();
     }
 
     private static Authentication getAuthentication(HttpServletRequest request) {

@@ -2,7 +2,6 @@ package io.github.metheax.service;
 
 import io.github.metheax.domain.entity.TMenu;
 import io.github.metheax.constant.MetheaConstant;
-import io.github.metheax.domain.entity.TGroup;
 import io.github.metheax.domain.binder.MenuBinder;
 import io.github.metheax.domain.view.MenuRender;
 import io.github.metheax.domain.view.MenuView;
@@ -32,15 +31,15 @@ public class MenuService extends AbstractSimpleMetheaService<TMenu, MenuBinder, 
         this.repository = repository;
     }
 
-    public Map<TGroup, List<MenuRender>> getAllMenuByGroup() {
-        Map<TGroup, List<MenuRender>> map = new HashMap<>();
+    public Map<String, List<MenuRender>> getAllMenuByGroup() {
+        Map<String, List<MenuRender>> map = new HashMap<>();
         List<TMenu> menus = repository.findAllByStatusOrderByIndexAsc(MetheaConstant.ACTIVE_STATUS);
 
         // group menu by group
-        Map<TGroup, List<TMenu>> menuByGroup = menus.stream().collect(Collectors.groupingBy(TMenu::getGroup));
+        Map<String, List<TMenu>> menuByGroup = menus.stream().collect(Collectors.groupingBy(o -> o.getGroup().getGroupCode()));
         List<MenuRender> menuRenders;
         // menu by parent
-        for (Map.Entry<TGroup, List<TMenu>> entry : menuByGroup.entrySet()) {
+        for (Map.Entry<String, List<TMenu>> entry : menuByGroup.entrySet()) {
             menuRenders = new ArrayList<>();
             Map<String, List<TMenu>> tmp = entry.getValue().stream().collect(Collectors.groupingBy(TMenu::getParentId));
             for (TMenu menu : entry.getValue()) {

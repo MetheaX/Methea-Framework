@@ -53,6 +53,7 @@ public class CustomAuthenticationService implements UserDetailsService {
         Map<String, Object> param = new HashMap<>();
         param.put("roles", user.getRoles());
         BeanUtils.copyProperties(user, principal);
+        principal.setGroupCode(user.getGroup().getGroupCode());
         GroupAuthorityView groupAuthorityView = new GroupAuthorityView(user.getGroup().getGroupCode());
         List<GroupAuthorityView> grantedAuthority = new ArrayList<>();
         grantedAuthority.add(groupAuthorityView);

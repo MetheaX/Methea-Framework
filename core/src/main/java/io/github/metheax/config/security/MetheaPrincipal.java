@@ -7,7 +7,7 @@ package io.github.metheax.config.security;
 public class MetheaPrincipal {
 
     private String username;
-    private String groupId;
+    private String groupCode;
     private String phone;
     private String email;
     private String forceUserResetPassword;
@@ -30,12 +30,12 @@ public class MetheaPrincipal {
         this.username = username;
     }
 
-    public String getGroupId() {
-        return groupId;
+    public String getGroupCode() {
+        return groupCode;
     }
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
     }
 
     public String getPhone() {
