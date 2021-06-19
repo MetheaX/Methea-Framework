@@ -24,7 +24,7 @@ Support with `Spring Boot 2.2.2.Release` and later version of Spring Boot.
 1.  Adding dependency to your spring boot application
 
 	    <dependency>
-            <groupId>io.methea</groupId>
+            <groupId>io.github.metheax</groupId>
             <artifactId>api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

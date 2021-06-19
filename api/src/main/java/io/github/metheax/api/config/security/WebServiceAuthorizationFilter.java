@@ -1,5 +1,7 @@
 package io.github.metheax.api.config.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import io.github.metheax.api.service.MetheaAuthenticationService;
 import io.github.metheax.config.security.GrantedPermission;
 import io.github.metheax.config.security.PrincipalAuthentication;
@@ -9,10 +11,12 @@ import io.github.metheax.domain.entity.TSystemCertificate;
 import io.github.metheax.exception.CertificateNotFoundException;
 import io.github.metheax.repository.WhiteURIPermissionRepository;
 import io.github.metheax.repository.SystemCertificateRepository;
-import io.github.metheax.utils.SystemUtils;
 import io.github.metheax.utils.auth.JwtUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +29,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,10 +40,11 @@ import java.util.stream.Collectors;
  */
 public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
 
+    private static Logger log = LoggerFactory.getLogger(WebServiceAuthorizationFilter.class);
+
     private final MetheaAuthenticationService metheaAuthenticationService;
     private final SystemCertificateRepository certificateRepository;
     private final WhiteURIPermissionRepository whiteURLRepository;
-    private static final String UNAUTHORIZED_ACCESS_URL = "/unauthorized-access";
     private static final String WHITE_URL = "auth";
 
     @Inject
@@ -69,7 +75,7 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
             for (String str : req.getRequestURI().split(MetheaConstant.SLASH)) {
                 wURI = wURI.concat(MetheaConstant.SLASH).concat(StringUtils.stripToEmpty(str));
                 StringBuilder builder = new StringBuilder(wURI);
-                String key = (builder.deleteCharAt(0).toString() + MetheaConstant.SLASH_STAR);
+                String key = (builder.deleteCharAt(0) + MetheaConstant.SLASH_STAR);
                 if (map.containsKey(key)) {
                     tmp = map.get(key);
                     break;
@@ -102,13 +108,17 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
             if (ObjectUtils.isEmpty(certificate)) {
                 throw new CertificateNotFoundException("No active certificate could be found! Please check system certificate!");
             }
+
             String subject = JwtUtil.decodeToken(token.replace(SecurityConstants.TOKEN_PREFIX, StringUtils.EMPTY), certificate.getPrivateKey());
             if (!StringUtils.isEmpty(subject)) {
                 authentication = metheaAuthenticationService.loadUserByUsername(subject.split(MetheaConstant.COLON)[0]);
                 if (metheaAuthenticationService.validateUserRevokedToken(subject)) {
-                    res.sendRedirect(SystemUtils.getBaseUrl(req).concat(UNAUTHORIZED_ACCESS_URL));
+                    constructUnAuthorizeResponse(res);
                     return;
                 }
+            } else {
+                constructUnAuthorizeResponse(res);
+                return;
             }
         }
         // validate permission
@@ -124,7 +134,7 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
             for (String str : requestURI.split(MetheaConstant.SLASH)) {
                 uri = uri.concat(MetheaConstant.SLASH).concat(StringUtils.stripToEmpty(str));
                 StringBuilder builder = new StringBuilder(uri);
-                if (grantedURIs.contains(requestURI) || grantedURIs.contains((builder.deleteCharAt(0).toString() + MetheaConstant.SLASH_STAR))) {
+                if (grantedURIs.contains(requestURI) || grantedURIs.contains((builder.deleteCharAt(0) + MetheaConstant.SLASH_STAR))) {
                     isNotAuthorize = false;
                 }
             }
@@ -134,12 +144,25 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
                 isNotAuthorize = false;
             }
             if (isNotAuthorize) {
-                res.sendRedirect(SystemUtils.getBaseUrl(req).concat(UNAUTHORIZED_ACCESS_URL));
+                constructUnAuthorizeResponse(res);
                 return;
             }
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(authentication, null, authentication.getAuthorities()));
         }
         chain.doFilter(req, res);
+    }
+
+    private void constructUnAuthorizeResponse(HttpServletResponse res) throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "Unauthorized Access!!");
+        map.put("status", 401);
+
+        ObjectMapper mapper = new ObjectMapper().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        String jsonFormat = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
+        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        res.setContentLength(jsonFormat.length());
+        res.getWriter().write(jsonFormat);
     }
 }
