@@ -48,7 +48,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/auth/**", "/unauthorized-access").permitAll()
+                .antMatchers("/auth/**").permitAll()
                 .antMatchers("/**").authenticated().and()
                 .addFilter(new WebServiceAuthorizationFilter(metheaAuthenticationService, authenticationManager(),
                         certificateRepository, whiteURIPermissionRepository))

@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +32,6 @@ import java.util.Map;
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AuthenticationController {
     private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
-    private static final String UNAUTHORIZED_ACCESS_URL = "/unauthorized-access";
     private static final String GET_ACCESS_TOKEN_URL = "/auth/token";
     private static final String VERIFY_REFRESH_TOKEN = "/auth/refresh/token";
     private static final String REVOKE_ACCESS_TOKEN_URL = "/auth/token/revoke";
@@ -43,15 +41,6 @@ public class AuthenticationController {
     @Inject
     public AuthenticationController(MetheaAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
-    }
-
-    @GetMapping(value = UNAUTHORIZED_ACCESS_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, Object>> unauthorizedAccess() {
-        Map<String, Object> map = new HashMap<>();
-        map.put(MetheaConstant.JSON_MESSAGE, "Unauthorized Access!!");
-        map.put(MetheaConstant.JSON_STATUS, 401);
-
-        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @PostMapping(value = GET_ACCESS_TOKEN_URL, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
