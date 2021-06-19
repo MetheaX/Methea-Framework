@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>methea</artifactId>
-        <groupId>io.methea</groupId>
+        <groupId>io.github.metheax</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -26,14 +26,9 @@
         </dependency>
         <dependency>
             <groupId>io.methea</groupId>
-            <artifactId>web-ui</artifactId>
+            <artifactId>api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.methea</groupId>-->
-<!--            <artifactId>api</artifactId>-->
-<!--            <version>0.0.1-SNAPSHOT</version>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -47,7 +42,7 @@
                             <goal>repackage</goal>
                         </goals>
                         <configuration>
-                            <mainClass>io.methea.admin.AdminApplication</mainClass>
+                            <mainClass>io.github.metheax.admin.AdminApplication</mainClass>
                         </configuration>
                     </execution>
                 </executions>
