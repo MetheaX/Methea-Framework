@@ -3,7 +3,7 @@ package io.github.metheax.domain.view.abs;
 import java.io.Serializable;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 18/04/2020
  */
 public abstract class AbstractMetheaView<V> implements Serializable {

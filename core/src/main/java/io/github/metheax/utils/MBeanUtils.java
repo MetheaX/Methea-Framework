@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 26/04/2020
  */
 public class MBeanUtils {

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 14/04/2020
  */
 public interface HibernateExtensionRepository<V, ID> {

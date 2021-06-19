@@ -1,7 +1,7 @@
 package io.github.metheax.exception;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 18/06/2020
  */
 public class UserInactiveException extends RuntimeException {

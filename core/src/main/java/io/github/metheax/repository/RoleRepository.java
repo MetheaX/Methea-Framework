@@ -1,14 +1,12 @@
 package io.github.metheax.repository;
 
 import io.github.metheax.domain.entity.TRole;
-import io.github.metheax.domain.view.RoleView;
-import io.github.metheax.repository.hibernateextension.HibernateExtensionRepository;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 21/08/2019
  */
-public interface RoleRepository extends CrudRepository<TRole, String>, HibernateExtensionRepository<RoleView, String> {
+public interface RoleRepository extends JpaRepository<TRole, String> {
     TRole findTRoleByName(String name);
 }

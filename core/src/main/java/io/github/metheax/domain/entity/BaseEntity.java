@@ -14,7 +14,7 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 01/02/2020
  */
 @MappedSuperclass

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 05/05/2020
  */
 @Configuration

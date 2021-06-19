@@ -1,7 +1,7 @@
 package io.github.metheax.api.config.security;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 13/04/2020
  */
 public class SecurityConstants {

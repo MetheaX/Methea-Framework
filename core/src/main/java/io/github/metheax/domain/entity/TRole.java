@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 21/08/2019
  */
 @Entity

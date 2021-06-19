@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 08/08/2020
  */
 @SpringBootApplication(scanBasePackages = {"io.github.metheax"})

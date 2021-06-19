@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.metheax.domain.binder.BaseBinder;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 08/08/2020
  */
 public class Token extends BaseBinder<Token> {

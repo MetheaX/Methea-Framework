@@ -1,7 +1,7 @@
 package io.github.metheax.config.security;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 16/04/2020
  */
 public interface GrantedPermission {

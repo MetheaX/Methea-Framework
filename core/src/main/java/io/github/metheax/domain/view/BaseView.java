@@ -3,7 +3,7 @@ package io.github.metheax.domain.view;
 import io.github.metheax.domain.view.abs.AbstractMetheaView;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 17/04/2020
  */
 public class BaseView<V> extends AbstractMetheaView<V> {

@@ -3,7 +3,7 @@ package io.github.metheax.utils;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 9/8/2019
  */
 public class SystemUtils {

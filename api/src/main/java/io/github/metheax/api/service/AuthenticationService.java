@@ -8,7 +8,7 @@ import io.github.metheax.api.domain.Token;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 08/08/2020
  */
 public interface AuthenticationService {

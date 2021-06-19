@@ -3,7 +3,7 @@ package io.github.metheax.domain.entity;
 import javax.persistence.*;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 28/06/2020
  */
 @Entity

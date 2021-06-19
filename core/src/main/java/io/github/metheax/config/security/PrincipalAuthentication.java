@@ -7,7 +7,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.*;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 16/04/2020
  */
 public class PrincipalAuthentication extends User {

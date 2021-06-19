@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 08/08/2020
  */
 @RestController

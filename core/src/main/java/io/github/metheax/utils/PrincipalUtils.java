@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 02/02/2020
  */
 public class PrincipalUtils {

@@ -5,7 +5,7 @@ import io.github.metheax.repository.hibernateextension.annotation.Column;
 import io.github.metheax.repository.hibernateextension.annotation.SelectFrom;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 16/04/2020
  */
 @SelectFrom(fromClause = "FROM TPermission o")

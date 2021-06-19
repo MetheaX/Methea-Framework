@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 21/08/2019
  */
 @Entity

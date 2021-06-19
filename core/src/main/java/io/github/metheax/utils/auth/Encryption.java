@@ -10,7 +10,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 03/05/2020
  */
 public class Encryption {

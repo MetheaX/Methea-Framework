@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 05/05/2020
  */
 @Entity

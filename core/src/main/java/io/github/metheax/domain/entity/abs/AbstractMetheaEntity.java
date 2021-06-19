@@ -6,7 +6,7 @@ import javax.persistence.Transient;
 import java.io.Serializable;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 18/04/2020
  */
 public abstract class AbstractMetheaEntity<E> implements Serializable {

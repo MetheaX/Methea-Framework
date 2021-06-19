@@ -1,7 +1,7 @@
 package io.github.metheax.utils;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 14/04/2020
  */
 import org.apache.commons.lang3.StringUtils;

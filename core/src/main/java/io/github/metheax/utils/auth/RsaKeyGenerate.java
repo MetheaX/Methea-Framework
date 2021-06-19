@@ -6,7 +6,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import java.security.*;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 03/05/2020
  */
 public class RsaKeyGenerate {

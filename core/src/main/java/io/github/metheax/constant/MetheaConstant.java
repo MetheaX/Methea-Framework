@@ -1,7 +1,7 @@
 package io.github.metheax.constant;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 9/8/2019
  */
 public class MetheaConstant {

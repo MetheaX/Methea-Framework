@@ -24,7 +24,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 03/05/2020
  */
 public class JwtUtil {

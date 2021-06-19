@@ -1,6 +1,5 @@
 package io.github.metheax.utils;
 
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 18/01/2020
  */
 public class MDateUtil {

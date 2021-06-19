@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 05/05/2020
  */
 public class SecurityAuditorAware implements AuditorAware<String> {

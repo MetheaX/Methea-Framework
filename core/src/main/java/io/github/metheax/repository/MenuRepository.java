@@ -1,18 +1,15 @@
 package io.github.metheax.repository;
 
 import io.github.metheax.domain.entity.TMenu;
-import io.github.metheax.domain.view.MenuView;
-import io.github.metheax.repository.hibernateextension.HibernateExtensionRepository;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 04/07/2020
  */
-public interface MenuRepository extends CrudRepository<TMenu, String>,
-        HibernateExtensionRepository<MenuView, String> {
+public interface MenuRepository extends JpaRepository<TMenu, String> {
     List<TMenu> findAllByGroupIdAndStatus(String groupId, String status);
     List<TMenu> findAllByStatusOrderByIndexAsc(String status);
 }

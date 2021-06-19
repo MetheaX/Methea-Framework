@@ -3,7 +3,7 @@ package io.github.metheax.domain.view;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 16/04/2020
  */
 public class GroupAuthorityView extends BaseView<GroupAuthorityView> implements GrantedAuthority {

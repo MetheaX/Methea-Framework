@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 09/04/2018
  */
 public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {

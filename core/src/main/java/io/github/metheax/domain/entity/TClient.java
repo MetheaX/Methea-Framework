@@ -5,7 +5,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 03/05/2020
  */
 @Entity

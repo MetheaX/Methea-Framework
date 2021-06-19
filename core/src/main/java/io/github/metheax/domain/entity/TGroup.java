@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 21/08/2019
  */
 @Entity
@@ -16,7 +16,7 @@ public class TGroup extends BaseEntity<TGroup> {
     @Id
     @Column(name = "group_id", length = 36)
     private String id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id")
     private TAccount account;
     @Column(name = "group_code", nullable = false, unique = true, length = 18)

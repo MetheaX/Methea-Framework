@@ -24,7 +24,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 /**
- * Author : DKSilverX
+ * Author : Kuylim Tith
  * Date : 17/04/2020
  */
 public abstract class AbstractSimpleMetheaService<E extends AbstractMetheaEntity<E>, B extends AbstractMetheaBinder<B>, ID,
