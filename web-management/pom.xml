@@ -13,7 +13,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <postgres.version>42.4.2</postgres.version>
+        <postgres.version>42.5.0</postgres.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
