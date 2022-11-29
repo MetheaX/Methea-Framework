@@ -19,7 +19,7 @@
         <jwt.version>8.23</jwt.version>
         <apache.commons.collection.version>4.4</apache.commons.collection.version>
         <apache.commons.bean.version>1.9.4</apache.commons.bean.version>
-        <apache.commons.text.version>1.9</apache.commons.text.version>
+        <apache.commons.text.version>1.10.0</apache.commons.text.version>
         <apache.commons.codec.version>1.8</apache.commons.codec.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
