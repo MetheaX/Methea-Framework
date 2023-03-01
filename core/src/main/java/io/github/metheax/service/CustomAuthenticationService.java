@@ -8,6 +8,7 @@ import io.github.metheax.domain.view.GroupAuthorityView;
 import io.github.metheax.domain.view.PermissionView;
 import io.github.metheax.domain.entity.TUser;
 import io.github.metheax.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -18,7 +19,6 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

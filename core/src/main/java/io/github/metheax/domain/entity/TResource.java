@@ -1,6 +1,9 @@
 package io.github.metheax.domain.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * Author : Kuylim Tith

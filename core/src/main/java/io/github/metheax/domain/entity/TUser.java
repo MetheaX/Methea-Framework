@@ -1,10 +1,10 @@
 package io.github.metheax.domain.entity;
 
 import io.github.metheax.constant.MetheaConstant;
+import jakarta.persistence.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;

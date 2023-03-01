@@ -1,8 +1,9 @@
 package io.github.metheax.domain.entity;
 
-import org.hibernate.annotations.Type;
+import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
 
-import javax.persistence.*;
+import java.sql.Types;
 
 /**
  * Author : Kuylim Tith
@@ -25,8 +26,8 @@ public class TClient extends BaseEntity<TClient> {
     @Transient
     private String oneTimeDisplaySecretKey;
 
-    @Type(type = "text")
-
+    // @Type(type = "text") // no longer support in hibernate 6
+    @JdbcTypeCode(Types.LONGVARCHAR)
     public String getId() {
         return id;
     }

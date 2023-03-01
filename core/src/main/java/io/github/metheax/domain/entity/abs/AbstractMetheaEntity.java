@@ -1,8 +1,8 @@
 package io.github.metheax.domain.entity.abs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Transient;
 
-import javax.persistence.Transient;
 import java.io.Serializable;
 
 /**

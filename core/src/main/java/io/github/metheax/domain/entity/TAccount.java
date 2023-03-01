@@ -1,8 +1,11 @@
 package io.github.metheax.domain.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.*;
 import java.util.UUID;
 
 /**

@@ -6,6 +6,7 @@ import io.github.metheax.api.domain.Token;
 import io.github.metheax.api.service.MetheaAuthenticationService;
 import io.github.metheax.api.domain.RevokeTokenPayload;
 import io.github.metheax.constant.MetheaConstant;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
