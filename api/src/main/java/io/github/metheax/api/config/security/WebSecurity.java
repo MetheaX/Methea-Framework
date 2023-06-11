@@ -1,59 +1,68 @@
 package io.github.metheax.api.config.security;
 
 import io.github.metheax.api.service.MetheaAuthenticationService;
-import io.github.metheax.repository.WhiteURIPermissionRepository;
 import io.github.metheax.repository.SystemCertificateRepository;
+import io.github.metheax.repository.WhiteURIPermissionRepository;
 import io.github.metheax.utils.auth.MetheaPasswordEncoder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Collections;
 
 /**
- * Author : Kuylim Tith
- * Date : 18/06/2020
+ * Author: Kuylim TITH
+ * Date: 3/2/2023
  */
-@EnableWebSecurity
-public class WebSecurity extends WebSecurityConfigurerAdapter {
+@Configuration
+public class WebSecurity {
 
     private final MetheaAuthenticationService metheaAuthenticationService;
     private final MetheaPasswordEncoder encoder;
     private final SystemCertificateRepository certificateRepository;
     private final WhiteURIPermissionRepository whiteURIPermissionRepository;
 
-    @Inject
-    public WebSecurity(MetheaAuthenticationService service, MetheaPasswordEncoder encoder,
-                       SystemCertificateRepository certificateRepository,
-                       WhiteURIPermissionRepository whiteURIPermissionRepository) {
+    public WebSecurity(MetheaAuthenticationService metheaAuthenticationService, MetheaPasswordEncoder encoder,
+                       SystemCertificateRepository certificateRepository, WhiteURIPermissionRepository whiteURIPermissionRepository) {
+        this.metheaAuthenticationService = metheaAuthenticationService;
         this.encoder = encoder;
         this.certificateRepository = certificateRepository;
-        this.metheaAuthenticationService = service;
         this.whiteURIPermissionRepository = whiteURIPermissionRepository;
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(metheaAuthenticationService).passwordEncoder(encoder);
+        // authenticationManagerBuilder.authenticationProvider(authProvider);
+        return authenticationManagerBuilder.build();
     }
 
-    @Override
-    public void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/**").authenticated().and()
-                .addFilter(new WebServiceAuthorizationFilter(metheaAuthenticationService, authenticationManager(),
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry
+                        -> authorizationManagerRequestMatcherRegistry
+                                .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/**").authenticated()).addFilter(new WebServiceAuthorizationFilter(metheaAuthenticationService, authManager(http),
                         certificateRepository, whiteURIPermissionRepository))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        httpSecurity.headers().frameOptions().sameOrigin();
+                .sessionManagement(httpSecuritySessionManagementConfigurer
+                        -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.headers(httpSecurityHeadersConfigurer
+                -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+        return http.build();
     }
 
     @Bean
