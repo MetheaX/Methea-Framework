@@ -3,6 +3,7 @@ package io.github.metheax.domain.entity.abs;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Transient;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * Date : 18/04/2020
  */
 public abstract class AbstractMetheaEntity<E> implements Serializable {
+    @Serial
     private static final long serialVersionUID = -7630748772877363263L;
 
     @Transient

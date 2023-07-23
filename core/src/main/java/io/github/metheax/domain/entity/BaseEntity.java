@@ -11,6 +11,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 /**
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity<E> extends AbstractMetheaEntity<E> {
 
+    @Serial
     private static final long serialVersionUID = -8290479674879840950L;
 
     @Column(name = "status", nullable = false)
