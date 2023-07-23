@@ -65,7 +65,7 @@ Support with `Spring Boot 3.1.0` and later version of Spring Boot.
     INSERT INTO public.core_permission (permission_id, created_date_time, created_user, status, updated_date_time, updated_user, resource_id, role_id) VALUES ('bdee9930-cbde-4e62-96d8-91df821a698b', '2021-06-13 10:57:36.763762', 'System', 'A', '2021-06-13 10:57:36.763762', 'System', 'ad5ea55c-547a-4537-8797-e3714c64d8a3', '33525a14-0ebc-4a3e-ada5-bd3ef94c9495');
     ```
 5. Generate keystore for access token and refresh token
-    * We recommend using [KeyStore Exploer](https://keystore-explorer.org/) to generate key store
+    * We recommend using [KeyStore Explorer](https://keystore-explorer.org/) to generate key store
     * Place keystore under `resources` directory as `resources/keystore`
     * Use below configuration in your `application.properties` or `application.yml`
     ```yaml
@@ -82,3 +82,5 @@ Support with `Spring Boot 3.1.0` and later version of Spring Boot.
 
 6. Sample project
     * Still have doubt on how to integrate, here is our [sample project](https://github.com/MetheaX/Methea-Sample-Webservice)
+# Support
+If you encounter any issues regarding this project, please create a GitHub Issue. Email me `kuylim.tith@outlook.com` If you need special support or customize for your organization.  
