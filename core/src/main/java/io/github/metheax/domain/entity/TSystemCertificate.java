@@ -1,11 +1,12 @@
 package io.github.metheax.domain.entity;
 
-import org.hibernate.annotations.Type;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcTypeCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.sql.Types;
 
 /**
  * Author : Kuylim Tith
@@ -18,13 +19,13 @@ public class TSystemCertificate extends BaseEntity<TSystemCertificate> {
 
     @Id
     private String id;
-    @Type(type = "text")
+    @JdbcTypeCode(Types.LONGVARCHAR)
     @Column(name = "code", nullable = false, unique = true)
     private String code;
-    @Type(type = "text")
+    @JdbcTypeCode(Types.LONGVARCHAR)
     @Column(name = "private_key", nullable =  false)
     private String privateKey;
-    @Type(type = "text")
+    @JdbcTypeCode(Types.LONGVARCHAR)
     @Column(name = "public_key", nullable = false)
     private String publicKey;
 

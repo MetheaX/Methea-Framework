@@ -24,6 +24,8 @@ import io.github.metheax.repository.SystemCertificateRepository;
 import io.github.metheax.utils.SystemUtils;
 import io.github.metheax.utils.auth.JwtUtil;
 import io.github.metheax.utils.auth.MetheaPasswordEncoder;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Scope;
@@ -37,8 +39,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 import java.util.*;
 
 /**

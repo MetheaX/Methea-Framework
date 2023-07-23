@@ -4,8 +4,7 @@ import io.github.metheax.api.domain.RefreshTokenPayload;
 import io.github.metheax.api.domain.RequestTokenPayload;
 import io.github.metheax.api.domain.RevokeTokenPayload;
 import io.github.metheax.api.domain.Token;
-
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Author : Kuylim Tith

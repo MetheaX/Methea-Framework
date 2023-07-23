@@ -2,12 +2,11 @@ package io.github.metheax.utils;
 
 import io.github.metheax.config.security.PrincipalAuthentication;
 import io.github.metheax.constant.MetheaConstant;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.util.ObjectUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * Author : Kuylim Tith

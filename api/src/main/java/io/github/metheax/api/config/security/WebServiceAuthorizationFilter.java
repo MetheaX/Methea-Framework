@@ -12,6 +12,10 @@ import io.github.metheax.exception.CertificateNotFoundException;
 import io.github.metheax.repository.WhiteURIPermissionRepository;
 import io.github.metheax.repository.SystemCertificateRepository;
 import io.github.metheax.utils.auth.JwtUtil;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -24,10 +28,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.util.ObjectUtils;
 
 import javax.inject.Inject;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;

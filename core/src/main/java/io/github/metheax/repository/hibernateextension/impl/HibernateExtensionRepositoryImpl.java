@@ -4,6 +4,8 @@ import io.github.metheax.repository.hibernateextension.HibernateExtensionReposit
 import io.github.metheax.repository.hibernateextension.annotation.Column;
 import io.github.metheax.repository.hibernateextension.annotation.SelectFrom;
 import io.github.metheax.repository.hibernateextension.domain.HibernatePage;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;

@@ -1,6 +1,6 @@
 package io.github.metheax.utils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Author : Kuylim Tith
