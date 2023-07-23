@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.util.CollectionUtils;
 
+import java.io.Serial;
 import java.util.*;
 
 /**
@@ -12,6 +13,7 @@ import java.util.*;
  */
 public class PrincipalAuthentication extends User {
 
+    @Serial
     private static final long serialVersionUID = 1710102819742330038L;
     private final List<GrantedPermission> grantedPermissions;
     private final MetheaPrincipal metheaPrincipal;

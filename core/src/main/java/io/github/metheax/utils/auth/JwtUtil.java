@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.Security;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -31,19 +33,15 @@ public class JwtUtil {
 
     private static final Logger log = LoggerFactory.getLogger(JwtUtil.class);
 
-    private JwtUtil(){}
+    private JwtUtil() {
+    }
 
-    public static String decodeToken(String token, String privateKey) {
+    public static String decodeToken(String token, PrivateKey privateKey) {
         String subject = StringUtils.EMPTY;
 
         try {
-            Security.addProvider(new BouncyCastleProvider());
-            byte[] data = Base64.decodeBase64(privateKey);
-            PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(data);
-            KeyFactory fact = KeyFactory.getInstance(MetheaConstant.RSA);
-            RSAPrivateKey priKey = (RSAPrivateKey) fact.generatePrivate(spec);
             EncryptedJWT jwtDecrypt = EncryptedJWT.parse(new String(Base64.decodeBase64(token)));
-            RSADecrypter decrypter = new RSADecrypter(priKey);
+            RSADecrypter decrypter = new RSADecrypter(privateKey);
             jwtDecrypt.decrypt(decrypter);
             if (System.currentTimeMillis() > jwtDecrypt.getJWTClaimsSet().getExpirationTime().getTime()) {
                 return subject;
@@ -56,16 +54,10 @@ public class JwtUtil {
         return subject;
     }
 
-    public static Map<String, String> encodeToken(String key, String subject, String issuer, Calendar expiration) {
+    public static Map<String, String> encodeToken(PublicKey key, String subject, String issuer, Calendar expiration) {
 
         Map<String, String> map = new HashMap<>();
         try {
-            Security.addProvider(new BouncyCastleProvider());
-            byte[] data = Base64.decodeBase64(key);
-            X509EncodedKeySpec spec = new X509EncodedKeySpec (data);
-            KeyFactory fact = KeyFactory.getInstance(MetheaConstant.RSA);
-            RSAPublicKey pubKey = (RSAPublicKey) fact.generatePublic(spec);
-
             JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                     .subject(subject.concat(MetheaConstant.COLON).concat(RequestContextHolder.currentRequestAttributes().getSessionId()))
                     .issuer(issuer)
@@ -77,7 +69,7 @@ public class JwtUtil {
             JWEHeader header = new JWEHeader(JWEAlgorithm.RSA_OAEP_256
                     , EncryptionMethod.A256GCM);
             EncryptedJWT jwtEncrypt = new EncryptedJWT(header, claimsSet);
-            RSAEncrypter encryptors = new RSAEncrypter(pubKey);
+            RSAEncrypter encryptors = new RSAEncrypter((RSAPublicKey) key);
 
             jwtEncrypt.encrypt(encryptors);
             String jwtToken = jwtEncrypt.serialize();

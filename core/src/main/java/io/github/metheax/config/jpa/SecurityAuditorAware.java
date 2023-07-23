@@ -1,10 +1,10 @@
 package io.github.metheax.config.jpa;
 
 import io.github.metheax.utils.PrincipalUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.AuditorAware;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**
