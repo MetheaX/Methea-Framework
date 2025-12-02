@@ -16,7 +16,7 @@
         <java.version>17</java.version>
         <inject.version>1</inject.version>
         <apache.commons.version>3.18.0</apache.commons.version>
-        <jwt.version>10.0.2</jwt.version>
+        <jwt.version>10.6</jwt.version>
         <apache.commons.collection.version>4.4</apache.commons.collection.version>
         <apache.commons.bean.version>1.9.4</apache.commons.bean.version>
         <apache.commons.text.version>1.14.0</apache.commons.text.version>
