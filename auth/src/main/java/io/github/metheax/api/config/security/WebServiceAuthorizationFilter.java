@@ -1,7 +1,5 @@
 package io.github.metheax.api.config.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import io.github.metheax.api.service.MetheaAuthenticationService;
 import io.github.metheax.config.security.GrantedPermission;
 import io.github.metheax.config.security.PrincipalAuthentication;
@@ -22,6 +20,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.util.ObjectUtils;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -147,7 +148,7 @@ public class WebServiceAuthorizationFilter extends BasicAuthenticationFilter {
         map.put("message", "Unauthorized Access!!");
         map.put("status", 401);
 
-        ObjectMapper mapper = new ObjectMapper().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        ObjectMapper mapper = JsonMapper.builder().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS).build();
         String jsonFormat = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
         res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         res.setContentType(MediaType.APPLICATION_JSON_VALUE);

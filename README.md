@@ -12,14 +12,14 @@ Methea build on top of following frameworks:
 # Building from sources
 
 Pre-requires
- * Java 17 or above JDK as JAVA_HOME
+ * Java 21 or above JDK as JAVA_HOME
  * Maven as its build tool.
  * Keystore generator
 
 How to build
  * Simply by checkout source code from our repository and using maven command `mvn clean install` to build framework.
 
-Support with `Spring Boot 3.1.0` and later version of Spring Boot.
+Support with `Spring Boot 4.0.2` and later version of Spring Boot.
 
 # Overview Structure
 * Account - refer to company  or organization
