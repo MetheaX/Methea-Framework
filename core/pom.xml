@@ -15,12 +15,12 @@
     <properties>
         <java.version>21</java.version>
         <inject.version>1</inject.version>
-        <apache.commons.version>3.19.0</apache.commons.version>
+        <apache.commons.version>3.20.0</apache.commons.version>
         <apache.commons.collection.version>4.5.0</apache.commons.collection.version>
-        <jwt.version>10.6</jwt.version>
         <jackson-databind.version>3.0.4</jackson-databind.version>
+        <jwt.version>10.7</jwt.version>
         <apache.commons.bean.version>1.9.4</apache.commons.bean.version>
-        <apache.commons.text.version>1.14.0</apache.commons.text.version>
+        <apache.commons.text.version>1.15.0</apache.commons.text.version>
         <apache.common.io.version>2.21.0</apache.common.io.version>
         <apache.commons.codec.version>1.8</apache.commons.codec.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
