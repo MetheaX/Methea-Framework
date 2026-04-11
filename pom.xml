@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
-        <module>core</module>
-        <module>auth</module>
-        <module>auth-app</module>
+        <module>sena-core</module>
+        <module>sena-auth</module>
+        <module>sena-auth-app</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -13,11 +13,11 @@
         <version>4.0.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>io.github.metheax</groupId>
-    <artifactId>methea</artifactId>
+    <groupId>com.metheax.sena</groupId>
+    <artifactId>metheax-sena</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>methea</name>
-    <description>methea</description>
+    <name>metheax-sena</name>
+    <description>metheax sena</description>
     <packaging>pom</packaging>
 
     <build>
