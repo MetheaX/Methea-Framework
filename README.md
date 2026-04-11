@@ -1,6 +1,6 @@
-# Methea Framework
+# Sena Framework
 
-Methea is a plug-and-play authentication and access-management framework for **Spring Boot RESTful services**.
+Sena is a plug-and-play authentication and access-management framework for **Spring Boot RESTful services** under **MetheaX Project**.
 It handles user authentication, role-based permission checks, and JWT/JWE token lifecycle so you don't have to.
 
 A companion [UI Management Tool](https://github.com/MetheaX/methea-management) is available for managing users, roles, and permissions through a browser interface *(under development)*.
@@ -39,9 +39,9 @@ A companion [UI Management Tool](https://github.com/MetheaX/methea-management) i
 
 ```
 methea/
-├── core/          # Domain entities, repositories, utilities, security primitives
-├── auth/          # Authentication REST API (token issue, refresh, revoke)
-└── auth-app/      # Sample host application
+├── sena-core/     # Domain entities, repositories, utilities, security primitives
+├── sena-auth/     # Authentication REST API (token issue, refresh, revoke)
+└── sena-auth-app/ # Sample host application
 ```
 
 ### Domain Model
@@ -123,8 +123,8 @@ mvn clean install
 
 ```xml
 <dependency>
-    <groupId>io.github.metheax</groupId>
-    <artifactId>auth</artifactId>
+    <groupId>com.metheax.sena</groupId>
+    <artifactId>sena-auth</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 </dependency>
 ```
@@ -132,9 +132,9 @@ mvn clean install
 **2. Configure component scan**
 
 ```java
-@SpringBootApplication(scanBasePackages = {"io.github.metheax", "com.yourcompany"})
-@EnableJpaRepositories(basePackages = {"io.github.metheax", "com.yourcompany"})
-@EntityScan(basePackages = {"io.github.metheax", "com.yourcompany"})
+@SpringBootApplication(scanBasePackages = {"com.metheax.sena", "com.yourcompany"})
+@EnableJpaRepositories(basePackages = {"com.metheax.sena", "com.yourcompany"})
+@EntityScan(basePackages = {"com.metheax.sena", "com.yourcompany"})
 public class YourApplication {
     public static void main(String[] args) {
         SpringApplication.run(YourApplication.class, args);
@@ -205,15 +205,15 @@ Default credentials: `admin` / `admin` *(change immediately in production)*.
 ## Running Tests
 
 ```bash
-mvn test -pl core,auth
+mvn test -pl sena-core,sena-auth
 ```
 
 The test suite covers **85%+ instruction coverage** (enforced by JaCoCo) across both modules:
 
 | Module | Tests | Coverage |
 |---|---|---|
-| `core` | 140 | ≥ 85% |
-| `auth` | 35 | ≥ 85% |
+| `sena-core` | 140 | ≥ 85% |
+| `sena-auth` | 35 | ≥ 85% |
 
 ---
 
